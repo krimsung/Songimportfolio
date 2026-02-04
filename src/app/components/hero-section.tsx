@@ -1,4 +1,26 @@
+import React from 'react';
+
 export function HeroSection() {
+  const roles = [
+    "Producer",
+    "Gameplay Designer",
+    "Level Designer",
+    "Programmer",
+    "Technical Artist",
+    "3D Artist",
+    "UX/UI Designer"
+  ];
+
+  const [currentRoleIndex, setCurrentRoleIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentRoleIndex((prevIndex) => (prevIndex + 1) % roles.length);
+    }, 2000); // Changes every 2 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden">
       {/* Video Background Placeholder */}
@@ -19,9 +41,14 @@ export function HeroSection() {
         <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-4 tracking-tight">
           Song Im Portfolio
         </h1>
-        <p className="text-xl md:text-2xl text-[#C9C6C0] max-w-2xl mx-auto">
-          Game Developer & Artist
-        </p>
+          <p className="text-xl md:text-5xl text-[#C9C6C0] max-w-2xl mx-auto h-20 flex items-center justify-center overflow-hidden">
+              <span
+                  key={currentRoleIndex}
+                  className="inline-block animate-slide-up"
+              >
+                {roles[currentRoleIndex]}
+              </span>
+          </p>
         <div className="mt-8 flex items-center justify-center gap-4">
           <div className="h-px w-12 bg-[#D47A2B]"></div>
           <span className="text-[#D47A2B] text-sm uppercase tracking-wider">Scroll to explore</span>
