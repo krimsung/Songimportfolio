@@ -6,14 +6,17 @@ export function AboutSection() {
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">About Me</h2>
           <div className="space-y-4 text-[#C9C6C0]">
             <p className="text-lg leading-relaxed">
-              Game developer and artist with expertise spanning from sci-fi to fantasy genres. 
-              Passionate about creating immersive experiences that bring worlds to life through 
-              compelling visuals and engaging gameplay mechanics.
+              I am a game developer with 5+ years of experience and a B.S. in Games from the University of Utah's EAE program (2025).
+              I specialize in Unreal Engine, where I've shipped and refined gameplay systems across multiple projects featured in this portfolio.
+              My work spans programming, level and game design, and technical art—disciplines I navigate with a producer mindset that aligns teams,
+              clarifies scope, and delivers polished, player-focused results. My creative and technical background gives me sharp attention
+              to detail and helps me learn new pipelines quickly and efficiently.
             </p>
             <p className="text-lg leading-relaxed">
-              With experience working on diverse projects from indie to AAA, I specialize in 
-              character design, environment art, and technical implementation. My work focuses 
-              on bridging the gap between artistic vision and technical execution.
+              My journey into game development started at age 12, building Source engine levels in Hammer—Valve's in-house level editor.
+              That spark grew into creating mods across multiple games, developing my own OpenGL graphics renderer, and prototyping extensively in Unity.
+              This early hands-on mix of design, engineering, and experimentation wasn't just practice—it fundamentally shaped how I think about systems,
+              solve problems, and build games today.
             </p>
             <p className="text-lg leading-relaxed">
               Currently available for new opportunities and excited to collaborate on innovative 
