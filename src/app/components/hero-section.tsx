@@ -2,13 +2,13 @@ import React from 'react';
 
 export function HeroSection() {
   const roles = [
-    "Producer",
-    "Gameplay Designer",
-    "Level Designer",
-    "Programmer",
-    "Technical Artist",
-    "3D Artist",
-    "UX/UI Designer"
+    "PRODUCER",
+    "GAMEPLAY DESIGNER",
+    "LEVEL DESIGNER",
+    "PROGRAMMER",
+    "TECHNICAL ARTIST",
+    "3D ARTIST",
+    "UX/UI DESIGNER"
   ];
 
   const [currentRoleIndex, setCurrentRoleIndex] = React.useState(0);
@@ -39,26 +39,28 @@ export function HeroSection() {
       {/* Hero Text */}
       <div className="relative z-10 text-center px-4">
         <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-4 tracking-tight">
-          Song Im Portfolio
+          SONG IM
         </h1>
-          <p className="text-xl md:text-5xl text-[#C9C6C0] max-w-2xl mx-auto h-20 flex items-center justify-center overflow-hidden">
-              <span
-                  key={currentRoleIndex}
-                  className="inline-block animate-slide-up"
-              >
-                {roles[currentRoleIndex]}
-              </span>
-          </p>
-        <div className="mt-8 flex items-center justify-center gap-4">
+        <p className="text-xl md:text-3xl text-[#C9C6C0] max-w-2xl mx-auto h-20 flex items-center justify-center overflow-hidden">
+    <span
+        key={currentRoleIndex}
+        className="inline-block animate-slide-up"
+    >
+      {roles[currentRoleIndex]}
+    </span>
+        </p>
+        {/* REMOVE the "Scroll to explore" section from here */}
+      </div>
+
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-8">
+        <div className="flex items-center justify-center gap-4">
           <div className="h-px w-12 bg-[#D47A2B]"></div>
           <span className="text-[#D47A2B] text-sm uppercase tracking-wider">Scroll to explore</span>
           <div className="h-px w-12 bg-[#D47A2B]"></div>
         </div>
-      </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 border-2 border-[#D47A2B] rounded-full p-1">
+        <div className="w-6 h-10 border-2 border-[#D47A2B] rounded-full p-1 animate-bounce">
           <div className="w-1 h-2 bg-[#D47A2B] rounded-full mx-auto"></div>
         </div>
       </div>
