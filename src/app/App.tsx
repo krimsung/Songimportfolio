@@ -13,7 +13,7 @@ import { GalleryPage } from "./components/gallery-page";
 import { Footer } from "./components/footer";
 import { slugToId } from "./utils/projectMapping";
 
-type Page = "home" | "projects" | "gallery" | "contact" | "project-detail" | "all-projects";
+type Page = "home" | "projects" | "gallery" | "contact" | "project-detail";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>("home");
@@ -29,10 +29,10 @@ export default function App() {
           setSelectedProject(projectId);
           setCurrentPage("project-detail");
         } else {
-          setCurrentPage("all-projects");
+          setCurrentPage("projects");
         }
       } else if (hash === "#/projects") {
-        setCurrentPage("all-projects");
+        setCurrentPage("projects");
       } else if (hash === "#/gallery") {
         setCurrentPage("gallery");
       } else if (hash === "#/contact") {
@@ -44,10 +44,8 @@ export default function App() {
       window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
-    // Initial load
     handleHashChange();
 
-    // Listen for changes
     window.addEventListener("hashchange", handleHashChange);
     return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
@@ -67,7 +65,7 @@ export default function App() {
   };
 
   const handleViewAllProjects = () => {
-    setCurrentPage("all-projects");
+    setCurrentPage("projects");
     window.location.hash = "#/projects";
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -79,68 +77,60 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const navigationPage = currentPage === "project-detail" ? "projects" : currentPage;
+
   return (
-    <div className="min-h-screen bg-[#F3F2F0]">
-      <Navigation currentPage={currentPage} onNavigate={handleNavigate} />
-      
-      {currentPage === "home" && (
-        <>
-          <HeroSection />
-          <AboutSection />
-          <TechnicalExperience />
-          <ProjectsSection 
-            onViewProject={handleViewProject}
-            onViewAllProjects={handleViewAllProjects}
-          />
-          <GallerySection />
-          <ContactPreview onNavigateToContact={() => handleNavigate("contact")} />
-          <Footer />
-        </>
-      )}
+      <div className="min-h-screen bg-[#F3F2F0]">
+        <Navigation currentPage={navigationPage} onNavigate={handleNavigate} />
 
-      {currentPage === "projects" && (
-        <>
-          <ProjectsPage 
-            onBack={handleBackToHome}
-            onViewProject={handleViewProject}
-          />
-          <Footer />
-        </>
-      )}
+        {currentPage === "home" && (
+            <>
+              <HeroSection />
+              <AboutSection />
+              <TechnicalExperience />
+              <ProjectsSection
+                  onViewProject={handleViewProject}
+                  onViewAllProjects={handleViewAllProjects}
+              />
+              <GallerySection />
+              <ContactPreview onNavigateToContact={() => handleNavigate("contact")} />
+              <Footer />
+            </>
+        )}
 
-      {currentPage === "all-projects" && (
-        <>
-          <ProjectsPage 
-            onBack={handleBackToHome}
-            onViewProject={handleViewProject}
-          />
-          <Footer />
-        </>
-      )}
+        {currentPage === "projects" && (
+            <>
+              <ProjectsPage
+                  onBack={handleBackToHome}
+                  onViewProject={handleViewProject}
+              />
+              <Footer />
+            </>
+        )}
 
-      {currentPage === "gallery" && (
-        <>
-          <GalleryPage onBack={handleBackToHome} />
-          <Footer />
-        </>
-      )}
+        {currentPage === "gallery" && (
+            <>
+              <GalleryPage onBack={handleBackToHome} />
+              <Footer />
+            </>
+        )}
 
-      {currentPage === "contact" && (
-        <>
-          <ContactPage onBack={handleBackToHome} />
-          <Footer />
-        </>
-      )}
+        {currentPage === "contact" && (
+            <>
+              <ContactPage onBack={handleBackToHome} />
+              <Footer />
+            </>
+        )}
 
-      {currentPage === "project-detail" && selectedProject && (
-        <>
-          <ProjectDetail 
-            projectId={selectedProject}
-            onBack={handleBackToHome}
-          />
-          <Footer />
-        </>
-      )}
-    </div>
+        {currentPage === "project-detail" && selectedProject && (
+            <>
+              <ProjectDetail
+                  projectId={selectedProject}
+                  onBack={handleBackToHome}
+              />
+              <Footer />
+            </>
+        )}
+      </div>
   );
 }
