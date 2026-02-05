@@ -6,12 +6,13 @@ interface ProjectDetailProps {
 }
 
 export function ProjectDetail({ projectId, onBack }: ProjectDetailProps) {
-  // Mock project data - in a real app this would come from a data source
+  // Project data can be fetched from media folder or CSVs
   const projectData: Record<string, any> = {
     "project-1": {
       title: "Ethereal Realms",
       date: "2024",
       tags: ["Unreal Engine", "Character Design", "Environment Art", "C++", "Blueprint"],
+      // Replace with actual local image paths
       image: "https://images.unsplash.com/photo-1765606290905-b9d377ea4d5e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYW50YXN5JTIwZ2FtZSUyMGNoYXJhY3RlciUyMGFydHxlbnwxfHx8fDE3NzAwNjY5MDN8MA&ixlib=rb-4.1.0&q=80&w=1080",
       overview: "An immersive fantasy RPG that transports players into a world of magic and adventure. Features include dynamic combat systems, intricate character customization, and a rich narrative experience.",
       role: "Lead Character Artist & Technical Designer",
@@ -29,6 +30,7 @@ export function ProjectDetail({ projectId, onBack }: ProjectDetailProps) {
       title: "Nexus Station",
       date: "2024",
       tags: ["Unity", "Level Design", "VFX", "C#", "Shader Graph"],
+      // Replace with actual local image paths
       image: "https://images.unsplash.com/photo-1727718296494-47d1e4fd41d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzY2ktZmklMjBlbnZpcm9ubWVudCUyMGNvbmNlcHR8ZW58MXx8fHwxNzcwMTU3MDE2fDA&ixlib=rb-4.1.0&q=80&w=1080",
       overview: "A atmospheric sci-fi exploration game set aboard a mysterious space station. Players uncover the station's dark secrets through environmental storytelling and puzzle-solving.",
       role: "Environment Artist & Level Designer",
@@ -46,6 +48,7 @@ export function ProjectDetail({ projectId, onBack }: ProjectDetailProps) {
       title: "Pixel Legends",
       date: "2023",
       tags: ["2D Art", "Animation", "Game Design", "Unity", "Aseprite"],
+      // Replace with actual local image paths
       image: "https://images.unsplash.com/photo-1668119065888-eb6b7a98a84a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2aWRlbyUyMGdhbWUlMjBhcnR3b3JrfGVufDF8fHx8MTc3MDEwMTc5M3ww&ixlib=rb-4.1.0&q=80&w=1080",
       overview: "A retro-inspired action platformer that combines classic pixel art aesthetics with modern gameplay mechanics and responsive controls.",
       role: "Lead Artist & Game Designer",
@@ -68,7 +71,7 @@ export function ProjectDetail({ projectId, onBack }: ProjectDetailProps) {
       <div className="max-w-6xl mx-auto px-4 py-12">
         {/* Back Button */}
         <button
-          onClick={onBack}
+          onClick={() => { window.location.hash = "#/"; onBack(); }}
           className="inline-flex items-center gap-2 text-[#D47A2B] hover:text-[#C07A2C] transition-colors mb-8 group"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navigation } from "./components/navigation";
 import { HeroSection } from "./components/hero-section";
 import { AboutSection } from "./components/about-section";
@@ -11,6 +11,7 @@ import { ProjectsPage } from "./components/projects-page";
 import { ContactPage } from "./components/contact-page";
 import { GalleryPage } from "./components/gallery-page";
 import { Footer } from "./components/footer";
+import { slugToId } from "./utils/projectMapping";
 
 type Page = "home" | "projects" | "gallery" | "contact" | "project-detail" | "all-projects";
 
@@ -18,24 +19,63 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>("home");
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
 
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      if (hash.startsWith("#/projects/")) {
+        const slug = hash.replace("#/projects/", "");
+        const projectId = slugToId[slug];
+        if (projectId) {
+          setSelectedProject(projectId);
+          setCurrentPage("project-detail");
+        } else {
+          setCurrentPage("all-projects");
+        }
+      } else if (hash === "#/projects") {
+        setCurrentPage("all-projects");
+      } else if (hash === "#/gallery") {
+        setCurrentPage("gallery");
+      } else if (hash === "#/contact") {
+        setCurrentPage("contact");
+      } else {
+        setCurrentPage("home");
+        setSelectedProject(null);
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    // Initial load
+    handleHashChange();
+
+    // Listen for changes
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
   const handleNavigate = (page: string) => {
     setCurrentPage(page as Page);
+    window.location.hash = `#/${page}`;
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleViewProject = (projectId: string) => {
     setSelectedProject(projectId);
     setCurrentPage("project-detail");
+    const slug = Object.keys(slugToId).find(key => slugToId[key] === projectId);
+    window.location.hash = `#/projects/${slug}`;
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleViewAllProjects = () => {
     setCurrentPage("all-projects");
+    window.location.hash = "#/projects";
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleBackToHome = () => {
     setCurrentPage("home");
+    setSelectedProject(null);
+    window.location.hash = "#/";
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
