@@ -54,16 +54,16 @@ export function ContactPage({ onBack }: ContactPageProps) {
               <h2 className="text-2xl font-bold text-white mb-6">Connect With Me</h2>
               <div className="space-y-4">
                 <a
-                  href="mailto:song.im@example.com"
+                  href="mailto:contact@songim.dev"
                   className="flex items-center gap-3 text-[#C9C6C0] hover:text-[#D47A2B] transition-colors group"
                 >
                   <div className="p-2 bg-[#D47A2B]/10 rounded-lg group-hover:bg-[#D47A2B]/20 transition-colors">
                     <Mail className="w-5 h-5 text-[#D47A2B]" />
                   </div>
-                  <span>song.im@example.com</span>
+                  <span>contact@songim.dev</span>
                 </a>
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/in/song-im/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 text-[#C9C6C0] hover:text-[#D47A2B] transition-colors group"
@@ -71,7 +71,7 @@ export function ContactPage({ onBack }: ContactPageProps) {
                   <div className="p-2 bg-[#D47A2B]/10 rounded-lg group-hover:bg-[#D47A2B]/20 transition-colors">
                     <Linkedin className="w-5 h-5 text-[#D47A2B]" />
                   </div>
-                  <span>linkedin.com/in/songim</span>
+                  <span>linkedin.com/in/song-im</span>
                 </a>
                 <a
                   href="https://github.com"
