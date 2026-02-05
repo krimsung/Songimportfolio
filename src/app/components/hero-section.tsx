@@ -1,5 +1,3 @@
-import React from 'react';
-
 export function HeroSection() {
   const roles = [
     "PRODUCER",
@@ -10,16 +8,6 @@ export function HeroSection() {
     "3D ARTIST",
     "UX/UI DESIGNER"
   ];
-
-  const [currentRoleIndex, setCurrentRoleIndex] = React.useState(0);
-
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentRoleIndex((prevIndex) => (prevIndex + 1) % roles.length);
-    }, 2000); // Changes every 2 seconds
-
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden">
@@ -41,15 +29,23 @@ export function HeroSection() {
         <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-4 tracking-tight">
           SONG IM
         </h1>
-        <p className="text-xl md:text-3xl text-[#C9C6C0] max-w-2xl mx-auto h-20 flex items-center justify-center overflow-hidden">
-    <span
-        key={currentRoleIndex}
-        className="inline-block animate-slide-up"
-    >
-      {roles[currentRoleIndex]}
-    </span>
-        </p>
-        {/* REMOVE the "Scroll to explore" section from here */}
+        <div className="text-xl md:text-3xl text-[#C9C6C0] max-w-2xl mx-auto h-32 flex items-center justify-center overflow-hidden relative">
+          <div className="relative w-full h-full flex justify-center items-center">
+            {roles.map((role, index) => (
+                <div
+                    key={role}
+                    className="carousel-item flex items-center justify-center w-full"
+                    style={{
+                      animationDelay: `${(index - 1) * 3}s`,
+                    }}
+                        >
+                <span className="text-2xl md:text-3xl font-semibold text-[#C9C6C0] whitespace-nowrap">
+                  {role}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Scroll indicator */}
