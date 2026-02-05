@@ -2,6 +2,10 @@
 
 :root {
   --font-size: 16px;
+  --text-base: 1rem;      /* 16px */
+  --text-lg: 1.125rem;    /* 18px */
+  --text-xl: 1.25rem;     /* 20px */
+  --text-2xl: 1.5rem;     /* 24px */
   --background: #F3F2F0;
   --foreground: #1C1A1F;
   --card: #FFFFFF;
