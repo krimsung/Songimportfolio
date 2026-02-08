@@ -2,10 +2,9 @@ import { ArrowLeft, Calendar, Tag, ExternalLink, Github } from "lucide-react";
 
 interface ProjectDetailProps {
   projectId: string;
-  onBack: () => void;
 }
 
-export function ProjectDetail({ projectId, onBack }: ProjectDetailProps) {
+export function ProjectDetail({ projectId }: ProjectDetailProps) {
   // Project data can be fetched from media folder or CSVs
   const projectData: Record<string, any> = {
     "project-1": {
@@ -70,13 +69,13 @@ export function ProjectDetail({ projectId, onBack }: ProjectDetailProps) {
     <div className="min-h-screen bg-[#F3F2F0] pt-20">
       <div className="max-w-6xl mx-auto px-4 py-12">
         {/* Back Button */}
-        <button
-          onClick={() => { window.location.hash = "#/"; onBack(); }}
+        <a
+          href="#/"
           className="inline-flex items-center gap-2 text-[#D47A2B] hover:text-[#C07A2C] transition-colors mb-8 group"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
           <span>Back to Home</span>
-        </button>
+        </a>
 
         {/* Header */}
         <div className="bg-[#1C1A1F] rounded-lg overflow-hidden border border-[#26242A] mb-8">

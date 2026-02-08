@@ -1,10 +1,6 @@
 import { Mail, ArrowRight } from "lucide-react";
 
-interface ContactPreviewProps {
-  onNavigateToContact: () => void;
-}
-
-export function ContactPreview({ onNavigateToContact }: ContactPreviewProps) {
+export function ContactPreview() {
   return (
     <section className="py-20 px-4 bg-[#F3F2F0]">
       <div className="max-w-4xl mx-auto">
@@ -29,13 +25,13 @@ export function ContactPreview({ onNavigateToContact }: ContactPreviewProps) {
               and discuss how I can contribute to bringing your vision to life.
             </p>
             
-            <button
-              onClick={onNavigateToContact}
+            <a
+              href="#/contact"
               className="inline-flex items-center gap-2 px-8 py-4 bg-[#D47A2B] text-white rounded-lg hover:bg-[#C07A2C] transition-all group"
             >
               <span className="text-lg">Get In Touch</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
+            </a>
           </div>
         </div>
       </div>

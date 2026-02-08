@@ -1,11 +1,7 @@
 import { ArrowRight, Calendar, Tag } from "lucide-react";
+import { idToSlug } from "../utils/projectMapping";
 
-interface ProjectsSectionProps {
-  onViewProject: (projectId: string) => void;
-  onViewAllProjects: () => void;
-}
-
-export function ProjectsSection({ onViewProject, onViewAllProjects }: ProjectsSectionProps) {
+export function ProjectsSection() {
   const projects = [
     {
       id: "project-1",
@@ -42,10 +38,10 @@ export function ProjectsSection({ onViewProject, onViewAllProjects }: ProjectsSe
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {projects.map((project) => (
-            <div
+            <a
               key={project.id}
-              className="group cursor-pointer"
-              onClick={() => onViewProject(project.id)}
+              href={`#/projects/${idToSlug[project.id] ?? ""}`}
+              className="group block"
             >
               <div className="bg-[#1C1A1F] rounded-lg overflow-hidden border border-[#26242A] hover:border-[#D47A2B] transition-all duration-300">
                 <div className="relative h-48 overflow-hidden">
@@ -89,19 +85,19 @@ export function ProjectsSection({ onViewProject, onViewAllProjects }: ProjectsSe
                   </div>
                 </div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
 
         {/* View All Projects Link */}
         <div className="flex justify-end">
-          <button
-            onClick={onViewAllProjects}
+          <a
+            href="#/projects"
             className="inline-flex items-center gap-2 px-6 py-3 bg-[#D47A2B] text-white rounded-lg hover:bg-[#C07A2C] transition-colors group"
           >
             <span>View All Projects</span>
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </button>
+          </a>
         </div>
       </div>
     </section>

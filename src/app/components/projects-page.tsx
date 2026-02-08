@@ -1,11 +1,7 @@
 import { ArrowLeft, Calendar, Tag } from "lucide-react";
+import { idToSlug } from "../utils/projectMapping";
 
-interface ProjectsPageProps {
-  onBack: () => void;
-  onViewProject: (projectId: string) => void;
-}
-
-export function ProjectsPage({ onBack, onViewProject }: ProjectsPageProps) {
+export function ProjectsPage() {
   const allProjects = [
     {
       id: "project-1",
@@ -77,13 +73,13 @@ export function ProjectsPage({ onBack, onViewProject }: ProjectsPageProps) {
   return (
     <div className="min-h-screen bg-[#F3F2F0] pt-20">
       <div className="max-w-7xl mx-auto px-4 py-12">
-        <button
-          onClick={onBack}
+        <a
+          href="#/"
           className="inline-flex items-center gap-2 text-[#D47A2B] hover:text-[#C07A2C] transition-colors mb-8 group"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
           <span>Back to Home</span>
-        </button>
+        </a>
 
         <div className="mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-[#1C1A1F] mb-4">
@@ -96,10 +92,10 @@ export function ProjectsPage({ onBack, onViewProject }: ProjectsPageProps) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {allProjects.map((project) => (
-            <div
+            <a
               key={project.id}
-              className="group cursor-pointer"
-              onClick={() => onViewProject(project.id)}
+              href={`#/projects/${idToSlug[project.id] ?? ""}`}
+              className="group block"
             >
               <div className="bg-[#1C1A1F] rounded-lg overflow-hidden border border-[#26242A] hover:border-[#D47A2B] transition-all duration-300 h-full flex flex-col">
                 <div className="relative h-48 overflow-hidden">
@@ -143,7 +139,7 @@ export function ProjectsPage({ onBack, onViewProject }: ProjectsPageProps) {
                   </div>
                 </div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
       </div>

@@ -3,10 +3,9 @@ import { Menu, X } from "lucide-react";
 
 interface NavigationProps {
   currentPage: string;
-  onNavigate: (page: string) => void;
 }
 
-export function Navigation({ currentPage, onNavigate }: NavigationProps) {
+export function Navigation({ currentPage }: NavigationProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
@@ -22,12 +21,12 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
         <div className="flex items-center justify-between h-16">
           {/* Logo and Status */}
           <div className="flex items-center gap-4">
-            <button
-              onClick={() => onNavigate("home")}
+            <a
+              href="#/"
               className="text-white hover:text-[#D47A2B] transition-colors"
             >
               <span className="text-xl font-semibold">Song Im</span>
-            </button>
+            </a>
             <span className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-[#2F7A5E]/20 border border-[#2F7A5E]/40">
               <span className="w-2 h-2 rounded-full bg-[#2F7A5E] animate-pulse"></span>
               <span className="text-sm text-[#C9C6C0]">Available for work</span>
@@ -37,9 +36,9 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
-              <button
+              <a
                 key={item.id}
-                onClick={() => onNavigate(item.id)}
+                href={`#/${item.id}`}
                 className={`transition-colors ${
                   currentPage === item.id
                     ? "text-[#D47A2B]"
@@ -47,7 +46,7 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
                 }`}
               >
                 {item.label}
-              </button>
+              </a>
             ))}
           </div>
 
@@ -70,12 +69,10 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
               <span className="text-sm text-[#C9C6C0]">Available for work</span>
             </div>
             {navItems.map((item) => (
-              <button
+              <a
                 key={item.id}
-                onClick={() => {
-                  onNavigate(item.id);
-                  setMobileMenuOpen(false);
-                }}
+                href={`#/${item.id}`}
+                onClick={() => setMobileMenuOpen(false)}
                 className={`block w-full text-left px-3 py-2 rounded transition-colors ${
                   currentPage === item.id
                     ? "text-[#D47A2B] bg-[#D47A2B]/10"
@@ -83,7 +80,7 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
                 }`}
               >
                 {item.label}
-              </button>
+              </a>
             ))}
           </div>
         </div>

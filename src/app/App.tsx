@@ -13,7 +13,7 @@ import { GalleryPage } from "./components/gallery-page";
 import { Footer } from "./components/footer";
 import { slugToId } from "./utils/projectMapping";
 
-type Page = "home" | "projects" | "gallery" | "contact" | "project-detail";
+type Page = "home" | "projects" | "gallery" | "contact" | "project-detail" | "project-not-found";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>("home");
@@ -29,7 +29,8 @@ export default function App() {
           setSelectedProject(projectId);
           setCurrentPage("project-detail");
         } else {
-          setCurrentPage("projects");
+          setSelectedProject(null);
+          setCurrentPage("project-not-found");
         }
       } else if (hash === "#/projects") {
         setCurrentPage("projects");
@@ -50,86 +51,68 @@ export default function App() {
     return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
 
-  const handleNavigate = (page: string) => {
-    setCurrentPage(page as Page);
-    window.location.hash = `#/${page}`;
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const handleViewProject = (projectId: string) => {
-    setSelectedProject(projectId);
-    setCurrentPage("project-detail");
-    const slug = Object.keys(slugToId).find(key => slugToId[key] === projectId);
-    window.location.hash = `#/projects/${slug}`;
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const handleViewAllProjects = () => {
-    setCurrentPage("projects");
-    window.location.hash = "#/projects";
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const handleBackToHome = () => {
-    setCurrentPage("home");
-    setSelectedProject(null);
-    window.location.hash = "#/";
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   const navigationPage = currentPage === "project-detail" ? "projects" : currentPage;
 
   return (
       <div className="min-h-screen bg-[#F3F2F0]">
-        <Navigation currentPage={navigationPage} onNavigate={handleNavigate} />
+        <Navigation currentPage={navigationPage} />
 
         {currentPage === "home" && (
-            <>
-              <HeroSection />
-              <AboutSection />
-              <TechnicalExperience />
-              <ProjectsSection
-                  onViewProject={handleViewProject}
-                  onViewAllProjects={handleViewAllProjects}
-              />
-              <GallerySection />
-              <ContactPreview onNavigateToContact={() => handleNavigate("contact")} />
-              <Footer />
-            </>
+          <>
+            <HeroSection />
+            <AboutSection />
+            <TechnicalExperience />
+            <ProjectsSection />
+            <GallerySection />
+            <ContactPreview />
+            <Footer />
+          </>
         )}
 
         {currentPage === "projects" && (
-            <>
-              <ProjectsPage
-                  onBack={handleBackToHome}
-                  onViewProject={handleViewProject}
-              />
-              <Footer />
-            </>
+          <>
+            <ProjectsPage />
+            <Footer />
+          </>
         )}
 
         {currentPage === "gallery" && (
-            <>
-              <GalleryPage onBack={handleBackToHome} />
-              <Footer />
-            </>
+          <>
+            <GalleryPage />
+            <Footer />
+          </>
         )}
 
         {currentPage === "contact" && (
-            <>
-              <ContactPage onBack={handleBackToHome} />
-              <Footer />
-            </>
+          <>
+            <ContactPage />
+            <Footer />
+          </>
         )}
 
         {currentPage === "project-detail" && selectedProject && (
-            <>
-              <ProjectDetail
-                  projectId={selectedProject}
-                  onBack={handleBackToHome}
-              />
-              <Footer />
-            </>
+          <>
+            <ProjectDetail projectId={selectedProject} />
+            <Footer />
+          </>
+        )}
+
+        {currentPage === "project-not-found" && (
+          <>
+            <div className="min-h-screen bg-[#F3F2F0] pt-20">
+              <div className="max-w-4xl mx-auto px-4 py-12">
+                <h1 className="text-3xl font-bold text-[#1C1A1F]">Project not found</h1>
+                <p className="text-[#7E7A75] mt-2">Check the URL and try again.</p>
+                <a
+                  href="#/"
+                  className="mt-6 inline-flex items-center gap-2 text-[#D47A2B] hover:text-[#C07A2C] transition-colors"
+                >
+                  <span>Back to Home</span>
+                </a>
+              </div>
+            </div>
+            <Footer />
+          </>
         )}
       </div>
   );
