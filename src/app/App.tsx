@@ -11,7 +11,7 @@ import { ProjectsPage } from "./components/projects-page";
 import { ContactPage } from "./components/contact-page";
 import { GalleryPage } from "./components/gallery-page";
 import { Footer } from "./components/footer";
-import { slugToId } from "./utils/projectMapping";
+import { projectsBySlug } from "./data/projects";
 
 type Page = "home" | "projects" | "gallery" | "contact" | "project-detail";
 
@@ -24,9 +24,8 @@ export default function App() {
       const hash = window.location.hash;
       if (hash.startsWith("#/projects/")) {
         const slug = hash.replace("#/projects/", "");
-        const projectId = slugToId[slug];
-        if (projectId) {
-          setSelectedProject(projectId);
+        if (projectsBySlug[slug]) {
+          setSelectedProject(slug);
           setCurrentPage("project-detail");
         } else {
           setCurrentPage("projects");
@@ -56,11 +55,10 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleViewProject = (projectId: string) => {
-    setSelectedProject(projectId);
+  const handleViewProject = (projectSlug: string) => {
+    setSelectedProject(projectSlug);
     setCurrentPage("project-detail");
-    const slug = Object.keys(slugToId).find(key => slugToId[key] === projectId);
-    window.location.hash = `#/projects/${slug}`;
+    window.location.hash = `#/projects/${projectSlug}`;
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 

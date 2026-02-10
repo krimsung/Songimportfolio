@@ -1,4 +1,5 @@
 import { ArrowRight, Calendar, Tag } from "lucide-react";
+import { featuredProjects } from "../data/projects";
 
 interface ProjectsSectionProps {
   onViewProject: (projectId: string) => void;
@@ -6,32 +7,7 @@ interface ProjectsSectionProps {
 }
 
 export function ProjectsSection({ onViewProject, onViewAllProjects }: ProjectsSectionProps) {
-  const projects = [
-    {
-      id: "project-1",
-      title: "Ethereal Realms",
-      description: "Fantasy RPG featuring immersive world-building and dynamic combat systems",
-      image: "https://images.unsplash.com/photo-1765606290905-b9d377ea4d5e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYW50YXN5JTIwZ2FtZSUyMGNoYXJhY3RlciUyMGFydHxlbnwxfHx8fDE3NzAwNjY5MDN8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      tags: ["Unreal Engine", "Character Design", "Environment Art"],
-      date: "2024"
-    },
-    {
-      id: "project-2",
-      title: "Nexus Station",
-      description: "Sci-fi exploration game set in a mysterious space station",
-      image: "https://images.unsplash.com/photo-1727718296494-47d1e4fd41d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzY2ktZmklMjBlbnZpcm9ubWVudCUyMGNvbmNlcHR8ZW58MXx8fHwxNzcwMTU3MDE2fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      tags: ["Unity", "Level Design", "VFX"],
-      date: "2024"
-    },
-    {
-      id: "project-3",
-      title: "Pixel Legends",
-      description: "Retro-inspired action platformer with modern gameplay mechanics",
-      image: "https://images.unsplash.com/photo-1668119065888-eb6b7a98a84a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2aWRlbyUyMGdhbWUlMjBhcnR3b3JrfGVufDF8fHx8MTc3MDEwMTc5M3ww&ixlib=rb-4.1.0&q=80&w=1080",
-      tags: ["2D Art", "Animation", "Game Design"],
-      date: "2023"
-    }
-  ];
+  const projects = featuredProjects;
 
   return (
     <section className="py-20 px-4 bg-[#F3F2F0]">
@@ -42,10 +18,17 @@ export function ProjectsSection({ onViewProject, onViewAllProjects }: ProjectsSe
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {projects.map((project) => (
-            <div
-              key={project.id}
+            <a
+              key={project.slug}
+              href={`#/projects/${project.slug}`}
               className="group cursor-pointer"
-              onClick={() => onViewProject(project.id)}
+              onClick={(event) => {
+                if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button === 1) {
+                  return;
+                }
+                event.preventDefault();
+                onViewProject(project.slug);
+              }}
             >
               <div className="bg-[#1C1A1F] rounded-lg overflow-hidden border border-[#26242A] hover:border-[#D47A2B] transition-all duration-300">
                 <div className="relative h-48 overflow-hidden">
@@ -60,7 +43,7 @@ export function ProjectsSection({ onViewProject, onViewAllProjects }: ProjectsSe
                 <div className="p-6">
                   <div className="flex items-center gap-2 text-sm text-[#C9C6C0] mb-3">
                     <Calendar className="w-4 h-4" />
-                    {project.date}
+                    {project.year}
                   </div>
                   
                   <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-[#D47A2B] transition-colors">
@@ -68,7 +51,9 @@ export function ProjectsSection({ onViewProject, onViewAllProjects }: ProjectsSe
                   </h3>
                   
                   <p className="text-[#C9C6C0] mb-4 line-clamp-2">
-                    {project.description}
+                    {project.shortDescription !== "N/A"
+                      ? project.shortDescription
+                      : project.description}
                   </p>
                   
                   <div className="flex flex-wrap gap-2 mb-4">
@@ -89,19 +74,26 @@ export function ProjectsSection({ onViewProject, onViewAllProjects }: ProjectsSe
                   </div>
                 </div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
 
         {/* View All Projects Link */}
         <div className="flex justify-end">
-          <button
-            onClick={onViewAllProjects}
+          <a
+            href="#/projects"
+            onClick={(event) => {
+              if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button === 1) {
+                return;
+              }
+              event.preventDefault();
+              onViewAllProjects();
+            }}
             className="inline-flex items-center gap-2 px-6 py-3 bg-[#D47A2B] text-white rounded-lg hover:bg-[#C07A2C] transition-colors group"
           >
             <span>View All Projects</span>
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </button>
+          </a>
         </div>
       </div>
     </section>

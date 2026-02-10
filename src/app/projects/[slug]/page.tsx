@@ -1,6 +1,6 @@
 import { ProjectDetail } from '../../components/project-detail';
 import { notFound } from 'next/navigation';
-import { slugToId } from '../../utils/projectMapping';
+import { projectsBySlug } from '../../data/projects';
 
 interface PageProps {
   params: { slug: string };
@@ -8,11 +8,11 @@ interface PageProps {
 
 export default function ProjectPage({ params }: PageProps) {
   const { slug } = params;
-  const projectId = slugToId[slug];
+  const project = projectsBySlug[slug];
 
-  if (!projectId) {
+  if (!project) {
     notFound();
   }
 
-  return <ProjectDetail projectId={projectId} />;
+  return <ProjectDetail projectId={slug} />;
 }

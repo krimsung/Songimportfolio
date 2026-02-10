@@ -29,13 +29,20 @@ export function ContactPreview({ onNavigateToContact }: ContactPreviewProps) {
               and discuss how I can contribute to bringing your vision to life.
             </p>
             
-            <button
-              onClick={onNavigateToContact}
+            <a
+              href="#/contact"
+              onClick={(event) => {
+                if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button === 1) {
+                  return;
+                }
+                event.preventDefault();
+                onNavigateToContact();
+              }}
               className="inline-flex items-center gap-2 px-8 py-4 bg-[#D47A2B] text-white rounded-lg hover:bg-[#C07A2C] transition-all group"
             >
               <span className="text-lg">Get In Touch</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
+            </a>
           </div>
         </div>
       </div>
