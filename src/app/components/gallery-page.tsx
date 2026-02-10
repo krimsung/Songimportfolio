@@ -1,11 +1,7 @@
 import { ArrowLeft, ZoomIn } from "lucide-react";
 import { useState } from "react";
 
-interface GalleryPageProps {
-  onBack: () => void;
-}
-
-export function GalleryPage({ onBack }: GalleryPageProps) {
+export function GalleryPage() {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
   const galleryItems = [
@@ -59,13 +55,13 @@ export function GalleryPage({ onBack }: GalleryPageProps) {
   return (
     <div className="min-h-screen bg-[#F3F2F0] pt-20">
       <div className="max-w-7xl mx-auto px-4 py-12">
-        <button
-          onClick={onBack}
+        <a
+          href="#/"
           className="inline-flex items-center gap-2 text-[#D47A2B] hover:text-[#C07A2C] transition-colors mb-8 group"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
           <span>Back to Home</span>
-        </button>
+        </a>
 
         <div className="mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-[#1C1A1F] mb-4">

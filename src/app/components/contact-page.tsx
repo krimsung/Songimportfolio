@@ -1,11 +1,7 @@
 import { ArrowLeft, Mail, Linkedin, Github, Twitter, Send } from "lucide-react";
 import { useState } from "react";
 
-interface ContactPageProps {
-  onBack: () => void;
-}
-
-export function ContactPage({ onBack }: ContactPageProps) {
+export function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -30,13 +26,13 @@ export function ContactPage({ onBack }: ContactPageProps) {
   return (
     <div className="min-h-screen bg-[#F3F2F0] pt-20">
       <div className="max-w-6xl mx-auto px-4 py-12">
-        <button
-          onClick={onBack}
+        <a
+          href="#/"
           className="inline-flex items-center gap-2 text-[#D47A2B] hover:text-[#C07A2C] transition-colors mb-8 group"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
           <span>Back to Home</span>
-        </button>
+        </a>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Info */}
