@@ -5,32 +5,32 @@ export function TechnicalExperience() {
     {
       icon: Code2,
       category: "Programming",
-      items: ["C#", "C++", "Python", "Blueprint (Unreal)", "JavaScript"]
+      items: ["C#", "C++", "Java", "Python", "Blueprint Scripting"]
     },
     {
       icon: Gamepad2,
       category: "Game Engines",
-      items: ["Unreal Engine", "Unity", "Godot", "Custom Engines"]
+      items: ["Unreal Engine", "Unity", "GameMaker", "Source"]
     },
     {
       icon: Palette,
       category: "2D/3D Art",
-      items: ["Blender", "Maya", "ZBrush", "Substance Painter", "Photoshop"]
+      items: ["Blender", "Maya", "Photoshop", "ZBrush", "Substance Painter"]
     },
     {
       icon: Box,
       category: "Technical Art",
-      items: ["Shader Development", "VFX", "Animation", "Rigging", "Pipeline Tools"]
+      items: ["Niagara Particle System", "Unreal Engine Shader Graph", "Unity VFX Graph", "Unity Shader Graph", "Model Rigging"]
     },
     {
       icon: Layers,
       category: "Design",
-      items: ["Level Design", "UI/UX", "Game Design", "Prototyping"]
+      items: ["System Design", "Level Design", "Game Design", "UI/UX", "Prototyping"]
     },
     {
       icon: Sparkles,
       category: "Specializations",
-      items: ["Character Design", "Environment Art", "Concept Art", "World Building"]
+      items: ["Graphic Design", "Team Collaboration", "Rapid Prototyping", "QA Testing"]
     }
   ];
 

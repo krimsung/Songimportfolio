@@ -96,10 +96,6 @@ export function ContactPage() {
 
             <div className="bg-[#1C1A1F] rounded-lg p-8 border border-[#26242A]">
               <h2 className="text-2xl font-bold text-white mb-4">Availability</h2>
-              <div className="flex items-center gap-2 mb-4">
-                <span className="w-3 h-3 rounded-full bg-[#2F7A5E] animate-pulse"></span>
-                <span className="text-[#2F7A5E] font-semibold">Available for Work</span>
-              </div>
               <p className="text-[#C9C6C0]">
                 I'm currently accepting new projects and full-time positions. Expected 
                 response time: 24-48 hours.

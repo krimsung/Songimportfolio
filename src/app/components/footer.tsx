@@ -11,10 +11,6 @@ export function Footer() {
             <p className="text-[#C9C6C0] mb-4">
               Game developer and artist creating immersive experiences from sci-fi to fantasy.
             </p>
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#2F7A5E] animate-pulse"></span>
-              <span className="text-sm text-[#2F7A5E]">Available for work</span>
-            </div>
           </div>
 
           {/* Quick Links */}
@@ -88,10 +84,10 @@ export function Footer() {
 
         <div className="pt-8 border-t border-[#26242A] flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-[#C9C6C0] text-sm">
-            © 2024 Song Im. All rights reserved.
+            © 2026 Song Im. All rights reserved.
           </p>
           <p className="text-[#C9C6C0] text-sm flex items-center gap-2">
-            Made with <Heart className="w-4 h-4 text-[#D47A2B] fill-current" /> for game development
+            Made with <Heart className="w-4 h-4 text-[#FF0000] fill-current" /> for game development
           </p>
         </div>
       </div>

@@ -1,8 +1,59 @@
 import detailsCsv from "../../profile info/Portfolio Website - Sheet1.csv?raw";
 import thumbsCsv from "../../profile info/Portfolio Website Thumbnail - Sheet1.csv?raw";
 
-const DEFAULT_PROJECT_IMAGE =
-  "https://images.unsplash.com/photo-1765606290905-b9d377ea4d5e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYW50YXN5JTIwZ2FtZSUyMGNoYXJhY3RlciUyMGFydHxlbnwxfHx8fDE3NzAwNjY5MDN8MA&ixlib=rb-4.1.0&q=80&w=1080";
+// Import thumbnail images
+import ghostCtrlThumb from "../../media/images/thumbnails/Ghost CTRL Thumbnail.png";
+import finalShotThumb from "../../media/images/thumbnails/Final Shot Thumbnail.png";
+import rogueDataThumb from "../../media/images/thumbnails/Rogue Data Thumbnail.png";
+import metaconstructThumb from "../../media/images/thumbnails/METACONSTRUCT Thumbnail.png";
+import tinySheriffThumb from "../../media/images/thumbnails/Tiny Sheriff Thumbnail.jpg";
+import godforgedThumb from "../../media/images/thumbnails/GODFORGED Thumbnail.png";
+
+const DEFAULT_PROJECT_IMAGE = "/src/media/images/gallery/HighresScreenshot00004.png";
+
+// Map project titles to their thumbnail images
+const thumbnailMap: Record<string, string> = {
+  "ghost ctrl": ghostCtrlThumb,
+  "final shot": finalShotThumb,
+  "rogue data": rogueDataThumb,
+  "metaconstruct": metaconstructThumb,
+  "tiny sheriff": tinySheriffThumb,
+  "godforged": godforgedThumb,
+};
+
+const getThumbnailForProject = (title: string): string => {
+  const normalizedTitle = title.toLowerCase();
+  return thumbnailMap[normalizedTitle] || DEFAULT_PROJECT_IMAGE;
+};
+
+// Dynamically import all project gallery images at build time
+const projectImageModules = import.meta.glob<{ default: string }>(
+  "../../media/images/projects/**/*.{png,jpg,jpeg,gif,webp}",
+  { eager: true }
+);
+
+// Normalize project title to folder name (lowercase, remove spaces and special chars)
+const normalizeTitleToFolder = (title: string): string => {
+  return title.toLowerCase().replace(/[^a-z0-9]/g, "");
+};
+
+// Get gallery images for a project based on its title
+const getGalleryImagesForProject = (title: string): string[] => {
+  const folderName = normalizeTitleToFolder(title);
+  const images: string[] = [];
+  
+  for (const [path, module] of Object.entries(projectImageModules)) {
+    // Extract folder name from path: ../../media/images/projects/[folderName]/image.png
+    const pathParts = path.split("/");
+    const projectsIndex = pathParts.indexOf("projects");
+    if (projectsIndex !== -1 && pathParts[projectsIndex + 1] === folderName) {
+      images.push(module.default);
+    }
+  }
+  
+  // Sort images by filename for consistent ordering
+  return images.sort();
+};
 
 interface CsvData {
   headers: string[];
@@ -30,6 +81,7 @@ export interface ProjectRecord {
   custom2: string;
   image: string;
   status: string;
+  galleryImages: string[];
 }
 
 const parseCsv = (raw: string): CsvData => {
@@ -203,8 +255,9 @@ const mergeRecords = (details: ReturnType<typeof buildDetailRecords>, thumbnails
       process: detail.process,
       custom1: detail.custom1,
       custom2: detail.custom2,
-      image: DEFAULT_PROJECT_IMAGE,
-      status: "N/A"
+      image: getThumbnailForProject(detail.title),
+      status: "N/A",
+      galleryImages: getGalleryImagesForProject(detail.title)
     };
   });
 };

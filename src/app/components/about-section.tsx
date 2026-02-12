@@ -4,16 +4,24 @@ export function AboutSection() {
   return (
     <section className="py-20 px-4 bg-[#F3F2F0]">
       <div className="max-w-6xl mx-auto">
-        <div className="grid gap-8 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] items-stretch">
-          <div className="h-full">
-            <img
-              src={headshot}
-              alt="Portfolio headshot"
-              className="w-full h-full object-cover rounded-lg"
-              loading="lazy"
-            />
+        <div className="flex flex-col md:flex-row gap-6 items-stretch">
+          {/* Profile Image with Caption */}
+          <div className="flex flex-col w-full md:w-auto">
+            <div className="flex-1 w-full md:w-64 overflow-hidden rounded-lg border border-[#26242A]">
+              <img
+                src={headshot}
+                alt="Portfolio headshot"
+                className="w-full h-full object-cover object-top"
+                loading="lazy"
+              />
+            </div>
+            <p className="text-[#1C1A1F] text-center italic mt-3 w-full md:w-64">
+              Picture taken at GDC 2024
+            </p>
           </div>
-          <div className="bg-[#1C1A1F] rounded-lg p-8 md:p-12 border border-[#26242A]">
+          
+          {/* About Me Card */}
+          <div className="bg-[#1C1A1F] rounded-lg p-8 md:p-12 border border-[#26242A] flex-1">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">About Me</h2>
             <div className="space-y-4 text-[#C9C6C0]">
               <p className="text-lg leading-relaxed">

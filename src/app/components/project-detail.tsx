@@ -1,6 +1,7 @@
 import { ArrowLeft, Calendar, Tag, ExternalLink, Github } from "lucide-react";
-import ReactMarkdown from "react-markdown";
+import ReactMarkdown, { Components } from "react-markdown";
 import { projectsBySlug } from "../data/projects";
+import { ProjectGallery } from "./project-gallery";
 
 interface ProjectDetailProps {
   projectId: string;
@@ -14,20 +15,20 @@ export function ProjectDetail({ projectId, onBack }: ProjectDetailProps) {
     return null;
   }
 
-  const markdownComponents = {
-    p: ({ children }: { children: React.ReactNode }) => (
+  const markdownComponents: Components = {
+    p: ({ children }) => (
       <p className="text-[#C9C6C0] leading-relaxed">{children}</p>
     ),
-    ul: ({ children }: { children: React.ReactNode }) => (
+    ul: ({ children }) => (
       <ul className="list-disc pl-5 space-y-2 text-[#C9C6C0] marker:text-[#D47A2B]">{children}</ul>
     ),
-    ol: ({ children }: { children: React.ReactNode }) => (
+    ol: ({ children }) => (
       <ol className="list-decimal pl-5 space-y-2 text-[#C9C6C0] marker:text-[#D47A2B]">{children}</ol>
     ),
-    li: ({ children }: { children: React.ReactNode }) => (
+    li: ({ children }) => (
       <li className="leading-relaxed">{children}</li>
     ),
-    strong: ({ children }: { children: React.ReactNode }) => (
+    strong: ({ children }) => (
       <strong className="text-white font-semibold">{children}</strong>
     )
   };
@@ -111,6 +112,11 @@ export function ProjectDetail({ projectId, onBack }: ProjectDetailProps) {
                 {project.process}
               </ReactMarkdown>
             </div>
+
+            {/* Project Gallery */}
+            {project.galleryImages && project.galleryImages.length > 0 && (
+              <ProjectGallery images={project.galleryImages} />
+            )}
           </div>
 
           {/* Sidebar */}
