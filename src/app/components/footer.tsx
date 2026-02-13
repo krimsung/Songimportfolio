@@ -1,4 +1,4 @@
-import { Mail, Linkedin, Github, Twitter, Heart } from "lucide-react";
+import { Mail, LinkedinIcon, GithubIcon, XIcon, Heart } from "lucide-react";
 
 export function Footer() {
   return (
@@ -58,7 +58,7 @@ export function Footer() {
                 className="p-2 bg-[#26242A] hover:bg-[#D47A2B] text-[#C9C6C0] hover:text-white rounded-lg transition-colors"
                 aria-label="LinkedIn"
               >
-                <Linkedin className="w-5 h-5" />
+                 <LinkedinIcon className="w-5 h-5" />
               </a>
               <a
                 href="https://github.com"
@@ -67,7 +67,7 @@ export function Footer() {
                 className="p-2 bg-[#26242A] hover:bg-[#D47A2B] text-[#C9C6C0] hover:text-white rounded-lg transition-colors"
                 aria-label="GitHub"
               >
-                <Github className="w-5 h-5" />
+                 <GithubIcon className="w-5 h-5" />
               </a>
               <a
                 href="https://twitter.com"
@@ -76,7 +76,7 @@ export function Footer() {
                 className="p-2 bg-[#26242A] hover:bg-[#D47A2B] text-[#C9C6C0] hover:text-white rounded-lg transition-colors"
                 aria-label="Twitter"
               >
-                <Twitter className="w-5 h-5" />
+                 <XIcon className="w-5 h-5" />
               </a>
             </div>
           </div>

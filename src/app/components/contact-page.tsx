@@ -1,4 +1,4 @@
-import { ArrowLeft, Mail, Linkedin, Github, Twitter, Send, Download } from "lucide-react";
+import { ArrowLeft, Mail, LinkedinIcon, GithubIcon, XIcon, Send, Download } from "lucide-react";
 import { useState } from "react";
 
 export function ContactPage() {
@@ -61,7 +61,7 @@ export function ContactPage() {
                   className="flex items-center gap-3 text-[#C9C6C0] hover:text-[#D47A2B] transition-colors group"
                 >
                   <div className="p-2 bg-[#D47A2B]/10 rounded-lg group-hover:bg-[#D47A2B]/20 transition-colors">
-                    <Linkedin className="w-5 h-5 text-[#D47A2B]" />
+                     <LinkedinIcon className="w-5 h-5 text-[#D47A2B]" />
                   </div>
                   <span>linkedin.com/in/song-im</span>
                 </a>
@@ -72,7 +72,7 @@ export function ContactPage() {
                   className="flex items-center gap-3 text-[#C9C6C0] hover:text-[#D47A2B] transition-colors group"
                 >
                   <div className="p-2 bg-[#D47A2B]/10 rounded-lg group-hover:bg-[#D47A2B]/20 transition-colors">
-                    <Github className="w-5 h-5 text-[#D47A2B]" />
+                     <GithubIcon className="w-5 h-5 text-[#D47A2B]" />
                   </div>
                   <span>github.com/songim</span>
                 </a>
@@ -83,7 +83,7 @@ export function ContactPage() {
                   className="flex items-center gap-3 text-[#C9C6C0] hover:text-[#D47A2B] transition-colors group"
                 >
                   <div className="p-2 bg-[#D47A2B]/10 rounded-lg group-hover:bg-[#D47A2B]/20 transition-colors">
-                    <Twitter className="w-5 h-5 text-[#D47A2B]" />
+                     <XIcon className="w-5 h-5 text-[#D47A2B]" />
                   </div>
                   <span>@songim_dev</span>
                 </a>
