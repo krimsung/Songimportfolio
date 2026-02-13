@@ -1,4 +1,4 @@
-import { ArrowLeft, Mail, Linkedin, Github, Twitter, Send } from "lucide-react";
+import { ArrowLeft, Mail, Linkedin, Github, Twitter, Send, Download } from "lucide-react";
 import { useState } from "react";
 
 export function ContactPage() {
@@ -36,7 +36,7 @@ export function ContactPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Info */}
-          <div>
+          <div className="flex flex-col">
             <div className="bg-[#1C1A1F] rounded-lg p-8 border border-[#26242A] mb-8">
               <h2 className="text-2xl font-bold text-white mb-4">Connect With Me</h2>
               <p className="text-[#C9C6C0] mb-6">
@@ -90,12 +90,26 @@ export function ContactPage() {
               </div>
             </div>
 
-            <div className="bg-[#1C1A1F] rounded-lg p-8 border border-[#26242A]">
+            <div className="bg-[#1C1A1F] rounded-lg p-8 border border-[#26242A] flex-1 flex flex-col">
               <h2 className="text-2xl font-bold text-white mb-4">Availability</h2>
-              <p className="text-[#C9C6C0]">
-                I'm currently accepting new projects and full-time positions. Expected 
-                response time: 24-48 hours.
-              </p>
+              <div className="flex-1">
+                <p className="text-[#C9C6C0] text-lg">
+                  I'm currently accepting <span className="text-[#D47A2B] font-semibold">new projects</span> and <span className="text-[#D47A2B] font-semibold">full-time positions</span>.
+                </p>
+                <p className="text-white font-semibold mt-2">
+                  Expected response time: 24-48 hours.
+                </p>
+              </div>
+              <div className="mt-auto">
+                <a
+                  href="/cv.pdf"
+                  download
+                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-[#D47A2B] text-white rounded-lg hover:bg-[#C07A2C] transition-colors group"
+                >
+                  <Download className="w-5 h-5 group-hover:translate-y-1 transition-transform" />
+                  <span>Download CV</span>
+                </a>
+              </div>
             </div>
           </div>
 
