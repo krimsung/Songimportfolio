@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export function GallerySection() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -37,14 +36,6 @@ export function GallerySection() {
     }
   ];
 
-  const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % images.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-  };
-
   return (
     <section className="py-20 px-4 bg-[#ECE9E5]">
       <div className="max-w-6xl mx-auto">
@@ -53,8 +44,8 @@ export function GallerySection() {
         </h2>
 
         <div className="relative bg-[#1C1A1F] rounded-lg overflow-hidden border border-[#26242A]">
-          {/* Main Image */}
-          <div className="relative h-[500px]">
+          {/* Main Image — display only, no interaction */}
+          <div className="relative h-[500px] overflow-hidden">
             <img
               src={images[currentIndex].url}
               alt={images[currentIndex].title}
@@ -71,25 +62,9 @@ export function GallerySection() {
                 {images[currentIndex].description}
               </p>
             </div>
-
-            {/* Navigation Buttons */}
-            <button
-              onClick={prevSlide}
-              className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-[#1C1A1F]/80 hover:bg-[#D47A2B] text-white rounded-full transition-colors backdrop-blur-sm"
-              aria-label="Previous image"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-            <button
-              onClick={nextSlide}
-              className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-[#1C1A1F]/80 hover:bg-[#D47A2B] text-white rounded-full transition-colors backdrop-blur-sm"
-              aria-label="Next image"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
           </div>
 
-          {/* Thumbnails */}
+          {/* Thumbnails — click to change main image only */}
           <div className="flex gap-1 p-1 sm:gap-2 sm:p-2 bg-[#1C1A1F] overflow-hidden">
             {images.map((image, index) => (
               <button
@@ -104,7 +79,7 @@ export function GallerySection() {
                 <img
                   src={image.url}
                   alt={image.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
                 />
               </button>
             ))}
