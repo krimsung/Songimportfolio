@@ -37,17 +37,13 @@ export function ContactPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Info */}
           <div>
-            <h1 className="text-4xl md:text-5xl font-bold text-[#1C1A1F] mb-6">
-              Get In Touch
-            </h1>
-            <p className="text-lg text-[#7E7A75] mb-8">
-              I'm currently available for freelance projects and full-time opportunities. 
-              Whether you're looking for a character artist, environment designer, or 
-              technical artist, I'd love to hear from you.
-            </p>
-
             <div className="bg-[#1C1A1F] rounded-lg p-8 border border-[#26242A] mb-8">
-              <h2 className="text-2xl font-bold text-white mb-6">Connect With Me</h2>
+              <h2 className="text-2xl font-bold text-white mb-4">Connect With Me</h2>
+              <p className="text-[#C9C6C0] mb-6">
+                I'm currently available for freelance projects and full-time opportunities. 
+                Whether you're looking for a character artist, environment designer, or 
+                technical artist, I'd love to hear from you.
+              </p>
               <div className="space-y-4">
                 <a
                   href="mailto:contact@songim.dev"
@@ -70,7 +66,7 @@ export function ContactPage() {
                   <span>linkedin.com/in/song-im</span>
                 </a>
                 <a
-                  href="https://github.com"
+                  href="https://github.com/songim"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 text-[#C9C6C0] hover:text-[#D47A2B] transition-colors group"
@@ -81,7 +77,7 @@ export function ContactPage() {
                   <span>github.com/songim</span>
                 </a>
                 <a
-                  href="https://twitter.com"
+                  href="https://twitter.com/songim_dev"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 text-[#C9C6C0] hover:text-[#D47A2B] transition-colors group"

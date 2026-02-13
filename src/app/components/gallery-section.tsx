@@ -26,9 +26,14 @@ export function GallerySection() {
       description: "3D modeling and texturing"
     },
     {
-      url: "https://images.unsplash.com/photo-1683818051102-dd1199d163b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaWdpdGFsJTIwYXJ0JTIwcG9ydGZvbGlvfGVufDF8fHx8MTc3MDE1NzAxOHww&ixlib=rb-4.1.0&q=80&w=1080",
-      title: "Digital Art",
-      description: "Digital illustrations and concept art"
+      url: "https://images.unsplash.com/photo-1542751371-adc38448a05e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnYW1lJTIwZGV2ZWxvcG1lbnR8ZW58MXx8fHwxNzcwMTU3MDE5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      title: "Game Development",
+      description: "Tools, pipelines, and development workflow"
+    },
+    {
+      url: "https://images.unsplash.com/photo-1511512578047-dfb367046420?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnYW1lJTIwcHJvamVjdCUyMG1hbmFnZW1lbnR8ZW58MXx8fHwxNzcwMTU3MDIw&ixlib=rb-4.1.0&q=80&w=1080",
+      title: "Project Management",
+      description: "Planning, execution, and delivery"
     }
   ];
 
@@ -85,12 +90,12 @@ export function GallerySection() {
           </div>
 
           {/* Thumbnails */}
-          <div className="flex gap-4 p-4 bg-[#1C1A1F] overflow-x-auto">
+          <div className="flex gap-1 p-1 sm:gap-2 sm:p-2 bg-[#1C1A1F] overflow-hidden">
             {images.map((image, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                className={`flex-shrink-0 w-24 h-16 rounded overflow-hidden border-2 transition-all ${
+                className={`flex-1 min-w-0 aspect-[3/2] rounded overflow-hidden border-2 transition-all ${
                   index === currentIndex
                     ? "border-[#D47A2B] scale-105"
                     : "border-transparent opacity-60 hover:opacity-100"
@@ -98,7 +103,7 @@ export function GallerySection() {
               >
                 <img
                   src={image.url}
-                  alt={`Thumbnail ${index + 1}`}
+                  alt={image.title}
                   className="w-full h-full object-cover"
                 />
               </button>
