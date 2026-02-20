@@ -35,8 +35,8 @@ export function TechnicalExperience() {
   ];
 
   return (
-    <section className="py-20 px-4 bg-[#ECE9E5]">
-      <div className="max-w-6xl mx-auto">
+    <section className="py-20 bg-[#ECE9E5]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl md:text-4xl font-bold text-[#1C1A1F] mb-12 text-center">
           Technical Experience
         </h2>

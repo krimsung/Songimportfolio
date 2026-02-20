@@ -39,41 +39,40 @@
   animation: carousel-animate-vertical 21s linear infinite;
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar — uses design tokens from theme.css */
 ::-webkit-scrollbar {
   width: 14px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #2a2a2a;
+  background: var(--window-surface);
   border-radius: 10px;
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #ff6b35 0%, #ff5722 50%, #e64a19 100%);
+  background: var(--accent);
   border-radius: 10px;
-  border: 2px solid #2a2a2a;
+  border: 2px solid var(--window-surface);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #ff8a65 0%, #ff7043 50%, #f4511e 100%);
-  transform: scale(1.1);
+  background: var(--status-warning);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
 ::-webkit-scrollbar-thumb:active {
-  background: linear-gradient(180deg, #ffab91 0%, #ff8a65 50%, #ff7043 100%);
+  background: var(--status-warning);
 }
 
 ::-webkit-scrollbar-corner {
-  background: #2a2a2a;
+  background: var(--window-surface);
 }
 
 /* Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #ff6b35 #2a2a2a;
+  scrollbar-color: var(--accent) var(--window-surface);
 }

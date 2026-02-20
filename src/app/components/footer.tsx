@@ -87,7 +87,7 @@ export function Footer() {
             © 2026 Song Im. All rights reserved.
           </p>
           <p className="text-[#C9C6C0] text-sm flex items-center gap-2">
-            Made with <Heart className="w-4 h-4 text-[#FF0000] fill-current" /> for game development
+            Made with <Heart className="w-4 h-4 text-[#B23B3B] fill-current" /> for game development
           </p>
         </div>
       </div>

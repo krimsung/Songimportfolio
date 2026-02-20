@@ -2,8 +2,8 @@ import headshot from "../../media/images/portfolio-headshot.png";
 
 export function AboutSection() {
   return (
-    <section className="py-20 px-4 bg-[#F3F2F0]">
-      <div className="max-w-6xl mx-auto">
+    <section className="py-20 bg-[#F3F2F0]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row gap-6 items-stretch">
           {/* Profile Image with Caption */}
           <div className="flex flex-col w-full md:w-auto">

@@ -35,7 +35,7 @@ export function ProjectDetail({ projectId, onBack }: ProjectDetailProps) {
 
   return (
     <div className="min-h-screen bg-[#F3F2F0] pt-20">
-      <div className="max-w-6xl mx-auto px-4 py-12">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Back Button */}
         <a
           href="#/"
@@ -73,7 +73,7 @@ export function ProjectDetail({ projectId, onBack }: ProjectDetailProps) {
                 {project.tags.map((tag: string, index: number) => (
                   <span
                     key={index}
-                    className="inline-flex items-center gap-1 px-3 py-1 bg-[#D47A2B]/10 border border-[#D47A2B]/30 rounded text-sm text-[#D47A2B]"
+                    className="inline-flex items-center gap-1 px-2 py-1 bg-[#D47A2B]/10 border border-[#D47A2B]/30 rounded text-xs text-[#D47A2B]"
                   >
                     <Tag className="w-3 h-3" />
                     {tag}
@@ -147,7 +147,7 @@ export function ProjectDetail({ projectId, onBack }: ProjectDetailProps) {
                 {project.tags.map((tag: string, index: number) => (
                   <span
                     key={index}
-                    className="px-3 py-1 bg-[#D47A2B]/10 border border-[#D47A2B]/30 rounded text-sm text-[#D47A2B]"
+                    className="px-2 py-1 bg-[#D47A2B]/10 border border-[#D47A2B]/30 rounded text-xs text-[#D47A2B]"
                   >
                     {tag}
                   </span>

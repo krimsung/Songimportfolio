@@ -54,6 +54,12 @@
   --status-error: #B23B3B;
   --status-warning: #C07A2C;
   --status-info: #2F6DAA;
+
+  /* Spacing tokens — semantic layout rhythm */
+  --spacing-section-y: 5rem;        /* py-20 = 80px — vertical rhythm between sections */
+  --spacing-container-px: 1rem;     /* px-4  — base horizontal padding (mobile) */
+  --spacing-container-px-sm: 1.5rem; /* sm:px-6  — tablet horizontal padding */
+  --spacing-container-px-lg: 2rem;   /* lg:px-8  — desktop horizontal padding */
 }
 
 .dark {
