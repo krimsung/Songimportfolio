@@ -87,7 +87,7 @@ export function ProjectCard({
           </div>
 
           {showViewLink && (
-            <div className="flex items-center gap-2 text-[#D47A2B] group-hover:gap-3 transition-all mt-auto">
+            <div className="flex items-center justify-end gap-2 text-[#D47A2B] group-hover:gap-3 transition-all mt-auto">
               <span>View Project</span>
               <ArrowRight className="w-4 h-4" />
             </div>
