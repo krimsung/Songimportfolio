@@ -9,15 +9,50 @@ export function ContactPage() {
     company: "",
     message: ""
   });
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, this would send the form data
-    toast.success("Message sent!", {
-      description: "Thanks for reaching out — I'll get back to you within 24–48 hours.",
-      duration: 5000,
-    });
-    setFormData({ name: "", email: "", company: "", message: "" });
+    if (submitting) return;
+    setSubmitting(true);
+
+    // Use Vite env var if available; fallback shows placeholder string.
+    const WEB3FORMS_API_KEY = import.meta.env.VITE_WEB3FORMS_KEY || "YOUR_WEB3FORMS_KEY_GOES_HERE";
+
+    try {
+      const payload = {
+        access_key: WEB3FORMS_API_KEY,
+        subject: "New message from portfolio contact form",
+        name: formData.name,
+        email: formData.email,
+        company: formData.company,
+        message: formData.message,
+      } as Record<string, string>;
+
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const json = await res.json().catch(() => null);
+
+      if (res.ok && json && (json.success === true || json.success === "true")) {
+        toast.success("Message sent!", {
+          description: "Thanks for reaching out — I'll get back to you within 24–48 hours.",
+          duration: 5000,
+        });
+        setFormData({ name: "", email: "", company: "", message: "" });
+      } else {
+        console.error("Web3Forms error", json);
+        toast.error("Failed to send message. Please try again or email contact@songim.dev.");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("An error occurred while sending the message.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
