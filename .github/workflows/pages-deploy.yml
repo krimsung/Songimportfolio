@@ -28,8 +28,8 @@ jobs:
           VITE_WEB3FORMS_KEY: ${{ secrets.WEB3FORMS_KEY }}
         run: npm run build
       - name: Upload artifact
-        # Use the latest v2 which includes updates to underlying dependencies
-        uses: actions/upload-pages-artifact@v2
+        # Use the latest v3 which includes updates to underlying dependencies
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
 
@@ -38,4 +38,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4
