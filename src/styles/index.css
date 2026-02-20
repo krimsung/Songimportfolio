@@ -76,3 +76,22 @@
   scrollbar-width: thin;
   scrollbar-color: var(--accent) var(--window-surface);
 }
+
+/* Accessibility — respect OS reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .carousel-item {
+    animation: none !important;
+    opacity: 0;
+  }
+
+  .carousel-item:first-child {
+    opacity: 1;
+    position: relative;
+    transform: none;
+  }
+
+  .animate-bounce,
+  .animate-pulse {
+    animation: none !important;
+  }
+}

@@ -74,8 +74,9 @@ export function ProjectGallery({ images }: ProjectGalleryProps) {
             >
               <img
                 src={image}
-                alt={`Gallery image ${index + 1}`}
+                alt={`Project screenshot ${index + 1}`}
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                loading="lazy"
               />
             </button>
           ))}
@@ -131,7 +132,7 @@ export function ProjectGallery({ images }: ProjectGalleryProps) {
           >
             <img
               src={images[selectedIndex]}
-              alt={`Gallery image ${selectedIndex + 1}`}
+              alt={`Project screenshot ${selectedIndex + 1} of ${images.length}`}
               className="max-w-full max-h-[90vh] object-contain rounded-lg"
             />
           </div>

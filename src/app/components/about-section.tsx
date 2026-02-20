@@ -10,9 +10,10 @@ export function AboutSection() {
             <div className="flex-1 w-full md:w-64 overflow-hidden rounded-lg border border-[#26242A]">
               <img
                 src={headshot}
-                alt="Portfolio headshot"
+                alt="Song Im headshot at GDC 2024"
                 className="w-full h-full object-cover object-top"
-                loading="lazy"
+                loading="eager"
+                fetchPriority="high"
               />
             </div>
             <p className="text-[#1C1A1F] text-center italic mt-3 w-full md:w-64">

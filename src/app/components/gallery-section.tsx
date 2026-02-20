@@ -50,6 +50,7 @@ export function GallerySection() {
               src={images[currentIndex].url}
               alt={images[currentIndex].title}
               className="w-full h-full object-cover"
+              loading="lazy"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#1C1A1F] to-transparent"></div>
             
@@ -80,6 +81,7 @@ export function GallerySection() {
                   src={image.url}
                   alt={image.title}
                   className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                  loading="lazy"
                 />
               </button>
             ))}

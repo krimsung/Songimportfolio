@@ -69,6 +69,9 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
           <button
             className="md:hidden text-white"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-menu"
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -77,7 +80,7 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#1C1A1F] border-t border-[#26242A]">
+        <div id="mobile-menu" className="md:hidden bg-[#1C1A1F] border-t border-[#26242A]">
           <div className="px-4 py-4 space-y-3">
             <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-[#2F7A5E]/20 border border-[#2F7A5E]/40 mb-4">
               <span className="w-2 h-2 rounded-full bg-[#2F7A5E] animate-pulse"></span>

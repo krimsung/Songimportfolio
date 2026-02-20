@@ -1,5 +1,6 @@
 import { ArrowLeft, Mail, LinkedinIcon, GithubIcon, XIcon, Send, Download } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export function ContactPage() {
   const [formData, setFormData] = useState({
@@ -12,7 +13,10 @@ export function ContactPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // In a real app, this would send the form data
-    alert("Thank you for your message! I'll get back to you soon.");
+    toast.success("Message sent!", {
+      description: "Thanks for reaching out — I'll get back to you within 24–48 hours.",
+      duration: 5000,
+    });
     setFormData({ name: "", email: "", company: "", message: "" });
   };
 

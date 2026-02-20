@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Toaster } from "sonner";
 import { Navigation } from "./components/navigation";
 import { HeroSection } from "./components/hero-section";
 import { AboutSection } from "./components/about-section";
@@ -18,6 +19,7 @@ type Page = "home" | "projects" | "gallery" | "contact" | "project-detail" | "pr
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>("home");
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const [previousPage, setPreviousPage] = useState<Page>("home");
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -57,6 +59,7 @@ export default function App() {
   };
 
   const handleViewProject = (projectSlug: string) => {
+    setPreviousPage(currentPage);
     setSelectedProject(projectSlug);
     setCurrentPage("project-detail");
     window.location.hash = `#/projects/${projectSlug}`;
@@ -75,60 +78,66 @@ export default function App() {
     window.location.hash = "#/";
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  const handleBackFromProject = () => {
+    if (previousPage === "projects") {
+      setCurrentPage("projects");
+      setSelectedProject(null);
+      window.location.hash = "#/projects";
+    } else {
+      setCurrentPage("home");
+      setSelectedProject(null);
+      window.location.hash = "#/";
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const navigationPage = currentPage === "project-detail" ? "projects" : currentPage;
 
   return (
       <div className="min-h-screen bg-[#F3F2F0]">
         <Navigation currentPage={navigationPage} onNavigate={handleNavigate} />
+        <Toaster position="bottom-right" richColors theme="dark" />
 
-        {currentPage === "home" && (
-          <>
-            <HeroSection />
-            <AboutSection />
-            <TechnicalExperience />
-            <ProjectsSection
-              onViewProject={handleViewProject}
-              onViewAllProjects={handleViewAllProjects}
-            />
-            <GallerySection />
-            <ContactPreview onNavigateToContact={() => handleNavigate("contact")} />
-            <Footer />
-          </>
-        )}
+        <main>
+          {currentPage === "home" && (
+            <>
+              <HeroSection />
+              <AboutSection />
+              <TechnicalExperience />
+              <ProjectsSection
+                onViewProject={handleViewProject}
+                onViewAllProjects={handleViewAllProjects}
+              />
+              <GallerySection />
+              <ContactPreview onNavigateToContact={() => handleNavigate("contact")} />
+            </>
+          )}
 
-        {currentPage === "projects" && (
-          <>
+          {currentPage === "projects" && (
             <ProjectsPage
               onBack={handleBackToHome}
               onViewProject={handleViewProject}
             />
-            <Footer />
-          </>
-        )}
+          )}
 
-        {currentPage === "gallery" && (
-          <>
+          {currentPage === "gallery" && (
             <GalleryPage />
-            <Footer />
-          </>
-        )}
+          )}
 
-        {currentPage === "contact" && (
-          <>
+          {currentPage === "contact" && (
             <ContactPage />
-            <Footer />
-          </>
-        )}
+          )}
 
-        {currentPage === "project-detail" && selectedProject && (
-          <>
-            <ProjectDetail projectId={selectedProject} onBack={handleBackToHome} />
-            <Footer />
-          </>
-        )}
+          {currentPage === "project-detail" && selectedProject && (
+            <ProjectDetail
+              projectId={selectedProject}
+              onBack={handleBackFromProject}
+              backLabel={previousPage === "projects" ? "Back to Projects" : "Back to Home"}
+            />
+          )}
 
-        {currentPage === "project-not-found" && (
-          <>
+          {currentPage === "project-not-found" && (
             <div className="min-h-screen bg-[#F3F2F0] pt-20">
               <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <h1 className="text-3xl font-bold text-[#1C1A1F]">Project not found</h1>
@@ -141,9 +150,10 @@ export default function App() {
                 </a>
               </div>
             </div>
-            <Footer />
-          </>
-        )}
+          )}
+        </main>
+
+        <Footer />
       </div>
   );
 }

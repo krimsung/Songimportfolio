@@ -6,9 +6,10 @@ import { ProjectGallery } from "./project-gallery";
 interface ProjectDetailProps {
   projectId: string;
   onBack?: () => void;
+  backLabel?: string;
 }
 
-export function ProjectDetail({ projectId, onBack }: ProjectDetailProps) {
+export function ProjectDetail({ projectId, onBack, backLabel }: ProjectDetailProps) {
   const project = projectsBySlug[projectId];
 
   if (!project) {
@@ -49,7 +50,7 @@ export function ProjectDetail({ projectId, onBack }: ProjectDetailProps) {
           className="inline-flex items-center gap-2 text-[#D47A2B] hover:text-[#C07A2C] transition-colors mb-8 group"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-          <span>Back to Home</span>
+          <span>{backLabel ?? "Back to Home"}</span>
         </a>
 
         {/* Header */}
