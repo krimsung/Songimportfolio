@@ -27,6 +27,8 @@ jobs:
           # Set the Web3Forms key from Actions secrets. Create secret named `WEB3FORMS_KEY` in repository settings.
           VITE_WEB3FORMS_KEY: ${{ secrets.WEB3FORMS_KEY }}
         run: npm run build
+      - name: Add .nojekyll file
+        run: touch ./dist/.nojekyll
       - name: Upload artifact
         # Use the latest v3 which includes updates to underlying dependencies
         uses: actions/upload-pages-artifact@v3
