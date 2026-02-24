@@ -97,11 +97,6 @@ export function ProjectDetail({ projectId, onBack, backLabel }: ProjectDetailPro
             </div>
 
             <div className="bg-[#1C1A1F] rounded-lg p-8 border border-[#26242A]">
-              <h2 className="text-2xl font-bold text-white mb-4">My Role</h2>
-              <p className="text-[#D47A2B] font-semibold">{project.role}</p>
-            </div>
-
-            <div className="bg-[#1C1A1F] rounded-lg p-8 border border-[#26242A]">
               <h2 className="text-2xl font-bold text-white mb-4">Challenges & Solutions</h2>
               <div className="space-y-4">
                 <ReactMarkdown components={markdownComponents}>
@@ -123,38 +118,64 @@ export function ProjectDetail({ projectId, onBack, backLabel }: ProjectDetailPro
           {/* Sidebar */}
           <div className="space-y-6">
             <div className="bg-[#1C1A1F] rounded-lg p-6 border border-[#26242A]">
-              <h3 className="text-xl font-bold text-white mb-4">Project Links</h3>
+              <h3 className="text-xl font-bold text-white mb-4">Details</h3>
               <div className="space-y-3">
-                <a
-                  href="#"
-                  className="flex items-center gap-2 text-[#C9C6C0] hover:text-[#D47A2B] transition-colors"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                  <span>View Live Project</span>
-                </a>
-                <a
-                  href="#"
-                  className="flex items-center gap-2 text-[#C9C6C0] hover:text-[#D47A2B] transition-colors"
-                >
-                  <Github className="w-4 h-4" />
-                  <span>Source Code</span>
-                </a>
+                <div>
+                  <span className="text-[#C9C6C0] font-medium">Platform:</span>
+                  <span className="text-white ml-2">{project.platform || "TBA"}</span>
+                </div>
+                <div>
+                  <span className="text-[#C9C6C0] font-medium">Engine:</span>
+                  <span className="text-white ml-2">{project.engine || "TBA"}</span>
+                </div>
+                <div>
+                  <span className="text-[#C9C6C0] font-medium">Team Size:</span>
+                  <span className="text-white ml-2">{project.teamSize || "TBA"}</span>
+                </div>
+                <div>
+                  <span className="text-[#C9C6C0] font-medium">Role:</span>
+                  <span className="text-white ml-2">{project.role || "TBA"}</span>
+                </div>
+                <div>
+                  <span className="text-[#C9C6C0] font-medium">Language:</span>
+                  <span className="text-white ml-2">{project.language || "TBA"}</span>
+                </div>
+                <div>
+                  <span className="text-[#C9C6C0] font-medium">Duration:</span>
+                  <span className="text-white ml-2">{project.duration || "TBA"}</span>
+                </div>
               </div>
             </div>
 
-            <div className="bg-[#1C1A1F] rounded-lg p-6 border border-[#26242A]">
-              <h3 className="text-xl font-bold text-white mb-4">Technologies</h3>
-              <div className="flex flex-wrap gap-2">
-                {project.tags.map((tag: string, index: number) => (
-                  <span
-                    key={index}
-                    className="px-2 py-1 bg-[#D47A2B]/10 border border-[#D47A2B]/30 rounded text-xs text-[#D47A2B]"
-                  >
-                    {tag}
-                  </span>
-                ))}
+            {(project.liveProjectUrl || project.sourceCodeUrl) && (
+              <div className="bg-[#1C1A1F] rounded-lg p-6 border border-[#26242A]">
+                <h3 className="text-xl font-bold text-white mb-4">Project Links</h3>
+                <div className="space-y-3">
+                  {project.liveProjectUrl && (
+                    <a
+                      href={project.liveProjectUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-[#C9C6C0] hover:text-[#D47A2B] transition-colors"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      <span>View Live Project</span>
+                    </a>
+                  )}
+                  {project.sourceCodeUrl && (
+                    <a
+                      href={project.sourceCodeUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-[#C9C6C0] hover:text-[#D47A2B] transition-colors"
+                    >
+                      <Github className="w-4 h-4" />
+                      <span>Source Code</span>
+                    </a>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

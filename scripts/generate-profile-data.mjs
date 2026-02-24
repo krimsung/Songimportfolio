@@ -23,6 +23,8 @@ const DETAILS_HEADERS = [
 	"Process",
 	"Custom 1",
 	"Custom 2",
+	"Live Project URL",
+	"Source Code URL",
 	"Year"
 ];
 
@@ -139,6 +141,16 @@ const getCell = (row, headerIndex, header, rowIndex, csvName) => {
 	return normalizeCell(row[idx], rowIndex, header, csvName);
 };
 
+const getUrlCell = (row, headerIndex, header, rowIndex, csvName) => {
+	const idx = headerIndex[header];
+	if (idx === undefined) {
+		warnMissingHeader(header, csvName);
+		return "";
+	}
+	const value = (row[idx] ?? "").trim();
+	return value.length > 0 && value !== "N/A" ? value : "";
+};
+
 const buildSlug = (value) => {
 	return value
 		.toLowerCase()
@@ -181,7 +193,9 @@ const buildDetailRecords = (csv) => {
 			challenges: getCell(row, csv.headerIndex, "Challenges", rowIndex, csv.csvName),
 			process: getCell(row, csv.headerIndex, "Process", rowIndex, csv.csvName),
 			custom1: getCell(row, csv.headerIndex, "Custom 1", rowIndex, csv.csvName),
-			custom2: getCell(row, csv.headerIndex, "Custom 2", rowIndex, csv.csvName)
+			custom2: getCell(row, csv.headerIndex, "Custom 2", rowIndex, csv.csvName),
+			liveProjectUrl: getUrlCell(row, csv.headerIndex, "Live Project URL", rowIndex, csv.csvName),
+			sourceCodeUrl: getUrlCell(row, csv.headerIndex, "Source Code URL", rowIndex, csv.csvName)
 		};
 	});
 };
@@ -235,6 +249,8 @@ const mergeRecords = (details, thumbnails) => {
 				process: detail.process,
 				custom1: detail.custom1,
 				custom2: detail.custom2,
+				liveProjectUrl: detail.liveProjectUrl,
+				sourceCodeUrl: detail.sourceCodeUrl,
 				status: "N/A"
 			};
 		})

@@ -79,6 +79,8 @@ export interface ProjectRecord {
   process: string;
   custom1: string;
   custom2: string;
+  liveProjectUrl: string;
+  sourceCodeUrl: string;
   image: string;
   status: string;
   galleryImages: string[];
@@ -169,6 +171,19 @@ const getCell = (
   return normalizeCell(row[idx]);
 };
 
+const getUrlCell = (
+  row: string[],
+  headerIndex: Record<string, number>,
+  header: string
+): string => {
+  const idx = headerIndex[header];
+  if (idx === undefined) {
+    return "";
+  }
+  const value = (row[idx] ?? "").trim();
+  return value.length > 0 && value !== "N/A" ? value : "";
+};
+
 const buildSlug = (value: string): string => {
   return (
     value
@@ -207,7 +222,9 @@ const buildDetailRecords = (csv: CsvData) => {
       challenges: getCell(row, csv.headerIndex, "Challenges"),
       process: getCell(row, csv.headerIndex, "Process"),
       custom1: getCell(row, csv.headerIndex, "Custom 1"),
-      custom2: getCell(row, csv.headerIndex, "Custom 2")
+      custom2: getCell(row, csv.headerIndex, "Custom 2"),
+      liveProjectUrl: getUrlCell(row, csv.headerIndex, "Live Project URL"),
+      sourceCodeUrl: getUrlCell(row, csv.headerIndex, "Source Code URL")
     };
   });
 };
@@ -255,6 +272,8 @@ const mergeRecords = (details: ReturnType<typeof buildDetailRecords>, thumbnails
       process: detail.process,
       custom1: detail.custom1,
       custom2: detail.custom2,
+      liveProjectUrl: detail.liveProjectUrl,
+      sourceCodeUrl: detail.sourceCodeUrl,
       image: getThumbnailForProject(detail.title),
       status: "N/A",
       galleryImages: getGalleryImagesForProject(detail.title)
