@@ -1,5 +1,5 @@
 import { ArrowRight, Calendar, Tag } from "lucide-react";
-import { ProjectRecord } from "../data/projects";
+import { ProjectRecord } from "../../data/projects";
 
 interface ProjectCardProps {
   project: ProjectRecord;

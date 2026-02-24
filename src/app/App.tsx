@@ -12,7 +12,7 @@ import { ProjectsPage } from "./components/projects-page";
 import { ContactPage } from "./components/contact-page";
 import { GalleryPage } from "./components/gallery-page";
 import { Footer } from "./components/footer";
-import { projectsBySlug } from "./data/projects";
+import { projectsBySlug } from "../data/projects";
 
 type Page = "home" | "projects" | "gallery" | "contact" | "project-detail" | "project-not-found";
 

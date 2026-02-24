@@ -4,8 +4,8 @@ import { fileURLToPath } from "url";
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(scriptDir, "..");
-const inputDir = path.join(rootDir, "src", "profile info");
-const outputDir = path.join(inputDir, "generated");
+const inputDir = path.join(rootDir, "src", "data");
+const outputDir = inputDir;
 
 const detailsCsvPath = path.join(inputDir, "Portfolio Website - Sheet1.csv");
 const thumbnailCsvPath = path.join(inputDir, "Portfolio Website Thumbnail - Sheet1.csv");

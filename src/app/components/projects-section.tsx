@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import { featuredProjects } from "../data/projects";
+import { featuredProjects } from "../../data/projects";
 import { ProjectCard } from "./project-card";
 
 interface ProjectsSectionProps {
