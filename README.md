@@ -27,7 +27,7 @@
 
   Where to update it:
 
-  - Update the Excel/CSV documents in `src/profile info/generated` (content flows into the site).
+   - Update the Excel/CSV documents in `src/data` (content flows into the site).
 
   Official Markdown renderer docs:
 

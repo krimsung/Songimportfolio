@@ -1,5 +1,5 @@
 import { ProjectDetail } from "../../components/project-detail";
-import { projectsBySlug } from "../../data/projects";
+import { projectsBySlug } from "../../../data/projects";
 
 interface PageProps {
   params: { slug: string };

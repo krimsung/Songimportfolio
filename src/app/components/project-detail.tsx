@@ -1,6 +1,6 @@
 import { ArrowLeft, Calendar, Tag, ExternalLink, Github } from "lucide-react";
 import ReactMarkdown, { Components } from "react-markdown";
-import { projectsBySlug } from "../data/projects";
+import { projectsBySlug } from "../../data/projects";
 import { ProjectGallery } from "./project-gallery";
 
 interface ProjectDetailProps {
