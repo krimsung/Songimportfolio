@@ -1,0 +1,85 @@
+[
+  {
+    "title": "Ghost CTRL",
+    "slug": "ghost-ctrl",
+    "year": "N/A",
+    "shortDescription": "Dystopian cyberpunk extraction shooter with playable demo",
+    "tags": [
+      "UE5",
+      "Level Design",
+      "Tech Art",
+      "Solo"
+    ]
+  },
+  {
+    "title": "Final Shot",
+    "slug": "final-shot",
+    "year": "N/A",
+    "shortDescription": "48-hour rapid prototype featuring magical spells",
+    "tags": [
+      "UE5",
+      "Blueprint",
+      "Tech Art",
+      "Solo"
+    ]
+  },
+  {
+    "title": "Rogue Data",
+    "slug": "rogue-data",
+    "year": "N/A",
+    "shortDescription": "2D movement platformer focused on level design",
+    "tags": [
+      "UE5",
+      "Level Design",
+      "Tech Art",
+      "Solo"
+    ]
+  },
+  {
+    "title": "METACONSTRUCT",
+    "slug": "metaconstruct",
+    "year": "N/A",
+    "shortDescription": "Polished FPS game featuring procedural generation",
+    "tags": [
+      "UE5",
+      "Producer",
+      "Procedural",
+      "Team"
+    ]
+  },
+  {
+    "title": "Tiny Sheriff",
+    "slug": "tiny-sheriff",
+    "year": "N/A",
+    "shortDescription": "2D movement platformer where weapons become traversal tools, built in Unity.",
+    "tags": [
+      "Unity",
+      "C#",
+      "Tech Art",
+      "Team"
+    ]
+  },
+  {
+    "title": "Project Quiver",
+    "slug": "project-quiver",
+    "year": "N/A",
+    "shortDescription": "N/A",
+    "tags": [
+      "UE5",
+      "Procedural",
+      "GAS",
+      "Team"
+    ]
+  },
+  {
+    "title": "Insomniac",
+    "slug": "insomniac",
+    "year": "N/A",
+    "shortDescription": "N/A",
+    "tags": [
+      "UE5",
+      "Level Design",
+      "Solo"
+    ]
+  }
+]
