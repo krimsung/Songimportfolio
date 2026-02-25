@@ -35,7 +35,7 @@ export function ProjectDetail({ projectId, onBack, backLabel }: ProjectDetailPro
   };
 
   return (
-    <div className="min-h-screen bg-[#F3F2F0] pt-20">
+    <div className="min-h-screen bg-background pt-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Back Button */}
         <a

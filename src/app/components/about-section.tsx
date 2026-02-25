@@ -2,7 +2,7 @@ import headshot from "../../media/images/portfolio-headshot.png";
 
 export function AboutSection() {
   return (
-    <section className="py-20 bg-[#F3F2F0]">
+    <section className="py-20 bg-background">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row gap-6 items-stretch">
           {/* Profile Image with Caption */}
@@ -16,7 +16,7 @@ export function AboutSection() {
                 fetchPriority="high"
               />
             </div>
-            <p className="text-[#1C1A1F] text-center italic mt-3 w-full md:w-64">
+            <p className="text-foreground text-center italic mt-3 w-full md:w-64">
               Picture taken at GDC 2024
             </p>
           </div>

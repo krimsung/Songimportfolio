@@ -12,6 +12,7 @@ import { ProjectsPage } from "./components/projects-page";
 import { ContactPage } from "./components/contact-page";
 import { GalleryPage } from "./components/gallery-page";
 import { Footer } from "./components/footer";
+import { ThemeToggle } from "./components/theme-toggle";
 import { projectsBySlug } from "../data/projects";
 
 type Page = "home" | "projects" | "gallery" | "contact" | "project-detail" | "project-not-found";
@@ -95,9 +96,10 @@ export default function App() {
   const navigationPage = currentPage === "project-detail" ? "projects" : currentPage;
 
   return (
-      <div className="min-h-screen bg-[#F3F2F0]">
+      <div className="min-h-screen bg-background text-foreground">
         <Navigation currentPage={navigationPage} onNavigate={handleNavigate} />
         <Toaster position="bottom-right" richColors theme="dark" />
+        <ThemeToggle />
 
         <main>
           {currentPage === "home" && (
@@ -138,10 +140,10 @@ export default function App() {
           )}
 
           {currentPage === "project-not-found" && (
-            <div className="min-h-screen bg-[#F3F2F0] pt-20">
+            <div className="min-h-screen bg-background pt-20">
               <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <h1 className="text-3xl font-bold text-[#1C1A1F]">Project not found</h1>
-                <p className="text-[#7E7A75] mt-2">Check the URL and try again.</p>
+                <h1 className="text-3xl font-bold text-foreground">Project not found</h1>
+                <p className="text-muted-foreground mt-2">Check the URL and try again.</p>
                 <a
                   href="#/"
                   className="mt-6 inline-flex items-center gap-2 text-[#D47A2B] hover:text-[#C07A2C] transition-colors"

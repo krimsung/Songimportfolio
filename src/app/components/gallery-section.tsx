@@ -37,9 +37,9 @@ export function GallerySection() {
   ];
 
   return (
-    <section className="py-20 bg-[#ECE9E5]">
+    <section className="py-20 bg-background-alt">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl md:text-4xl font-bold text-[#1C1A1F] mb-12 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 text-center">
           Gallery
         </h2>
 

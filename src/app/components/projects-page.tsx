@@ -11,7 +11,7 @@ export function ProjectsPage({ onBack, onViewProject }: ProjectsPageProps) {
   const allProjects = projects;
 
   return (
-    <div className="min-h-screen bg-[#F3F2F0] pt-20">
+    <div className="min-h-screen bg-background pt-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <a
           href="#/"
@@ -29,10 +29,10 @@ export function ProjectsPage({ onBack, onViewProject }: ProjectsPageProps) {
         </a>
 
         <div className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-[#1C1A1F] mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             All Projects
           </h1>
-          <p className="text-lg text-[#7E7A75]">
+          <p className="text-lg text-muted-foreground">
             A comprehensive collection of my game development work
           </p>
         </div>

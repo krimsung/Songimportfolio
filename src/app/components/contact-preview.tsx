@@ -6,7 +6,7 @@ interface ContactPreviewProps {
 
 export function ContactPreview({ onNavigateToContact }: ContactPreviewProps) {
   return (
-    <section className="py-20 bg-[#F3F2F0]">
+    <section className="py-20 bg-background">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-[#1C1A1F] rounded-lg p-8 md:p-12 border border-[#26242A] relative overflow-hidden">
           {/* Decorative elements */}
