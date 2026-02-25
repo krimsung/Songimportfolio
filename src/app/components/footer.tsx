@@ -1,5 +1,4 @@
 import { Heart } from 'lucide-react';
-import { CONTACT_INFO, ANIMATIONS, TYPOGRAPHY } from '../constants';
 
 export function Footer() {
   const quickLinks = [
@@ -15,8 +14,8 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* About */}
           <div>
-            <h3 className={`${TYPOGRAPHY.HEADING.H5} ${TYPOGRAPHY.COLOR.WHITE} mb-4`}>
-              {CONTACT_INFO.name}
+            <h3 className="text-lg font-semibold text-white mb-4">
+              Song Im
             </h3>
             <p className="text-muted-foreground mb-4">
               Game developer and artist creating immersive experiences from sci-fi to fantasy.
@@ -25,7 +24,7 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className={`${TYPOGRAPHY.HEADING.H5} ${TYPOGRAPHY.COLOR.WHITE} mb-4`}>
+            <h3 className="text-lg font-semibold text-white mb-4">
               Quick Links
             </h3>
             <ul className="space-y-2">
@@ -33,7 +32,7 @@ export function Footer() {
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className={`text-muted-foreground hover:text-accent ${ANIMATIONS.TRANSITION.COLORS}`}
+                    className="text-muted-foreground hover:text-accent transition-colors"
                   >
                     {link.label}
                   </a>
@@ -42,13 +41,12 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Social - Using SocialLinks component would go here, but keeping footer-specific styling */}
+          {/* Social */}
           <div>
-            <h3 className={`${TYPOGRAPHY.HEADING.H5} ${TYPOGRAPHY.COLOR.WHITE} mb-4`}>
+            <h3 className="text-lg font-semibold text-white mb-4">
               Connect
             </h3>
             <div className="flex gap-3">
-              {/* Simplified - use SocialLinks component if needed */}
               <p className="text-muted-foreground text-sm">
                 Find me on social media
               </p>
@@ -58,7 +56,7 @@ export function Footer() {
 
         <div className="pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-muted-foreground text-sm">
-            © 2026 {CONTACT_INFO.name}. All rights reserved.
+            © 2026 Song Im. All rights reserved.
           </p>
           <p className="text-muted-foreground text-sm flex items-center gap-2">
             Made with <Heart className="w-4 h-4 text-destructive fill-current" /> for game development
