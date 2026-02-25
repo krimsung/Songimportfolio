@@ -1,93 +1,67 @@
-import { Mail, LinkedinIcon, GithubIcon, XIcon, Heart } from "lucide-react";
+import { Heart } from 'lucide-react';
+import { CONTACT_INFO, ANIMATIONS, TYPOGRAPHY } from '../constants';
 
 export function Footer() {
+  const quickLinks = [
+    { href: '#/', label: 'Home' },
+    { href: '#/projects', label: 'Projects' },
+    { href: '#/gallery', label: 'Gallery' },
+    { href: '#/contact', label: 'Contact' },
+  ];
+
   return (
-    <footer className="bg-[#1C1A1F] border-t border-[#26242A]">
+    <footer className="bg-card border-t border-border">
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* About */}
           <div>
-            <h3 className="text-xl font-semibold text-white mb-4">Song Im</h3>
-            <p className="text-[#C9C6C0] mb-4">
+            <h3 className={`${TYPOGRAPHY.HEADING.H5} ${TYPOGRAPHY.COLOR.WHITE} mb-4`}>
+              {CONTACT_INFO.name}
+            </h3>
+            <p className="text-muted-foreground mb-4">
               Game developer and artist creating immersive experiences from sci-fi to fantasy.
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-xl font-semibold text-white mb-4">Quick Links</h3>
+            <h3 className={`${TYPOGRAPHY.HEADING.H5} ${TYPOGRAPHY.COLOR.WHITE} mb-4`}>
+              Quick Links
+            </h3>
             <ul className="space-y-2">
-              <li>
-                <a href="#/" className="text-[#C9C6C0] hover:text-[#D47A2B] transition-colors">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a href="#/projects" className="text-[#C9C6C0] hover:text-[#D47A2B] transition-colors">
-                  Projects
-                </a>
-              </li>
-              <li>
-                <a href="#/gallery" className="text-[#C9C6C0] hover:text-[#D47A2B] transition-colors">
-                  Gallery
-                </a>
-              </li>
-              <li>
-                <a href="#/contact" className="text-[#C9C6C0] hover:text-[#D47A2B] transition-colors">
-                  Contact
-                </a>
-              </li>
+              {quickLinks.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    className={`text-muted-foreground hover:text-accent ${ANIMATIONS.TRANSITION.COLORS}`}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Social */}
+          {/* Social - Using SocialLinks component would go here, but keeping footer-specific styling */}
           <div>
-            <h3 className="text-xl font-semibold text-white mb-4">Connect</h3>
+            <h3 className={`${TYPOGRAPHY.HEADING.H5} ${TYPOGRAPHY.COLOR.WHITE} mb-4`}>
+              Connect
+            </h3>
             <div className="flex gap-3">
-              <a
-                href="mailto:song.im@example.com"
-                className="p-2 bg-[#26242A] hover:bg-[#D47A2B] text-[#C9C6C0] hover:text-white rounded-lg transition-colors"
-                aria-label="Email"
-              >
-                <Mail className="w-5 h-5" />
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 bg-[#26242A] hover:bg-[#D47A2B] text-[#C9C6C0] hover:text-white rounded-lg transition-colors"
-                aria-label="LinkedIn"
-              >
-                 <LinkedinIcon className="w-5 h-5" />
-              </a>
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 bg-[#26242A] hover:bg-[#D47A2B] text-[#C9C6C0] hover:text-white rounded-lg transition-colors"
-                aria-label="GitHub"
-              >
-                 <GithubIcon className="w-5 h-5" />
-              </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 bg-[#26242A] hover:bg-[#D47A2B] text-[#C9C6C0] hover:text-white rounded-lg transition-colors"
-                aria-label="Twitter"
-              >
-                 <XIcon className="w-5 h-5" />
-              </a>
+              {/* Simplified - use SocialLinks component if needed */}
+              <p className="text-muted-foreground text-sm">
+                Find me on social media
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="pt-8 border-t border-[#26242A] flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-[#C9C6C0] text-sm">
-            © 2026 Song Im. All rights reserved.
+        <div className="pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-muted-foreground text-sm">
+            © 2026 {CONTACT_INFO.name}. All rights reserved.
           </p>
-          <p className="text-[#C9C6C0] text-sm flex items-center gap-2">
-            Made with <Heart className="w-4 h-4 text-[#B23B3B] fill-current" /> for game development
+          <p className="text-muted-foreground text-sm flex items-center gap-2">
+            Made with <Heart className="w-4 h-4 text-destructive fill-current" /> for game development
           </p>
         </div>
       </div>

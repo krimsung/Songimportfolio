@@ -1,40 +1,61 @@
   @custom-variant dark (&:is(.dark *));
 
+/* ============================================
+   DESIGN SYSTEM - COLOR TOKENS
+   ============================================
+   Central definition of all colors for light and dark modes.
+   Change these values to update the entire site's color scheme.
+   ============================================ */
+
+/* ============================================
+   LIGHT MODE COLORS
+   ============================================ */
 :root {
-  --font-size: 16px;
-  --text-base: 1rem;      /* 16px */
-  --text-lg: 1.125rem;    /* 18px */
-  --text-xl: 1.25rem;     /* 20px */
-  --text-2xl: 1.5rem;     /* 24px */
-  --background: #F3F2F0;
-  --foreground: #1C1A1F;
-  --card: #FFFFFF;
-  --card-foreground: #1C1A1F;
-  --popover: #1C1A1F;
-  --popover-foreground: #FFFFFF;
-  --primary: #1C1A1F;
-  --primary-foreground: #FFFFFF;
-  --secondary: #F3F2F0;
-  --secondary-foreground: #1C1A1F;
-  --muted: #ECE9E5;
-  --muted-foreground: #7E7A75;
-  --accent: #D47A2B;
-  --accent-foreground: #FFFFFF;
-  --destructive: #B23B3B;
+  /* --- Brand Colors --- */
+  --accent: #D47A2B;              /* Primary brand color - Orange */
+  --accent-foreground: #FFFFFF;   /* Text on accent backgrounds */
+  --ring: #D47A2B;                /* Focus ring color */
+
+  /* --- Background Colors --- */
+  --background: #F3F2F0;          /* Page background - Light warm gray */
+  --background-alt: #ECE9E5;      /* Alternative background - Lighter warm gray */
+  --card: #FFFFFF;                /* Card backgrounds - White */
+  --card-foreground: #1C1A1F;     /* Text on cards */
+  --window-surface: #1C1A1F;      /* Special surface color - Dark purple */
+
+  /* --- Text Colors --- */
+  --foreground: #1C1A1F;          /* Primary text - Dark purple */
+  --muted: #ECE9E5;               /* Muted background */
+  --muted-foreground: #7E7A75;    /* Secondary text - Warm gray */
+  --text-primary-dark: #FFFFFF;   /* Text for dark surfaces */
+  --text-secondary-dark: #C9C6C0; /* Secondary text for dark surfaces */
+  --text-disabled-dark: #7E7A75;  /* Disabled text */
+
+  /* --- Interactive Elements --- */
+  --primary: #1C1A1F;             /* Primary interactive elements */
+  --primary-foreground: #FFFFFF;  /* Text on primary elements */
+  --secondary: #F3F2F0;           /* Secondary interactive elements */
+  --secondary-foreground: #1C1A1F;/* Text on secondary elements */
+
+  /* --- Borders & Inputs --- */
+  --border: #26242A;              /* Border color - Dark gray */
+  --input: transparent;           /* Input border */
+  --input-background: #FFFFFF;    /* Input background */
+  --switch-background: #C9C6C0;   /* Switch/toggle background */
+
+  /* --- Status Colors --- */
+  --status-success: #2F7A5E;      /* Success state - Green */
+  --status-error: #B23B3B;        /* Error state - Red */
+  --status-warning: #C07A2C;      /* Warning state - Amber */
+  --status-info: #2F6DAA;         /* Info state - Blue */
+  --destructive: #B23B3B;         /* Destructive actions */
   --destructive-foreground: #FFFFFF;
-  --border: #26242A;
-  --input: transparent;
-  --input-background: #FFFFFF;
-  --switch-background: #C9C6C0;
-  --font-weight-medium: 500;
-  --font-weight-normal: 400;
-  --ring: #D47A2B;
-  --chart-1: #D47A2B;
-  --chart-2: #2F7A5E;
-  --chart-3: #2F6DAA;
-  --chart-4: #C07A2C;
-  --chart-5: #B23B3B;
-  --radius: 0.625rem;
+
+  /* --- Popover & Dialog --- */
+  --popover: #1C1A1F;             /* Popover background */
+  --popover-foreground: #FFFFFF;  /* Popover text */
+
+  /* --- Sidebar (if used) --- */
   --sidebar: #1C1A1F;
   --sidebar-foreground: #FFFFFF;
   --sidebar-primary: #D47A2B;
@@ -43,55 +64,64 @@
   --sidebar-accent-foreground: #C9C6C0;
   --sidebar-border: #26242A;
   --sidebar-ring: #D47A2B;
-  
-  /* Custom portfolio colors */
-  --window-surface: #1C1A1F;
-  --background-alt: #ECE9E5;
-  --text-primary-dark: #FFFFFF;
-  --text-secondary-dark: #C9C6C0;
-  --text-disabled-dark: #7E7A75;
-  --status-success: #2F7A5E;
-  --status-error: #B23B3B;
-  --status-warning: #C07A2C;
-  --status-info: #2F6DAA;
 
-  /* Spacing tokens — semantic layout rhythm */
-  --spacing-section-y: 5rem;        /* py-20 = 80px — vertical rhythm between sections */
-  --spacing-container-px: 1rem;     /* px-4  — base horizontal padding (mobile) */
-  --spacing-container-px-sm: 1.5rem; /* sm:px-6  — tablet horizontal padding */
-  --spacing-container-px-lg: 2rem;   /* lg:px-8  — desktop horizontal padding */
+  /* --- Chart Colors (for data visualization) --- */
+  --chart-1: #D47A2B;             /* Primary chart color */
+  --chart-2: #2F7A5E;             /* Secondary chart color */
+  --chart-3: #2F6DAA;             /* Tertiary chart color */
+  --chart-4: #C07A2C;             /* Quaternary chart color */
+  --chart-5: #B23B3B;             /* Quinary chart color */
 }
 
+/* ============================================
+   DARK MODE COLORS
+   ============================================ */
 .dark {
-  /* Page surfaces — warm dark tones matching the existing purple-black palette */
-  --background: #0F0D13;
-  --foreground: #EEECE8;
-  --card: #1C1A1F;
-  --card-foreground: #EEECE8;
-  --popover: #1C1A1F;
-  --popover-foreground: #FFFFFF;
-  --primary: #EEECE8;
-  --primary-foreground: #0F0D13;
-  --secondary: #1C1A1F;
-  --secondary-foreground: #EEECE8;
-  --muted: #1C1A1F;
-  --muted-foreground: #9B9790;
-  --accent: #D47A2B;
-  --accent-foreground: #FFFFFF;
-  --destructive: #B23B3B;
+  /* --- Brand Colors (same in dark mode) --- */
+  --accent: #D47A2B;              /* Primary brand color - Orange */
+  --accent-foreground: #FFFFFF;   /* Text on accent backgrounds */
+  --ring: #D47A2B;                /* Focus ring color */
+
+  /* --- Background Colors --- */
+  --background: #0F0D13;          /* Page background - Very dark purple */
+  --background-alt: #161420;      /* Alternative background - Dark purple */
+  --card: #1C1A1F;                /* Card backgrounds - Dark purple */
+  --card-foreground: #EEECE8;     /* Text on cards - Light beige */
+  --window-surface: #1C1A1F;      /* Special surface color */
+
+  /* --- Text Colors --- */
+  --foreground: #EEECE8;          /* Primary text - Light beige */
+  --muted: #1C1A1F;               /* Muted background */
+  --muted-foreground: #9B9790;    /* Secondary text - Medium gray */
+  --text-primary-dark: #FFFFFF;   /* Text for dark surfaces */
+  --text-secondary-dark: #C9C6C0; /* Secondary text for dark surfaces */
+  --text-disabled-dark: #7E7A75;  /* Disabled text */
+
+  /* --- Interactive Elements --- */
+  --primary: #EEECE8;             /* Primary interactive elements */
+  --primary-foreground: #0F0D13;  /* Text on primary elements */
+  --secondary: #1C1A1F;           /* Secondary interactive elements */
+  --secondary-foreground: #EEECE8;/* Text on secondary elements */
+
+  /* --- Borders & Inputs --- */
+  --border: #26242A;              /* Border color */
+  --input: transparent;           /* Input border */
+  --input-background: #1C1A1F;    /* Input background */
+  --switch-background: #3A3740;   /* Switch/toggle background */
+
+  /* --- Status Colors (same in dark mode) --- */
+  --status-success: #2F7A5E;      /* Success state - Green */
+  --status-error: #B23B3B;        /* Error state - Red */
+  --status-warning: #C07A2C;      /* Warning state - Amber */
+  --status-info: #2F6DAA;         /* Info state - Blue */
+  --destructive: #B23B3B;         /* Destructive actions */
   --destructive-foreground: #FFFFFF;
-  --border: #26242A;
-  --input: transparent;
-  --input-background: #1C1A1F;
-  --switch-background: #3A3740;
-  --font-weight-medium: 500;
-  --font-weight-normal: 400;
-  --ring: #D47A2B;
-  --chart-1: #D47A2B;
-  --chart-2: #2F7A5E;
-  --chart-3: #2F6DAA;
-  --chart-4: #C07A2C;
-  --chart-5: #B23B3B;
+
+  /* --- Popover & Dialog --- */
+  --popover: #1C1A1F;             /* Popover background */
+  --popover-foreground: #FFFFFF;  /* Popover text */
+
+  /* --- Sidebar (if used) --- */
   --sidebar: #0F0D13;
   --sidebar-foreground: #FFFFFF;
   --sidebar-primary: #D47A2B;
@@ -101,15 +131,46 @@
   --sidebar-border: #26242A;
   --sidebar-ring: #D47A2B;
 
-  /* Custom portfolio dark overrides */
-  --window-surface: #1C1A1F;
-  --background-alt: #161420;
-  --text-primary-dark: #FFFFFF;
-  --text-secondary-dark: #C9C6C0;
-  --text-disabled-dark: #7E7A75;
+  /* --- Chart Colors (same in dark mode) --- */
+  --chart-1: #D47A2B;             /* Primary chart color */
+  --chart-2: #2F7A5E;             /* Secondary chart color */
+  --chart-3: #2F6DAA;             /* Tertiary chart color */
+  --chart-4: #C07A2C;             /* Quaternary chart color */
+  --chart-5: #B23B3B;             /* Quinary chart color */
 }
 
+/* ============================================
+   TYPOGRAPHY & LAYOUT TOKENS
+   (Mode-independent)
+   ============================================ */
+:root {
+  /* --- Typography Sizes --- */
+  --font-size: 16px;
+  --text-base: 1rem;              /* 16px */
+  --text-lg: 1.125rem;            /* 18px */
+  --text-xl: 1.25rem;             /* 20px */
+  --text-2xl: 1.5rem;             /* 24px */
+
+  /* --- Font Weights --- */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+
+  /* --- Border Radius --- */
+  --radius: 0.625rem;             /* 10px - Base border radius */
+
+  /* --- Spacing Tokens --- */
+  --spacing-section-y: 5rem;      /* 80px - Vertical section spacing */
+  --spacing-container-px: 1rem;   /* 16px - Mobile horizontal padding */
+  --spacing-container-px-sm: 1.5rem; /* 24px - Tablet horizontal padding */
+  --spacing-container-px-lg: 2rem;   /* 32px - Desktop horizontal padding */
+}
+
+/* ============================================
+   TAILWIND THEME MAPPING
+   Maps CSS variables to Tailwind utilities
+   ============================================ */
 @theme inline {
+  /* Colors */
   --color-background: var(--background);
   --color-background-alt: var(--background-alt);
   --color-foreground: var(--foreground);
@@ -132,15 +193,21 @@
   --color-input-background: var(--input-background);
   --color-switch-background: var(--switch-background);
   --color-ring: var(--ring);
+
+  /* Chart colors */
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+
+  /* Border radius */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* Sidebar */
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -151,6 +218,9 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* ============================================
+   BASE STYLES
+   ============================================ */
 @layer base {
   * {
     @apply border-border outline-ring/75;
@@ -162,10 +232,9 @@
   }
 
   /**
-  * Default typography styles for HTML elements (h1-h4, p, label, button, input).
-  * These are in @layer base, so Tailwind utility classes (like text-sm, text-lg) automatically override them.
-  */
-
+   * Default typography styles for HTML elements.
+   * Tailwind utility classes automatically override these.
+   */
   html {
     font-size: var(--font-size);
   }
@@ -210,5 +279,68 @@
     font-size: var(--text-base);
     font-weight: var(--font-weight-normal);
     line-height: 1.5;
+  }
+}
+
+/* ============================================
+   COMPONENT UTILITY CLASSES
+   Reusable component patterns
+   ============================================ */
+@layer components {
+  /* --- Button Variants --- */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-6 py-3
+           bg-accent text-white rounded-lg
+           hover:bg-accent/90 transition-colors font-medium;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-6 py-3
+           bg-card text-card-foreground border border-border rounded-lg
+           hover:border-accent transition-colors font-medium;
+  }
+
+  /* --- Icon Wrappers --- */
+  .icon-wrapper {
+    @apply p-2 bg-accent/10 rounded-lg
+           group-hover:bg-accent/20 transition-colors;
+  }
+
+  .icon-wrapper-lg {
+    @apply p-3 bg-accent/10 rounded-lg
+           group-hover:bg-accent/20 transition-colors;
+  }
+
+  /* --- Status Badges --- */
+  .status-badge-success {
+    @apply inline-flex items-center gap-1 px-2 py-1
+           bg-[var(--status-success)]/20
+           border border-[var(--status-success)]/40
+           text-[var(--status-success)]
+           rounded text-xs;
+  }
+
+  .status-badge-warning {
+    @apply inline-flex items-center gap-1 px-2 py-1
+           bg-[var(--status-warning)]/20
+           border border-[var(--status-warning)]/40
+           text-[var(--status-warning)]
+           rounded text-xs;
+  }
+
+  .status-badge-info {
+    @apply inline-flex items-center gap-1 px-2 py-1
+           bg-[var(--status-info)]/20
+           border border-[var(--status-info)]/40
+           text-[var(--status-info)]
+           rounded text-xs;
+  }
+
+  .status-badge-error {
+    @apply inline-flex items-center gap-1 px-2 py-1
+           bg-destructive/20
+           border border-destructive/40
+           text-destructive
+           rounded text-xs;
   }
 }
