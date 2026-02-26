@@ -9,9 +9,8 @@ import metaconstructThumb from "../media/images/thumbnails/METACONSTRUCT Thumbna
 import tinySheriffThumb from "../media/images/thumbnails/Tiny Sheriff Thumbnail.jpg";
 import godforgedThumb from "../media/images/thumbnails/GODFORGED Thumbnail.png";
 
-const DEFAULT_PROJECT_IMAGE = "/src/media/images/gallery/HighresScreenshot00004.png";
-
-// Map project titles to their thumbnail images
+// Map project titles (lowercased) to their thumbnail images.
+// Add a new entry here whenever a new project thumbnail is added.
 const thumbnailMap: Record<string, string> = {
   "ghost ctrl": ghostCtrlThumb,
   "final shot": finalShotThumb,
@@ -23,7 +22,8 @@ const thumbnailMap: Record<string, string> = {
 
 const getThumbnailForProject = (title: string): string => {
   const normalizedTitle = title.toLowerCase();
-  return thumbnailMap[normalizedTitle] || DEFAULT_PROJECT_IMAGE;
+  // Fall back to Ghost CTRL thumbnail as a placeholder for projects without their own
+  return thumbnailMap[normalizedTitle] || ghostCtrlThumb;
 };
 
 // Dynamically import all project gallery images at build time
@@ -32,25 +32,34 @@ const projectImageModules = import.meta.glob<{ default: string }>(
   { eager: true }
 );
 
-// Normalize project title to folder name (lowercase, remove spaces and special chars)
+// Normalize project title to folder name (lowercase, remove spaces and special chars).
+// This matches folder names like "ghostctrl", "roguedata", "insomniac".
 const normalizeTitleToFolder = (title: string): string => {
   return title.toLowerCase().replace(/[^a-z0-9]/g, "");
 };
 
+// Explicit overrides: use when the folder name doesn't match the normalized title.
+// Key = normalized title (output of normalizeTitleToFolder), Value = actual folder name.
+const folderOverrides: Record<string, string> = {
+  // e.g. "ghostcore": "ghost-core"  ← add entries here as needed
+};
+
 // Get gallery images for a project based on its title
 const getGalleryImagesForProject = (title: string): string[] => {
-  const folderName = normalizeTitleToFolder(title);
+  const normalized = normalizeTitleToFolder(title);
+  const folderName = folderOverrides[normalized] ?? normalized;
   const images: string[] = [];
-  
+
   for (const [path, module] of Object.entries(projectImageModules)) {
-    // Extract folder name from path: ../media/images/projects/[folderName]/image.png
+    // Path format: ../media/images/projects/[folderName]/[...subdirs/]image.ext
+    // We match only the immediate subfolder of "projects/" to avoid subdirectory images.
     const pathParts = path.split("/");
     const projectsIndex = pathParts.indexOf("projects");
     if (projectsIndex !== -1 && pathParts[projectsIndex + 1] === folderName) {
       images.push(module.default);
     }
   }
-  
+
   // Sort images by filename for consistent ordering
   return images.sort();
 };
@@ -294,4 +303,3 @@ export const projectsBySlug: Record<string, ProjectRecord> = Object.fromEntries(
 );
 
 export const featuredProjects: ProjectRecord[] = projects.slice(0, 3);
-export { DEFAULT_PROJECT_IMAGE };

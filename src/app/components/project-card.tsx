@@ -11,11 +11,11 @@ interface ProjectCardProps {
 const getStatusColor = (status: string) => {
   switch (status) {
     case "Released":
-      return "bg-[#2F7A5E]/20 border-[#2F7A5E]/40 text-[#2F7A5E]";
+      return "bg-[var(--status-success)]/15 border-[var(--status-success)]/35 text-[var(--status-success)]";
     case "In Development":
-      return "bg-[#C07A2C]/20 border-[#C07A2C]/40 text-[#C07A2C]";
+      return "bg-[var(--accent-amber)]/15 border-[var(--accent-amber)]/35 text-[var(--accent-amber)]";
     default:
-      return "bg-[#2F6DAA]/20 border-[#2F6DAA]/40 text-[#2F6DAA]";
+      return "bg-[var(--status-info)]/15 border-[var(--status-info)]/35 text-[var(--status-info)]";
   }
 };
 
@@ -38,15 +38,15 @@ export function ProjectCard({
         onViewProject(project.slug);
       }}
     >
-      <div className="bg-[#1C1A1F] rounded-lg overflow-hidden border border-[#26242A] hover:border-[#D47A2B] transition-all duration-300 h-full flex flex-col">
+      <div className="bg-card rounded-lg overflow-hidden border border-border h-full flex flex-col transition duration-100 hover:border-accent-lime hover:bg-accent-lime/5 hover:shadow-lg hover:shadow-accent-lime/50">
         <div className="relative w-full aspect-square overflow-hidden flex-shrink-0">
           <img
             src={project.image}
             alt={project.title}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-            loading="lazy"
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-200"
+            loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1C1A1F] to-transparent opacity-60"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent opacity-60"></div>
           {showStatus && project.status !== "N/A" && (
             <div className="absolute top-4 right-4">
               <span
@@ -59,16 +59,16 @@ export function ProjectCard({
         </div>
 
         <div className="p-6 flex flex-col flex-1">
-          <div className="flex items-center gap-2 text-sm text-[#C9C6C0] mb-3">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
             <Calendar className="w-4 h-4" />
             {project.year}
           </div>
 
-          <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-[#D47A2B] transition-colors">
+          <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-accent-lime transition-colors">
             {project.title}
           </h3>
 
-          <p className="text-[#C9C6C0] mb-4 line-clamp-2 flex-1">
+          <p className="text-muted-foreground mb-4 line-clamp-2 flex-1">
             {project.shortDescription !== "N/A"
               ? project.shortDescription
               : project.description}
@@ -78,7 +78,7 @@ export function ProjectCard({
             {project.tags.map((tag, index) => (
               <span
                 key={index}
-                className="inline-flex items-center gap-1 px-2 py-1 bg-[#D47A2B]/10 border border-[#D47A2B]/30 rounded text-xs text-[#D47A2B] h-fit"
+                className="inline-flex items-center gap-1 px-2 py-1 bg-accent-lime/10 border border-accent-lime/25 rounded text-xs text-accent-lime h-fit"
               >
                 <Tag className="w-3 h-3" />
                 {tag}
@@ -87,9 +87,9 @@ export function ProjectCard({
           </div>
 
           {showViewLink && (
-            <div className="flex items-center justify-end gap-2 text-[#D47A2B] group-hover:gap-3 transition-all mt-auto">
+            <div className="flex items-center justify-end gap-2 text-accent-lime mt-auto">
               <span>View Project</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
             </div>
           )}
         </div>

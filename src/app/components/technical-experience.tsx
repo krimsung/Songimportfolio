@@ -35,33 +35,33 @@ export function TechnicalExperience() {
   ];
 
   return (
-    <section className="py-20 bg-background-alt">
+    <section className="h-screen flex items-center bg-background">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 text-center">
           Technical Experience
         </h2>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {skills.map((skill, index) => {
             const Icon = skill.icon;
             return (
               <div
                 key={index}
-                className="bg-[#1C1A1F] rounded-lg p-6 border border-[#26242A] hover:border-[#D47A2B] transition-all duration-300 group"
+                className="bg-card rounded-lg p-6 border border-border group transition duration-100 hover:border-accent-violet hover:bg-accent-violet/5 hover:shadow-lg hover:shadow-accent-violet/50"
               >
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="p-2 bg-[#D47A2B]/10 rounded-lg group-hover:bg-[#D47A2B]/20 transition-colors">
-                    <Icon className="w-6 h-6 text-[#D47A2B]" />
+                  <div className="p-2 bg-accent-violet/10 border border-accent-violet/30 rounded-lg">
+                    <Icon className="w-6 h-6 text-accent-violet" />
                   </div>
-                  <h3 className="text-xl font-semibold text-white">{skill.category}</h3>
+                  <h3 className="text-xl font-semibold text-foreground">{skill.category}</h3>
                 </div>
                 <ul className="space-y-2">
                   {skill.items.map((item, itemIndex) => (
                     <li
                       key={itemIndex}
-                      className="text-[#C9C6C0] flex items-center gap-2"
+                      className="text-muted-foreground flex items-center gap-2"
                     >
-                      <span className="w-1 h-1 rounded-full bg-[#D47A2B]"></span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-accent-violet/70"></span>
                       {item}
                     </li>
                   ))}

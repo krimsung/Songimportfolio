@@ -14,7 +14,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* About */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-4">
+            <h3 className="text-lg font-semibold text-foreground mb-4">
               Song Im
             </h3>
             <p className="text-muted-foreground mb-4">
@@ -24,7 +24,7 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-4">
+            <h3 className="text-lg font-semibold text-foreground mb-4">
               Quick Links
             </h3>
             <ul className="space-y-2">
@@ -32,7 +32,7 @@ export function Footer() {
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="text-muted-foreground hover:text-accent transition-colors"
+                    className="text-muted-foreground hover:text-accent-primary transition-colors"
                   >
                     {link.label}
                   </a>
@@ -43,7 +43,7 @@ export function Footer() {
 
           {/* Social */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-4">
+            <h3 className="text-lg font-semibold text-foreground mb-4">
               Connect
             </h3>
             <div className="flex gap-3">

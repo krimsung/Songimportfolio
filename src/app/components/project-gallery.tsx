@@ -63,19 +63,19 @@ export function ProjectGallery({ images }: ProjectGalleryProps) {
   return (
     <>
       {/* Gallery Section */}
-      <div className="bg-[#1C1A1F] rounded-lg p-8 border border-[#26242A]">
-        <h2 className="text-2xl font-bold text-white mb-6">Gallery</h2>
+      <div className="bg-card rounded-lg p-8 border border-border">
+        <h2 className="text-2xl font-bold text-foreground mb-6">Gallery</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {images.map((image, index) => (
             <button
               key={index}
               onClick={() => openLightbox(index)}
-              className="group relative aspect-square overflow-hidden rounded-lg border border-[#26242A] hover:border-[#D47A2B] transition-all duration-300 cursor-pointer"
+              className="group relative aspect-square overflow-hidden rounded-lg border border-border hover:border-accent transition-all duration-300 cursor-pointer"
             >
               <img
                 src={image}
                 alt={`Project screenshot ${index + 1}`}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-200"
                 loading="lazy"
               />
             </button>
@@ -95,7 +95,7 @@ export function ProjectGallery({ images }: ProjectGalleryProps) {
           {/* Close button */}
           <button
             onClick={closeLightbox}
-            className="absolute top-4 right-4 z-10 p-2 bg-[#1C1A1F]/80 hover:bg-[#D47A2B] text-white rounded-full transition-colors backdrop-blur-sm"
+            className="btn-icon absolute top-4 right-4 z-10"
             aria-label="Close lightbox"
           >
             <X className="w-6 h-6" />
@@ -107,7 +107,7 @@ export function ProjectGallery({ images }: ProjectGalleryProps) {
               e.stopPropagation();
               goToPrevious();
             }}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-10 p-2 bg-[#1C1A1F]/80 hover:bg-[#D47A2B] text-white rounded-full transition-colors backdrop-blur-sm"
+            className="btn-icon absolute left-4 top-1/2 -translate-y-1/2 z-10"
             aria-label="Previous image"
           >
             <ChevronLeft className="w-6 h-6" />
@@ -119,7 +119,7 @@ export function ProjectGallery({ images }: ProjectGalleryProps) {
               e.stopPropagation();
               goToNext();
             }}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-10 p-2 bg-[#1C1A1F]/80 hover:bg-[#D47A2B] text-white rounded-full transition-colors backdrop-blur-sm"
+            className="btn-icon absolute right-4 top-1/2 -translate-y-1/2 z-10"
             aria-label="Next image"
           >
             <ChevronRight className="w-6 h-6" />
@@ -138,7 +138,7 @@ export function ProjectGallery({ images }: ProjectGalleryProps) {
           </div>
 
           {/* Image counter */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-sm bg-[#1C1A1F]/80 px-4 py-2 rounded-full backdrop-blur-sm">
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-foreground text-sm bg-card/80 px-4 py-2 rounded-full backdrop-blur-sm">
             {selectedIndex + 1} / {images.length}
           </div>
         </div>

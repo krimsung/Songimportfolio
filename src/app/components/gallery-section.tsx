@@ -37,14 +37,14 @@ export function GallerySection() {
   ];
 
   return (
-    <section className="py-20 bg-background-alt">
+    <section className="h-screen flex items-center bg-background">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 text-center">
           Gallery
         </h2>
 
-        <div className="relative bg-[#1C1A1F] rounded-lg overflow-hidden border border-[#26242A]">
-          {/* Main Image — display only, no interaction */}
+        <div className="relative bg-card rounded-lg overflow-hidden border border-border transition duration-100 hover:border-accent-amber hover:shadow-lg hover:shadow-accent-amber/50">
+          {/* Main Image */}
           <div className="relative h-[500px] overflow-hidden">
             <img
               src={images[currentIndex].url}
@@ -52,35 +52,35 @@ export function GallerySection() {
               className="w-full h-full object-cover"
               loading="lazy"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#1C1A1F] to-transparent"></div>
-            
+            <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent"></div>
+
             {/* Image Info */}
             <div className="absolute bottom-0 left-0 right-0 p-8">
-              <h3 className="text-2xl font-semibold text-white mb-2">
+              <h3 className="text-2xl font-semibold text-foreground mb-1">
                 {images[currentIndex].title}
               </h3>
-              <p className="text-[#C9C6C0]">
+              <p className="text-accent-amber text-sm font-medium">
                 {images[currentIndex].description}
               </p>
             </div>
           </div>
 
-          {/* Thumbnails — click to change main image only */}
-          <div className="flex gap-1 p-1 sm:gap-2 sm:p-2 bg-[#1C1A1F] overflow-hidden">
+          {/* Thumbnails */}
+          <div className="flex gap-1 p-1 sm:gap-2 sm:p-2 bg-card overflow-hidden">
             {images.map((image, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                className={`flex-1 min-w-0 aspect-[3/2] rounded overflow-hidden border-2 transition-all ${
+                className={`flex-1 min-w-0 aspect-[3/2] rounded overflow-hidden border-2 transition duration-100 ${
                   index === currentIndex
-                    ? "border-[#D47A2B] scale-105"
-                    : "border-transparent opacity-60 hover:opacity-100"
+                    ? "border-accent-amber bg-accent-amber/10 scale-105"
+                    : "border-border opacity-60 hover:opacity-100"
                 }`}
               >
                 <img
                   src={image.url}
                   alt={image.title}
-                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-200 hover:scale-110"
                   loading="lazy"
                 />
               </button>

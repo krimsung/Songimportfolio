@@ -10,13 +10,13 @@ interface ProjectsSectionProps {
 export function ProjectsSection({ onViewProject, onViewAllProjects }: ProjectsSectionProps) {
 
   return (
-    <section className="py-20 bg-background">
+    <section className="h-screen flex items-center bg-background-alt">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 text-center">
           Featured Projects
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {featuredProjects.map((project) => (
             <ProjectCard
               key={project.slug}
@@ -38,10 +38,10 @@ export function ProjectsSection({ onViewProject, onViewAllProjects }: ProjectsSe
               event.preventDefault();
               onViewAllProjects();
             }}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#D47A2B] text-white rounded-lg hover:bg-[#C07A2C] transition-colors group"
+            className="btn-lime group"
           >
             <span>View All Projects</span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
           </a>
         </div>
       </div>

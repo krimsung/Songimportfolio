@@ -22,6 +22,23 @@ export default function App() {
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const [previousPage, setPreviousPage] = useState<Page>("home");
 
+  // Mirror the dark class on <html> so Toaster matches the active theme.
+  const [isDark, setIsDark] = useState(() =>
+    typeof window !== "undefined" &&
+    document.documentElement.classList.contains("dark")
+  );
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains("dark"));
+    });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
@@ -98,7 +115,7 @@ export default function App() {
   return (
       <div className="min-h-screen bg-background text-foreground">
         <Navigation currentPage={navigationPage} onNavigate={handleNavigate} />
-        <Toaster position="bottom-right" richColors theme="dark" />
+        <Toaster position="bottom-right" richColors theme={isDark ? "dark" : "light"} />
         <ThemeToggle />
 
         <main>
@@ -146,7 +163,7 @@ export default function App() {
                 <p className="text-muted-foreground mt-2">Check the URL and try again.</p>
                 <a
                   href="#/"
-                  className="mt-6 inline-flex items-center gap-2 text-[#D47A2B] hover:text-[#C07A2C] transition-colors"
+                  className="mt-6 inline-flex items-center gap-2 text-accent hover:text-accent/90 transition-colors"
                 >
                   <span>Back to Home</span>
                 </a>

@@ -22,9 +22,9 @@ export function ProjectsPage({ onBack, onViewProject }: ProjectsPageProps) {
             event.preventDefault();
             onBack();
           }}
-          className="inline-flex items-center gap-2 text-[#D47A2B] hover:text-[#C07A2C] transition-colors mb-8 group"
+          className="inline-flex items-center gap-2 text-accent-lime hover:text-accent-lime/80 transition-colors mb-8 group"
         >
-          <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+          <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-200" />
           <span>Back to Home</span>
         </a>
 
@@ -37,7 +37,7 @@ export function ProjectsPage({ onBack, onViewProject }: ProjectsPageProps) {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {allProjects.map((project) => (
             <ProjectCard
               key={project.slug}

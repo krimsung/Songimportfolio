@@ -3,140 +3,202 @@
 /* ============================================
    DESIGN SYSTEM - COLOR TOKENS
    ============================================
-   Central definition of all colors for light and dark modes.
-   Change these values to update the entire site's color scheme.
+   Single source of truth for the entire visual system.
+   Edit values here — the whole site updates automatically.
+
+   SECTION ACCENT MAP
+   ─────────────────────────────────────────────
+   Hero / Nav       → --accent-primary   (neon coral)
+   About            → --accent-cyan      (electric cyan)
+   Skills           → --accent-violet    (neon violet)
+   Projects         → --accent-lime      (neon lime)
+   Gallery          → --accent-amber     (neon amber)
+   Contact          → --accent-primary   (neon coral, loops back)
+   ─────────────────────────────────────────────
    ============================================ */
 
 /* ============================================
-   LIGHT MODE COLORS
+   LIGHT MODE
    ============================================ */
 :root {
-  /* --- Brand Colors --- */
-  --accent: #D47A2B;              /* Primary brand color - Orange */
-  --accent-foreground: #FFFFFF;   /* Text on accent backgrounds */
-  --ring: #D47A2B;                /* Focus ring color */
+  /* ── Neon Accent Palette ─────────────────── */
+  /* Slightly deeper / more saturated in light mode for readability against pale bg */
+  --accent-primary:   #F25C1E;   /* Neon coral-orange  — hero, nav, contact  */
+  --accent-cyan:      #00B8D9;   /* Electric cyan      — about section       */
+  --accent-violet:    #8B5CF6;   /* Neon violet        — skills section       */
+  --accent-lime:      #16A34A;   /* Neon lime-green    — projects section     */
+  --accent-amber:     #D97706;   /* Neon amber         — gallery section      */
 
-  /* --- Background Colors --- */
-  --background: #F3F2F0;          /* Page background - Light warm gray */
-  --background-alt: #ECE9E5;      /* Alternative background - Lighter warm gray */
-  --card: #FFFFFF;                /* Card backgrounds - White */
-  --card-foreground: #1C1A1F;     /* Text on cards */
-  --window-surface: #1C1A1F;      /* Special surface color - Dark purple */
+  /* Legacy alias — keeps all existing `text-accent / bg-accent` working */
+  --accent:           var(--accent-primary);
+  --accent-secondary: var(--accent-cyan);
+  --accent-tertiary:  var(--accent-violet);
+  --accent-foreground: #FFFFFF;
+  --ring:             var(--accent-primary);
 
-  /* --- Text Colors --- */
-  --foreground: #1C1A1F;          /* Primary text - Dark purple */
-  --muted: #ECE9E5;               /* Muted background */
-  --muted-foreground: #7E7A75;    /* Secondary text - Warm gray */
-  --text-primary-dark: #FFFFFF;   /* Text for dark surfaces */
-  --text-secondary-dark: #C9C6C0; /* Secondary text for dark surfaces */
-  --text-disabled-dark: #7E7A75;  /* Disabled text */
+  /* ── Backgrounds ─────────────────────────── */
+  --background:          #F8F7F4;   /* Warm off-white page background          */
+  --background-alt:      #F0EEE9;   /* Slightly warmer — alternating sections  */
+  --background-elevated: #FFFFFF;   /* Elevated cards / modals                 */
+  --card:                #FFFFFF;   /* Card surface                            */
+  --card-foreground:     #1A1916;   /* Text on cards                           */
+  --window-surface:      #1A1916;   /* Inverted surface (scrollbar, dark pills)*/
 
-  /* --- Interactive Elements --- */
-  --primary: #1C1A1F;             /* Primary interactive elements */
-  --primary-foreground: #FFFFFF;  /* Text on primary elements */
-  --secondary: #F3F2F0;           /* Secondary interactive elements */
-  --secondary-foreground: #1C1A1F;/* Text on secondary elements */
+  /* ── Text ────────────────────────────────── */
+  --foreground:           #1A1916;  /* Primary text — warm near-black          */
+  --foreground-secondary: #44403C;  /* Secondary text — warm dark gray         */
+  --muted:                #F0EEE9;  /* Muted surface                           */
+  --muted-foreground:     #78716C;  /* Muted text — warm medium gray           */
+  --text-on-dark:         #F5F4F0;  /* Text rendered on dark surfaces          */
+  --text-on-dark-muted:   #A8A29E;  /* Muted text on dark surfaces             */
 
-  /* --- Borders & Inputs --- */
-  --border: #26242A;              /* Border color - Dark gray */
-  --input: transparent;           /* Input border */
-  --input-background: #FFFFFF;    /* Input background */
-  --switch-background: #C9C6C0;   /* Switch/toggle background */
+  /* ── Interactive ─────────────────────────── */
+  --primary:            #1A1916;
+  --primary-foreground: #F8F7F4;
+  --secondary:          #F0EEE9;
+  --secondary-foreground: #1A1916;
 
-  /* --- Status Colors --- */
-  --status-success: #2F7A5E;      /* Success state - Green */
-  --status-error: #B23B3B;        /* Error state - Red */
-  --status-warning: #C07A2C;      /* Warning state - Amber */
-  --status-info: #2F6DAA;         /* Info state - Blue */
-  --destructive: #B23B3B;         /* Destructive actions */
+  /* ── Borders & Inputs ────────────────────── */
+  --border:            #E2DDD7;   /* Warm light border                         */
+  --border-strong:     #C9C3BB;   /* Stronger border / dividers                */
+  --input:             #E2DDD7;   /* Input border                              */
+  --input-background:  #FFFFFF;   /* Input fill                                */
+  --switch-background: #C9C3BB;
+
+  /* ── Status ──────────────────────────────── */
+  --status-success:  #15803D;   /* Green  */
+  --status-error:    #DC2626;   /* Red    */
+  --status-warning:  #D97706;   /* Amber  */
+  --status-info:     #2563EB;   /* Blue   */
+  --destructive:     var(--status-error);
   --destructive-foreground: #FFFFFF;
 
-  /* --- Popover & Dialog --- */
-  --popover: #1C1A1F;             /* Popover background */
-  --popover-foreground: #FFFFFF;  /* Popover text */
+  /* ── Popover ─────────────────────────────── */
+  --popover:            #FFFFFF;
+  --popover-foreground: #1A1916;
 
-  /* --- Sidebar (if used) --- */
-  --sidebar: #1C1A1F;
-  --sidebar-foreground: #FFFFFF;
-  --sidebar-primary: #D47A2B;
-  --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #26242A;
-  --sidebar-accent-foreground: #C9C6C0;
-  --sidebar-border: #26242A;
-  --sidebar-ring: #D47A2B;
+  /* ── Sidebar ─────────────────────────────── */
+  --sidebar:                      #1A1916;
+  --sidebar-foreground:           #F5F4F0;
+  --sidebar-primary:              var(--accent-primary);
+  --sidebar-primary-foreground:   #FFFFFF;
+  --sidebar-accent:               #2C2924;
+  --sidebar-accent-foreground:    #C9C3BB;
+  --sidebar-border:               #2C2924;
+  --sidebar-ring:                 var(--accent-primary);
 
-  /* --- Chart Colors (for data visualization) --- */
-  --chart-1: #D47A2B;             /* Primary chart color */
-  --chart-2: #2F7A5E;             /* Secondary chart color */
-  --chart-3: #2F6DAA;             /* Tertiary chart color */
-  --chart-4: #C07A2C;             /* Quaternary chart color */
-  --chart-5: #B23B3B;             /* Quinary chart color */
+  /* ── Charts ──────────────────────────────── */
+  --chart-1: var(--accent-primary);
+  --chart-2: var(--accent-lime);
+  --chart-3: var(--accent-cyan);
+  --chart-4: var(--accent-violet);
+  --chart-5: var(--status-error);
+
+  /*
+   * ── Glow RGB Reference ───────────────────────────────────────────────────
+   * Tailwind arbitrary shadow values can't interpolate CSS vars inside rgba(),
+   * so glow utilities in @layer components use literal rgba() values.
+   * Keep these in sync whenever accent colors change.
+   *
+   * LIGHT MODE (deeper tones — same hue as dark, just lower L):
+   *   --accent-primary  #F25C1E  → rgba(242,  92,  30, ...)
+   *   --accent-cyan     #00B8D9  → rgba(  0, 184, 217, ...)
+   *   --accent-violet   #8B5CF6  → rgba(139,  92, 246, ...)
+   *   --accent-lime     #16A34A  → rgba( 22, 163,  74, ...)
+   *   --accent-amber    #D97706  → rgba(217, 119,   6, ...)
+   *   --status-success  #15803D  → rgba( 21, 128,  61, ...)
+   *   --status-error    #DC2626  → rgba(220,  38,  38, ...)
+   * ─────────────────────────────────────────────────────────────────────── */
 }
 
 /* ============================================
-   DARK MODE COLORS
+   DARK MODE
    ============================================ */
 .dark {
-  /* --- Brand Colors (same in dark mode) --- */
-  --accent: #D47A2B;              /* Primary brand color - Orange */
-  --accent-foreground: #FFFFFF;   /* Text on accent backgrounds */
-  --ring: #D47A2B;                /* Focus ring color */
+  /* ── Neon Accent Palette ─────────────────── */
+  /* Vibrant but controlled — pop against the near-black background without eye strain */
+  --accent-primary:   #FF6B35;   /* Coral-orange       — hero, nav, contact  */
+  --accent-cyan:      #00C8E8;   /* Electric cyan      — about section       */
+  --accent-violet:    #A855F7;   /* Neon violet        — skills section       */
+  --accent-lime:      #2ECC71;   /* Vivid green        — projects section     */
+  --accent-amber:     #F5A623;   /* Warm amber         — gallery section      */
 
-  /* --- Background Colors --- */
-  --background: #0F0D13;          /* Page background - Very dark purple */
-  --background-alt: #161420;      /* Alternative background - Dark purple */
-  --card: #1C1A1F;                /* Card backgrounds - Dark purple */
-  --card-foreground: #EEECE8;     /* Text on cards - Light beige */
-  --window-surface: #1C1A1F;      /* Special surface color */
+  /* Legacy aliases */
+  --accent:           var(--accent-primary);
+  --accent-secondary: var(--accent-cyan);
+  --accent-tertiary:  var(--accent-violet);
+  --accent-foreground: #0E0D11;   /* Dark text on bright neon fills           */
+  --ring:             var(--accent-primary);
 
-  /* --- Text Colors --- */
-  --foreground: #EEECE8;          /* Primary text - Light beige */
-  --muted: #1C1A1F;               /* Muted background */
-  --muted-foreground: #9B9790;    /* Secondary text - Medium gray */
-  --text-primary-dark: #FFFFFF;   /* Text for dark surfaces */
-  --text-secondary-dark: #C9C6C0; /* Secondary text for dark surfaces */
-  --text-disabled-dark: #7E7A75;  /* Disabled text */
+  /* ── Backgrounds ─────────────────────────── */
+  --background:          #0E0D11;   /* Near-black with warm-purple undertone   */
+  --background-alt:      #141318;   /* Subtle step up — alternating sections   */
+  --background-elevated: #1C1A22;   /* Elevated surfaces — cards, modals       */
+  --card:                #1C1A22;   /* Card surface                            */
+  --card-foreground:     #EDE9E3;   /* Text on cards — warm off-white          */
+  --window-surface:      #252230;   /* Scrollbar track, dark pills             */
 
-  /* --- Interactive Elements --- */
-  --primary: #EEECE8;             /* Primary interactive elements */
-  --primary-foreground: #0F0D13;  /* Text on primary elements */
-  --secondary: #1C1A1F;           /* Secondary interactive elements */
-  --secondary-foreground: #EEECE8;/* Text on secondary elements */
+  /* ── Text ────────────────────────────────── */
+  --foreground:           #EDE9E3;  /* Primary — warm bright white             */
+  --foreground-secondary: #C4BDB4;  /* Secondary — warm light gray             */
+  --muted:                #1C1A22;  /* Muted surface                           */
+  --muted-foreground:     #8C8680;  /* Muted text — warm medium gray           */
+  --text-on-dark:         #EDE9E3;  /* Text on dark surfaces (same as fg)      */
+  --text-on-dark-muted:   #8C8680;
 
-  /* --- Borders & Inputs --- */
-  --border: #26242A;              /* Border color */
-  --input: transparent;           /* Input border */
-  --input-background: #1C1A1F;    /* Input background */
-  --switch-background: #3A3740;   /* Switch/toggle background */
+  /* ── Interactive ─────────────────────────── */
+  --primary:            #EDE9E3;
+  --primary-foreground: #0E0D11;
+  --secondary:          #252230;
+  --secondary-foreground: #EDE9E3;
 
-  /* --- Status Colors (same in dark mode) --- */
-  --status-success: #2F7A5E;      /* Success state - Green */
-  --status-error: #B23B3B;        /* Error state - Red */
-  --status-warning: #C07A2C;      /* Warning state - Amber */
-  --status-info: #2F6DAA;         /* Info state - Blue */
-  --destructive: #B23B3B;         /* Destructive actions */
-  --destructive-foreground: #FFFFFF;
+  /* ── Borders & Inputs ────────────────────── */
+  --border:            #2E2B38;   /* Subtle warm-purple border                 */
+  --border-strong:     #3D3947;   /* Stronger border / dividers                */
+  --input:             #3D3947;   /* Input border                              */
+  --input-background:  #1C1A22;   /* Input fill                                */
+  --switch-background: #3D3947;
 
-  /* --- Popover & Dialog --- */
-  --popover: #1C1A1F;             /* Popover background */
-  --popover-foreground: #FFFFFF;  /* Popover text */
+  /* ── Status ──────────────────────────────── */
+  --status-success:  #22C55E;   /* Bright green                               */
+  --status-error:    #FF4444;   /* Bright red                                 */
+  --status-warning:  #FFB800;   /* Bright amber (shares with --accent-amber)  */
+  --status-info:     #38BFFF;   /* Sky blue                                   */
+  --destructive:     var(--status-error);
+  --destructive-foreground: #0E0D11;
 
-  /* --- Sidebar (if used) --- */
-  --sidebar: #0F0D13;
-  --sidebar-foreground: #FFFFFF;
-  --sidebar-primary: #D47A2B;
-  --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #26242A;
-  --sidebar-accent-foreground: #C9C6C0;
-  --sidebar-border: #26242A;
-  --sidebar-ring: #D47A2B;
+  /* ── Popover ─────────────────────────────── */
+  --popover:            #1C1A22;
+  --popover-foreground: #EDE9E3;
 
-  /* --- Chart Colors (same in dark mode) --- */
-  --chart-1: #D47A2B;             /* Primary chart color */
-  --chart-2: #2F7A5E;             /* Secondary chart color */
-  --chart-3: #2F6DAA;             /* Tertiary chart color */
-  --chart-4: #C07A2C;             /* Quaternary chart color */
-  --chart-5: #B23B3B;             /* Quinary chart color */
+  /* ── Sidebar ─────────────────────────────── */
+  --sidebar:                      #0E0D11;
+  --sidebar-foreground:           #EDE9E3;
+  --sidebar-primary:              var(--accent-primary);
+  --sidebar-primary-foreground:   #0E0D11;
+  --sidebar-accent:               #252230;
+  --sidebar-accent-foreground:    #C4BDB4;
+  --sidebar-border:               #2E2B38;
+  --sidebar-ring:                 var(--accent-primary);
+
+  /* ── Charts ──────────────────────────────── */
+  --chart-1: var(--accent-primary);
+  --chart-2: var(--accent-lime);
+  --chart-3: var(--accent-cyan);
+  --chart-4: var(--accent-violet);
+  --chart-5: var(--status-error);
+
+  /*
+   * ── Glow RGB Reference ───────────────────────────────────────────────────
+   * DARK MODE (current neon values):
+   *   --accent-primary  #FF6B35  → rgba(255, 107,  53, ...)
+   *   --accent-cyan     #00C8E8  → rgba(  0, 200, 232, ...)
+   *   --accent-violet   #A855F7  → rgba(168,  85, 247, ...)
+   *   --accent-lime     #2ECC71  → rgba( 46, 204, 113, ...)
+   *   --accent-amber    #F5A623  → rgba(245, 166,  35, ...)
+   *   --status-success  #22C55E  → rgba( 34, 197,  94, ...)
+   *   --status-error    #FF4444  → rgba(255,  68,  68, ...)
+   * ─────────────────────────────────────────────────────────────────────── */
 }
 
 /* ============================================
@@ -170,29 +232,49 @@
    Maps CSS variables to Tailwind utilities
    ============================================ */
 @theme inline {
-  /* Colors */
-  --color-background: var(--background);
-  --color-background-alt: var(--background-alt);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
+  /* Core colors */
+  --color-background:          var(--background);
+  --color-background-alt:      var(--background-alt);
+  --color-background-elevated: var(--background-elevated);
+  --color-foreground:          var(--foreground);
+  --color-foreground-secondary: var(--foreground-secondary);
+  --color-card:                var(--card);
+  --color-card-foreground:     var(--card-foreground);
+  --color-popover:             var(--popover);
+  --color-popover-foreground:  var(--popover-foreground);
+  --color-primary:             var(--primary);
+  --color-primary-foreground:  var(--primary-foreground);
+  --color-secondary:           var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
+  --color-muted:               var(--muted);
+  --color-muted-foreground:    var(--muted-foreground);
+
+  /* Accent palette — all five neon accents available as Tailwind utilities */
+  --color-accent:          var(--accent);
+  --color-accent-primary:  var(--accent-primary);
+  --color-accent-cyan:     var(--accent-cyan);
+  --color-accent-violet:   var(--accent-violet);
+  --color-accent-lime:     var(--accent-lime);
+  --color-accent-amber:    var(--accent-amber);
+  --color-accent-secondary: var(--accent-secondary);
+  --color-accent-tertiary:  var(--accent-tertiary);
   --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
+
+  --color-destructive:          var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-input-background: var(--input-background);
-  --color-switch-background: var(--switch-background);
-  --color-ring: var(--ring);
+  --color-border:               var(--border);
+  --color-border-strong:        var(--border-strong);
+  --color-input:                var(--input);
+  --color-input-background:     var(--input-background);
+  --color-switch-background:    var(--switch-background);
+  --color-ring:                 var(--ring);
+  --color-window-surface:       var(--window-surface);
+
+  /* Status colors */
+  --color-status-success:  var(--status-success);
+  --color-status-error:    var(--status-error);
+  --color-status-warning:  var(--status-warning);
+  --color-status-info:     var(--status-info);
 
   /* Chart colors */
   --color-chart-1: var(--chart-1);
@@ -208,14 +290,14 @@
   --radius-xl: calc(var(--radius) + 4px);
 
   /* Sidebar */
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar:                    var(--sidebar);
+  --color-sidebar-foreground:         var(--sidebar-foreground);
+  --color-sidebar-primary:            var(--sidebar-primary);
   --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-accent:             var(--sidebar-accent);
+  --color-sidebar-accent-foreground:  var(--sidebar-accent-foreground);
+  --color-sidebar-border:             var(--sidebar-border);
+  --color-sidebar-ring:               var(--sidebar-ring);
 }
 
 /* ============================================
@@ -231,10 +313,6 @@
     font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   }
 
-  /**
-   * Default typography styles for HTML elements.
-   * Tailwind utility classes automatically override these.
-   */
   html {
     font-size: var(--font-size);
   }
@@ -284,63 +362,269 @@
 
 /* ============================================
    COMPONENT UTILITY CLASSES
-   Reusable component patterns
    ============================================ */
 @layer components {
-  /* --- Button Variants --- */
+
+  /* ── Buttons ─────────────────────────────── */
+
+  /* Primary CTA — coral neon fill */
+  /* Idle border matches fill; hover border is a darker shade of coral */
   .btn-primary {
     @apply inline-flex items-center gap-2 px-6 py-3
-           bg-accent text-white rounded-lg
-           hover:bg-accent/90 transition-colors font-medium;
+           bg-accent-primary text-white rounded-lg font-medium
+           border-2 border-accent-primary
+           transition duration-100
+           hover:border-white;
   }
 
+  /* Secondary — ghost card with accent border on hover */
   .btn-secondary {
     @apply inline-flex items-center gap-2 px-6 py-3
-           bg-card text-card-foreground border border-border rounded-lg
-           hover:border-accent transition-colors font-medium;
+           bg-card text-card-foreground border-2 border-border rounded-lg font-medium
+           transition duration-100
+           hover:border-white
+           hover:bg-accent-primary/10;
   }
 
-  /* --- Icon Wrappers --- */
+  /* Cyan variant — for About section CTAs */
+  .btn-cyan {
+    @apply inline-flex items-center gap-2 px-6 py-3
+           bg-accent-cyan text-[#0E0D11] rounded-lg font-medium
+           border-2 border-accent-cyan
+           transition duration-100
+           hover:border-white;
+  }
+
+  /* Lime variant — for Projects section CTAs */
+  .btn-lime {
+    @apply inline-flex items-center gap-2 px-6 py-3
+           bg-accent-lime text-[#0E0D11] rounded-lg font-medium
+           border-2 border-accent-lime
+           transition duration-100
+           hover:border-white;
+  }
+
+  /* Icon button — for lightbox controls, close buttons, etc. */
+  .btn-icon {
+    @apply p-2 bg-card/80 text-foreground rounded-full
+           border border-border
+           transition duration-100
+           hover:bg-card hover:border-white
+           backdrop-blur-sm;
+  }
+
+  /* ── Icon Wrappers ───────────────────────── */
+
   .icon-wrapper {
-    @apply p-2 bg-accent/10 rounded-lg
-           group-hover:bg-accent/20 transition-colors;
+    @apply p-2 bg-accent-primary/10 border border-accent-primary/30 rounded-lg
+           transition duration-100
+           group-hover:bg-accent-primary/20 group-hover:border-accent-primary/60
+           group-hover:shadow-md group-hover:shadow-accent-primary/50;
   }
 
   .icon-wrapper-lg {
-    @apply p-3 bg-accent/10 rounded-lg
-           group-hover:bg-accent/20 transition-colors;
+    @apply p-3 bg-accent-primary/10 border border-accent-primary/30 rounded-lg
+           transition duration-100
+           group-hover:bg-accent-primary/20 group-hover:border-accent-primary/60
+           group-hover:shadow-md group-hover:shadow-accent-primary/50;
   }
 
-  /* --- Status Badges --- */
+  /* Per-accent icon wrappers for section variety */
+  .icon-wrapper-cyan {
+    @apply p-2 bg-accent-cyan/10 border border-accent-cyan/30 rounded-lg
+           transition duration-100
+           group-hover:bg-accent-cyan/20 group-hover:border-accent-cyan/60
+           group-hover:shadow-md group-hover:shadow-accent-cyan/50;
+  }
+
+  .icon-wrapper-violet {
+    @apply p-2 bg-accent-violet/10 border border-accent-violet/30 rounded-lg
+           transition duration-100
+           group-hover:bg-accent-violet/20 group-hover:border-accent-violet/60
+           group-hover:shadow-md group-hover:shadow-accent-violet/50;
+  }
+
+  .icon-wrapper-lime {
+    @apply p-2 bg-accent-lime/10 border border-accent-lime/30 rounded-lg
+           transition duration-100
+           group-hover:bg-accent-lime/20 group-hover:border-accent-lime/60
+           group-hover:shadow-md group-hover:shadow-accent-lime/50;
+  }
+
+  .icon-wrapper-amber {
+    @apply p-2 bg-accent-amber/10 border border-accent-amber/30 rounded-lg
+           transition duration-100
+           group-hover:bg-accent-amber/20 group-hover:border-accent-amber/60
+           group-hover:shadow-md group-hover:shadow-accent-amber/50;
+  }
+
+  /* ── Glow Utilities ──────────────────────── */
+
+  /* Coral / primary */
+  .glow-primary    { @apply shadow-[0_0_20px_rgba(255,107,53,0.45)]; }
+  .glow-primary-sm { @apply shadow-[0_0_10px_rgba(255,107,53,0.35)]; }
+  .glow-primary-lg { @apply shadow-[0_0_40px_rgba(255,107,53,0.55)]; }
+
+  /* Cyan */
+  .glow-cyan    { @apply shadow-[0_0_20px_rgba(0,229,255,0.45)]; }
+  .glow-cyan-sm { @apply shadow-[0_0_10px_rgba(0,229,255,0.35)]; }
+  .glow-cyan-lg { @apply shadow-[0_0_40px_rgba(0,229,255,0.55)]; }
+
+  /* Violet */
+  .glow-violet    { @apply shadow-[0_0_20px_rgba(168,85,247,0.45)]; }
+  .glow-violet-sm { @apply shadow-[0_0_10px_rgba(168,85,247,0.35)]; }
+  .glow-violet-lg { @apply shadow-[0_0_40px_rgba(168,85,247,0.55)]; }
+
+  /* Lime */
+  .glow-lime    { @apply shadow-[0_0_20px_rgba(57,255,20,0.4)]; }
+  .glow-lime-sm { @apply shadow-[0_0_10px_rgba(57,255,20,0.3)]; }
+  .glow-lime-lg { @apply shadow-[0_0_40px_rgba(57,255,20,0.5)]; }
+
+  /* Amber */
+  .glow-amber    { @apply shadow-[0_0_20px_rgba(255,184,0,0.45)]; }
+  .glow-amber-sm { @apply shadow-[0_0_10px_rgba(255,184,0,0.35)]; }
+  .glow-amber-lg { @apply shadow-[0_0_40px_rgba(255,184,0,0.55)]; }
+
+  /* Status */
+  .glow-success { @apply shadow-[0_0_20px_rgba(34,197,94,0.4)]; }
+  .glow-error   { @apply shadow-[0_0_20px_rgba(255,68,68,0.4)]; }
+
+  /* Legacy aliases (keeps existing usages working) */
+  .glow-accent    { @apply shadow-[0_0_20px_rgba(255,107,53,0.45)]; }
+  .glow-accent-sm { @apply shadow-[0_0_10px_rgba(255,107,53,0.35)]; }
+  .glow-accent-lg { @apply shadow-[0_0_40px_rgba(255,107,53,0.55)]; }
+  .glow-purple    { @apply shadow-[0_0_20px_rgba(168,85,247,0.45)]; }
+
+  /* ── Text Glow ───────────────────────────── */
+
+  .text-glow-primary {
+    text-shadow: 0 0 10px rgba(255, 107,  53, 0.6),
+                 0 0 24px rgba(255, 107,  53, 0.3);
+  }
+  .text-glow-cyan {
+    text-shadow: 0 0 10px rgba(  0, 229, 255, 0.6),
+                 0 0 24px rgba(  0, 229, 255, 0.3);
+  }
+  .text-glow-violet {
+    text-shadow: 0 0 10px rgba(168,  85, 247, 0.6),
+                 0 0 24px rgba(168,  85, 247, 0.3);
+  }
+  .text-glow-lime {
+    text-shadow: 0 0 10px rgba( 57, 255,  20, 0.55),
+                 0 0 24px rgba( 57, 255,  20, 0.25);
+  }
+  .text-glow-amber {
+    text-shadow: 0 0 10px rgba(255, 184,   0, 0.6),
+                 0 0 24px rgba(255, 184,   0, 0.3);
+  }
+
+  /* Legacy aliases */
+  .text-glow-accent {
+    text-shadow: 0 0 10px rgba(255, 107,  53, 0.6),
+                 0 0 24px rgba(255, 107,  53, 0.3);
+  }
+  .text-glow-purple {
+    text-shadow: 0 0 10px rgba(168,  85, 247, 0.6),
+                 0 0 24px rgba(168,  85, 247, 0.3);
+  }
+
+  /* ── Status Badges ───────────────────────── */
+
   .status-badge-success {
     @apply inline-flex items-center gap-1 px-2 py-1
-           bg-[var(--status-success)]/20
-           border border-[var(--status-success)]/40
+           bg-[var(--status-success)]/15
+           border border-[var(--status-success)]/35
            text-[var(--status-success)]
-           rounded text-xs;
+           rounded text-xs font-medium;
   }
 
   .status-badge-warning {
     @apply inline-flex items-center gap-1 px-2 py-1
-           bg-[var(--status-warning)]/20
-           border border-[var(--status-warning)]/40
+           bg-[var(--status-warning)]/15
+           border border-[var(--status-warning)]/35
            text-[var(--status-warning)]
-           rounded text-xs;
+           rounded text-xs font-medium;
   }
 
   .status-badge-info {
     @apply inline-flex items-center gap-1 px-2 py-1
-           bg-[var(--status-info)]/20
-           border border-[var(--status-info)]/40
+           bg-[var(--status-info)]/15
+           border border-[var(--status-info)]/35
            text-[var(--status-info)]
-           rounded text-xs;
+           rounded text-xs font-medium;
   }
 
   .status-badge-error {
     @apply inline-flex items-center gap-1 px-2 py-1
-           bg-destructive/20
-           border border-destructive/40
+           bg-destructive/15
+           border border-destructive/35
            text-destructive
-           rounded text-xs;
+           rounded text-xs font-medium;
+  }
+
+  /* ── Card Variants ───────────────────────── */
+
+  /* Default interactive card — coral hover */
+  .card-interactive {
+    @apply bg-card border border-border rounded-lg
+           transition duration-100
+           hover:border-accent-primary hover:bg-accent-primary/5
+           hover:shadow-lg hover:shadow-accent-primary/50;
+  }
+
+  /* Cyan interactive card — About section */
+  .card-interactive-cyan {
+    @apply bg-card border border-border rounded-lg
+           transition duration-100
+           hover:border-accent-cyan hover:bg-accent-cyan/5
+           hover:shadow-lg hover:shadow-accent-cyan/50;
+  }
+
+  /* Violet interactive card — Skills section */
+  .card-interactive-violet {
+    @apply bg-card border border-border rounded-lg
+           transition duration-100
+           hover:border-accent-violet hover:bg-accent-violet/5
+           hover:shadow-lg hover:shadow-accent-violet/50;
+  }
+
+  /* Lime interactive card — Projects section */
+  .card-interactive-lime {
+    @apply bg-card border border-border rounded-lg
+           transition duration-100
+           hover:border-accent-lime hover:bg-accent-lime/5
+           hover:shadow-lg hover:shadow-accent-lime/50;
+  }
+
+  /* Amber interactive card — Gallery section */
+  .card-interactive-amber {
+    @apply bg-card border border-border rounded-lg
+           transition duration-100
+           hover:border-accent-amber hover:bg-accent-amber/5
+           hover:shadow-lg hover:shadow-accent-amber/50;
+  }
+
+  .card-elevated {
+    @apply bg-card border border-border rounded-lg
+           shadow-[0_4px_20px_rgba(0,0,0,0.08)]
+           dark:shadow-[0_4px_24px_rgba(0,0,0,0.45)];
+  }
+
+  /* ── Section Accent Labels ───────────────── */
+  /* Small decorative label used above section headings */
+  .section-label-primary {
+    @apply text-xs font-semibold uppercase tracking-widest text-accent-primary;
+  }
+  .section-label-cyan {
+    @apply text-xs font-semibold uppercase tracking-widest text-accent-cyan;
+  }
+  .section-label-violet {
+    @apply text-xs font-semibold uppercase tracking-widest text-accent-violet;
+  }
+  .section-label-lime {
+    @apply text-xs font-semibold uppercase tracking-widest text-accent-lime;
+  }
+  .section-label-amber {
+    @apply text-xs font-semibold uppercase tracking-widest text-accent-amber;
   }
 }

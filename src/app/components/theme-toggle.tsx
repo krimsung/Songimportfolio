@@ -27,8 +27,8 @@ export function ThemeToggle() {
       aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
       className="fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full
         bg-[var(--window-surface)] text-[var(--text-primary-dark)] shadow-lg
-        border border-[#26242A]
-        transition-all duration-300 hover:scale-110 hover:shadow-xl hover:border-[#D47A2B]
+        border border-border
+        transition-all duration-200 hover:scale-110 hover:shadow-xl hover:border-accent
         cursor-pointer overflow-hidden"
     >
       <AnimatePresence mode="wait" initial={false}>

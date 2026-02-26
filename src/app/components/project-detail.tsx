@@ -18,19 +18,19 @@ export function ProjectDetail({ projectId, onBack, backLabel }: ProjectDetailPro
 
   const markdownComponents: Components = {
     p: ({ children }) => (
-      <p className="text-[#C9C6C0] leading-relaxed">{children}</p>
+      <p className="text-muted-foreground leading-relaxed">{children}</p>
     ),
     ul: ({ children }) => (
-      <ul className="list-disc pl-5 space-y-2 text-[#C9C6C0] marker:text-[#D47A2B]">{children}</ul>
+      <ul className="list-disc pl-5 space-y-2 text-muted-foreground marker:text-accent">{children}</ul>
     ),
     ol: ({ children }) => (
-      <ol className="list-decimal pl-5 space-y-2 text-[#C9C6C0] marker:text-[#D47A2B]">{children}</ol>
+      <ol className="list-decimal pl-5 space-y-2 text-muted-foreground marker:text-accent">{children}</ol>
     ),
     li: ({ children }) => (
       <li className="leading-relaxed">{children}</li>
     ),
     strong: ({ children }) => (
-      <strong className="text-white font-semibold">{children}</strong>
+      <strong className="text-foreground font-semibold">{children}</strong>
     )
   };
 
@@ -47,34 +47,34 @@ export function ProjectDetail({ projectId, onBack, backLabel }: ProjectDetailPro
             event.preventDefault();
             onBack?.();
           }}
-          className="inline-flex items-center gap-2 text-[#D47A2B] hover:text-[#C07A2C] transition-colors mb-8 group"
+          className="inline-flex items-center gap-2 text-accent-lime hover:text-accent-lime/80 transition-colors mb-8 group"
         >
-          <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+          <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-200" />
           <span>{backLabel ?? "Back to Home"}</span>
         </a>
 
         {/* Header */}
-        <div className="bg-[#1C1A1F] rounded-lg overflow-hidden border border-[#26242A] mb-8">
+        <div className="bg-card rounded-lg overflow-hidden border border-border mb-8">
           <div className="relative h-96">
             <img
               src={project.image}
               alt={project.title}
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#1C1A1F] via-transparent to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent"></div>
             <div className="absolute bottom-0 left-0 right-0 p-8">
-              <div className="flex items-center gap-2 text-sm text-[#C9C6C0] mb-3">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
                 <Calendar className="w-4 h-4" />
                 {project.year}
               </div>
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
                 {project.title}
               </h1>
               <div className="flex flex-wrap gap-2">
                 {project.tags.map((tag: string, index: number) => (
                   <span
                     key={index}
-                    className="inline-flex items-center gap-1 px-2 py-1 bg-[#D47A2B]/10 border border-[#D47A2B]/30 rounded text-xs text-[#D47A2B]"
+                    className="inline-flex items-center gap-1 px-2 py-1 bg-accent-lime/10 border border-accent-lime/25 rounded text-xs text-accent-lime"
                   >
                     <Tag className="w-3 h-3" />
                     {tag}
@@ -89,21 +89,21 @@ export function ProjectDetail({ projectId, onBack, backLabel }: ProjectDetailPro
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
-            <div className="bg-[#1C1A1F] rounded-lg p-8 border border-[#26242A]">
-              <h2 className="text-2xl font-bold text-white mb-4">Project Overview</h2>
+            <div className="bg-card rounded-lg p-8 border border-border">
+              <h2 className="text-2xl font-bold text-foreground mb-4">Project Overview</h2>
               <ReactMarkdown components={markdownComponents}>
                 {project.description}
               </ReactMarkdown>
             </div>
 
-            <div className="bg-[#1C1A1F] rounded-lg p-8 border border-[#26242A]">
-              <h2 className="text-2xl font-bold text-white mb-4">Challenges & Solutions</h2>
+            <div className="bg-card rounded-lg p-8 border border-border">
+              <h2 className="text-2xl font-bold text-foreground mb-4">Challenges & Solutions</h2>
               <div className="space-y-4">
                 <ReactMarkdown components={markdownComponents}>
                   {project.challenges}
                 </ReactMarkdown>
               </div>
-              <h3 className="text-lg font-semibold text-white mb-2 mt-6">Outcome</h3>
+              <h3 className="text-lg font-semibold text-foreground mb-2 mt-6">Outcome</h3>
               <ReactMarkdown components={markdownComponents}>
                 {project.process}
               </ReactMarkdown>
@@ -117,46 +117,46 @@ export function ProjectDetail({ projectId, onBack, backLabel }: ProjectDetailPro
 
           {/* Sidebar */}
           <div className="space-y-6">
-            <div className="bg-[#1C1A1F] rounded-lg p-6 border border-[#26242A]">
-              <h3 className="text-xl font-bold text-white mb-4">Details</h3>
+            <div className="bg-card rounded-lg p-6 border border-border">
+              <h3 className="text-xl font-bold text-foreground mb-4">Details</h3>
               <div className="space-y-3">
                 <div>
-                  <span className="text-[#C9C6C0] font-medium">Platform:</span>
-                  <span className="text-white ml-2">{project.platform || "TBA"}</span>
+                  <span className="text-muted-foreground font-medium">Platform:</span>
+                  <span className="text-foreground ml-2">{project.platform || "TBA"}</span>
                 </div>
                 <div>
-                  <span className="text-[#C9C6C0] font-medium">Engine:</span>
-                  <span className="text-white ml-2">{project.engine || "TBA"}</span>
+                  <span className="text-muted-foreground font-medium">Engine:</span>
+                  <span className="text-foreground ml-2">{project.engine || "TBA"}</span>
                 </div>
                 <div>
-                  <span className="text-[#C9C6C0] font-medium">Team Size:</span>
-                  <span className="text-white ml-2">{project.teamSize || "TBA"}</span>
+                  <span className="text-muted-foreground font-medium">Team Size:</span>
+                  <span className="text-foreground ml-2">{project.teamSize || "TBA"}</span>
                 </div>
                 <div>
-                  <span className="text-[#C9C6C0] font-medium">Role:</span>
-                  <span className="text-white ml-2">{project.role || "TBA"}</span>
+                  <span className="text-muted-foreground font-medium">Role:</span>
+                  <span className="text-foreground ml-2">{project.role || "TBA"}</span>
                 </div>
                 <div>
-                  <span className="text-[#C9C6C0] font-medium">Language:</span>
-                  <span className="text-white ml-2">{project.language || "TBA"}</span>
+                  <span className="text-muted-foreground font-medium">Language:</span>
+                  <span className="text-foreground ml-2">{project.language || "TBA"}</span>
                 </div>
                 <div>
-                  <span className="text-[#C9C6C0] font-medium">Duration:</span>
-                  <span className="text-white ml-2">{project.duration || "TBA"}</span>
+                  <span className="text-muted-foreground font-medium">Duration:</span>
+                  <span className="text-foreground ml-2">{project.duration || "TBA"}</span>
                 </div>
               </div>
             </div>
 
             {(project.liveProjectUrl || project.sourceCodeUrl) && (
-              <div className="bg-[#1C1A1F] rounded-lg p-6 border border-[#26242A]">
-                <h3 className="text-xl font-bold text-white mb-4">Project Links</h3>
+              <div className="bg-card rounded-lg p-6 border border-border">
+                <h3 className="text-xl font-bold text-foreground mb-4">Project Links</h3>
                 <div className="space-y-3">
                   {project.liveProjectUrl && (
                     <a
                       href={project.liveProjectUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-[#C9C6C0] hover:text-[#D47A2B] transition-colors"
+                      className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors"
                     >
                       <ExternalLink className="w-4 h-4" />
                       <span>View Live Project</span>
@@ -167,7 +167,7 @@ export function ProjectDetail({ projectId, onBack, backLabel }: ProjectDetailPro
                       href={project.sourceCodeUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-[#C9C6C0] hover:text-[#D47A2B] transition-colors"
+                      className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors"
                     >
                       <Github className="w-4 h-4" />
                       <span>Source Code</span>

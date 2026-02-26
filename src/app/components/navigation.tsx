@@ -10,14 +10,14 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { id: "home", label: "Home" },
-    { id: "projects", label: "Projects" },
-    { id: "gallery", label: "Gallery" },
-    { id: "contact", label: "Contact" },
+    { id: "home",     label: "Home",     activeClass: "text-accent-primary",  activeBg: "bg-accent-primary/10",  hoverClass: "hover:text-accent-primary"  },
+    { id: "projects", label: "Projects", activeClass: "text-accent-lime",     activeBg: "bg-accent-lime/10",     hoverClass: "hover:text-accent-lime"     },
+    { id: "gallery",  label: "Gallery",  activeClass: "text-accent-amber",    activeBg: "bg-accent-amber/10",    hoverClass: "hover:text-accent-amber"    },
+    { id: "contact",  label: "Contact",  activeClass: "text-accent-primary",  activeBg: "bg-accent-primary/10",  hoverClass: "hover:text-accent-primary"  },
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#1C1A1F] border-b border-[#26242A]">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-card border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo and Status */}
@@ -31,13 +31,13 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
                 event.preventDefault();
                 onNavigate("home");
               }}
-              className="text-white hover:text-[#D47A2B] transition-colors"
+              className="text-foreground hover:text-accent transition-colors"
             >
               <span className="text-xl font-semibold">Song Im</span>
             </a>
-            <span className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-[#2F7A5E]/20 border border-[#2F7A5E]/40">
-              <span className="w-2 h-2 rounded-full bg-[#2F7A5E] animate-pulse"></span>
-              <span className="text-sm text-[#C9C6C0]">Available for work</span>
+            <span className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--status-success)]/10 border border-[var(--status-success)]/30">
+              <span className="w-2 h-2 rounded-full bg-[var(--status-success)] animate-pulse shadow-[0_0_4px_rgba(34,197,94,0.5)]"></span>
+              <span className="text-sm text-[var(--status-success)] font-medium">Available for work</span>
             </span>
           </div>
 
@@ -54,10 +54,10 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
                   event.preventDefault();
                   onNavigate(item.id);
                 }}
-                className={`transition-colors ${
+                className={`transition-colors font-medium ${
                   currentPage === item.id
-                    ? "text-[#D47A2B]"
-                    : "text-[#C9C6C0] hover:text-white"
+                    ? item.activeClass
+                    : `text-muted-foreground ${item.hoverClass}`
                 }`}
               >
                 {item.label}
@@ -67,7 +67,7 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-white"
+            className="md:hidden text-foreground"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={mobileMenuOpen}
@@ -80,11 +80,11 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div id="mobile-menu" className="md:hidden bg-[#1C1A1F] border-t border-[#26242A]">
+        <div id="mobile-menu" className="md:hidden bg-card border-t border-border">
           <div className="px-4 py-4 space-y-3">
-            <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-[#2F7A5E]/20 border border-[#2F7A5E]/40 mb-4">
-              <span className="w-2 h-2 rounded-full bg-[#2F7A5E] animate-pulse"></span>
-              <span className="text-sm text-[#C9C6C0]">Available for work</span>
+            <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-[var(--status-success)]/10 border border-[var(--status-success)]/30 mb-4">
+              <span className="w-2 h-2 rounded-full bg-[var(--status-success)] animate-pulse shadow-[0_0_4px_rgba(34,197,94,0.5)]"></span>
+              <span className="text-sm text-[var(--status-success)] font-medium">Available for work</span>
             </div>
             {navItems.map((item) => (
               <a
@@ -98,10 +98,10 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
                   onNavigate(item.id);
                   setMobileMenuOpen(false);
                 }}
-                className={`block w-full text-left px-3 py-2 rounded transition-colors ${
+                className={`block w-full text-left px-3 py-2 rounded transition-colors font-medium ${
                   currentPage === item.id
-                    ? "text-[#D47A2B] bg-[#D47A2B]/10"
-                    : "text-[#C9C6C0] hover:text-white hover:bg-[#26242A]"
+                    ? `${item.activeClass} ${item.activeBg}`
+                    : `text-muted-foreground ${item.hoverClass} hover:bg-border`
                 }`}
               >
                 {item.label}
