@@ -7,7 +7,6 @@ import { ProjectsPage } from "./components/projects-page";
 import { ContactPage } from "./components/contact-page";
 import { GalleryPage } from "./components/gallery-page";
 import { Footer } from "./components/footer";
-import { ThemeToggle } from "./components/theme-toggle";
 import { projectsBySlug } from "../data/projects";
 
 type Page = "home" | "projects" | "gallery" | "contact" | "project-detail" | "project-not-found";
@@ -16,23 +15,6 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>("home");
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const [previousPage, setPreviousPage] = useState<Page>("home");
-
-  // Mirror the dark class on <html> so Toaster matches the active theme.
-  const [isDark, setIsDark] = useState(() =>
-    typeof window !== "undefined" &&
-    document.documentElement.classList.contains("dark")
-  );
-
-  useEffect(() => {
-    const observer = new MutationObserver(() => {
-      setIsDark(document.documentElement.classList.contains("dark"));
-    });
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"],
-    });
-    return () => observer.disconnect();
-  }, []);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -110,8 +92,7 @@ export default function App() {
   return (
       <div className="min-h-screen bg-background text-foreground">
         <Navigation currentPage={navigationPage} onNavigate={handleNavigate} />
-        <Toaster position="bottom-right" richColors theme={isDark ? "dark" : "light"} />
-        <ThemeToggle />
+        <Toaster position="bottom-right" richColors theme="dark" />
 
         <main>
           {currentPage === "home" && (
