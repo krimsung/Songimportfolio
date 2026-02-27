@@ -6,7 +6,7 @@ interface ContactPreviewProps {
 
 export function ContactPreview({ onNavigateToContact }: ContactPreviewProps) {
   return (
-    <section className="h-screen flex items-center bg-background-alt">
+    <section className="w-full h-full flex items-center justify-center">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-card rounded-lg p-8 md:p-12 border border-border transition duration-100 hover:border-accent-primary hover:bg-accent-primary/5 hover:shadow-lg hover:shadow-accent-primary/50">
           <div className="flex items-center gap-3 mb-6">

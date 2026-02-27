@@ -1,12 +1,7 @@
 import { useState, useEffect } from "react";
 import { Toaster } from "sonner";
 import { Navigation } from "./components/navigation";
-import { HeroSection } from "./components/hero-section";
-import { AboutSection } from "./components/about-section";
-import { TechnicalExperience } from "./components/technical-experience";
-import { ProjectsSection } from "./components/projects-section";
-import { GallerySection } from "./components/gallery-section";
-import { ContactPreview } from "./components/contact-preview";
+import { HomePageSlider } from "./components/home-page-slider";
 import { ProjectDetail } from "./components/project-detail";
 import { ProjectsPage } from "./components/projects-page";
 import { ContactPage } from "./components/contact-page";
@@ -120,17 +115,11 @@ export default function App() {
 
         <main>
           {currentPage === "home" && (
-            <>
-              <HeroSection />
-              <AboutSection />
-              <TechnicalExperience />
-              <ProjectsSection
-                onViewProject={handleViewProject}
-                onViewAllProjects={handleViewAllProjects}
-              />
-              <GallerySection />
-              <ContactPreview onNavigateToContact={() => handleNavigate("contact")} />
-            </>
+            <HomePageSlider
+              onViewProject={handleViewProject}
+              onViewAllProjects={handleViewAllProjects}
+              onNavigateToContact={() => handleNavigate("contact")}
+            />
           )}
 
           {currentPage === "projects" && (
@@ -172,7 +161,7 @@ export default function App() {
           )}
         </main>
 
-        <Footer />
+        {currentPage !== "home" && <Footer />}
       </div>
   );
 }
