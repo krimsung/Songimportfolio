@@ -104,3 +104,4 @@ package-lock.json
 
 # Private files (keys, secrets)
 private/
+package-lock.json
