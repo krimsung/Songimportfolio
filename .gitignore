@@ -97,11 +97,9 @@ vite.config.ts.timestamp-*
 .vercel
 
 # Package manager lock files (uncomment if you want to ignore them)
-package-lock.json
 .opencode/
 # yarn.lock
 # pnpm-lock.yaml
 
 # Private files (keys, secrets)
 private/
-package-lock.json
