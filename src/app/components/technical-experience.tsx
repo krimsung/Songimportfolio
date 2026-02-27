@@ -47,7 +47,7 @@ export function TechnicalExperience() {
             return (
               <div
                 key={index}
-                className="bg-card rounded-lg p-6 border border-border group transition duration-100 hover:border-accent-violet hover:bg-accent-violet/5 hover:shadow-lg hover:shadow-accent-violet/50"
+                className="bg-card rounded-lg p-6 border border-border group transition duration-100 hover:border-accent-violet hover:shadow-lg hover:shadow-accent-violet/50"
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="p-2 bg-accent-violet/10 border border-accent-violet/30 rounded-lg">

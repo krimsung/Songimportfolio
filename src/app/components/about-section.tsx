@@ -11,18 +11,18 @@ export function AboutSection() {
           <div className="relative w-full md:w-64 flex-shrink-0 self-stretch aspect-[3/4] md:aspect-auto rounded-lg border border-accent-cyan/30 transition duration-100 hover:border-accent-cyan hover:shadow-lg hover:shadow-accent-cyan/50 overflow-hidden">
             <img
               src={headshot}
-              alt="Song Im headshot at GDC 2024"
+              alt="Song Im headshot at GDC 2025"
               className="absolute inset-0 w-full h-full object-cover object-top"
               loading="eager"
               fetchPriority="high"
             />
             <p className="absolute bottom-0 left-0 right-0 py-2 text-center italic text-xs font-semibold text-white/80">
-              Picture taken at GDC 2024
+              Picture taken at GDC 2025
             </p>
           </div>
 
           {/* About Me Card */}
-          <div className="bg-card rounded-lg p-8 md:p-12 border border-border flex-1 transition duration-100 hover:border-accent-cyan hover:bg-accent-cyan/5 hover:shadow-lg hover:shadow-accent-cyan/50">
+          <div className="bg-card rounded-lg p-8 md:p-12 border border-border flex-1 transition duration-100 hover:border-accent-cyan hover:shadow-lg hover:shadow-accent-cyan/50">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">About Me</h2>
             <div className="space-y-4 text-muted-foreground">
               <p className="text-lg leading-relaxed">

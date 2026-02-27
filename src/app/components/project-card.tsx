@@ -38,7 +38,7 @@ export function ProjectCard({
         onViewProject(project.slug);
       }}
     >
-      <div className="bg-card rounded-lg overflow-hidden border border-border h-full flex flex-col transition duration-100 hover:border-accent-lime hover:bg-accent-lime/5 hover:shadow-lg hover:shadow-accent-lime/50">
+      <div className="bg-card rounded-lg overflow-hidden border border-border h-full flex flex-col transition duration-100 hover:border-accent-lime hover:shadow-lg hover:shadow-accent-lime/50">
         <div className="relative w-full aspect-square overflow-hidden flex-shrink-0">
           <img
             src={project.image}

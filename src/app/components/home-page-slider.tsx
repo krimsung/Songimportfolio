@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { HeroSection } from "./hero-section";
-import { HeroBackground } from "./hero-background";
+import { TerrainScene } from "./TerrainScene";
 import { AboutSection } from "./about-section";
 import { TechnicalExperience } from "./technical-experience";
 import { ProjectsSection } from "./projects-section";
@@ -85,8 +85,8 @@ export function HomePageSlider({ onViewProject, onViewAllProjects, onNavigateToC
 
   return (
     <div className="h-screen w-full relative overflow-hidden">
-      {/* Persistent Hero Background - rendered once */}
-      <HeroBackground />
+      {/* Terrain Background */}
+      <TerrainScene />
 
       {/* Carousel container - scrolls vertically */}
       <div 
