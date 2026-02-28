@@ -38,10 +38,10 @@ export function TechnicalExperience() {
     <section className="w-full h-full flex items-center justify-center overflow-auto">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 text-center">
-          Technical Experience
+          TECHNICAL EXPERIENCE
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {skills.map((skill, index) => {
             const Icon = skill.icon;
             return (

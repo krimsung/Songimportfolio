@@ -1,6 +1,10 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import * as THREE from 'three';
 import { createNoise3D } from 'simplex-noise';
+
+export interface TerrainSceneRef {
+  getCanvas: () => HTMLCanvasElement | null;
+}
 
 // ─── Configuration ─────────────────────────────────────────────────────────
 // Exported so the host project can match page background / overlay positioning
@@ -165,8 +169,13 @@ const PARTICLE_FRAG = /* glsl */`
 `;
 
 // ─── Component ───────────────────────────────────────────────────────────────
-export function TerrainScene() {
+export const TerrainScene = forwardRef<TerrainSceneRef>(function TerrainScene(_, ref) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useImperativeHandle(ref, () => ({
+    getCanvas: () => canvasRef.current,
+  }));
 
   useEffect(() => {
     const container = containerRef.current;
@@ -185,6 +194,7 @@ export function TerrainScene() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setClearColor(BG_COLOR);
     container.appendChild(renderer.domElement);
+    canvasRef.current = renderer.domElement;
 
     // ── Scene / Camera ───────────────────────────────────────────────────
     const scene = new THREE.Scene();
@@ -611,4 +621,4 @@ export function TerrainScene() {
       }}
     />
   );
-}
+});

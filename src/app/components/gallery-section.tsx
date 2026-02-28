@@ -43,7 +43,7 @@ export function GallerySection() {
           Gallery
         </h2>
 
-        <div className="relative bg-card rounded-lg overflow-hidden border border-border transition duration-100 hover:border-accent-amber hover:shadow-lg hover:shadow-accent-amber/50">
+        <div className="relative bg-card rounded-lg overflow-hidden border border-border transition duration-100 hover:border-accent-amber hover:shadow-lg hover:shadow-accent-amber/50 mb-12">
           {/* Main Image */}
           <div className="relative h-[500px] overflow-hidden">
             <img

@@ -108,8 +108,8 @@ export function HomePageSlider({ onViewProject, onViewAllProjects, onNavigateToC
         ))}
       </div>
 
-      {/* Section Indicators */}
-      <div className="fixed right-16 top-1/2 -translate-y-1/2 z-50 flex flex-col items-end gap-6">
+      {/* Section Indicators - adjusted for navbar height (h-16 = 64px, half is 32px) */}
+      <div className="fixed right-16 top-[calc(50%+32px)] -translate-y-1/2 z-50 flex flex-col items-end gap-6">
         {sections.map((section, index) => (
           <button
             key={index}
