@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { HeroSection } from "./hero-section";
+import { HeroSection, HeroOverlay } from "./hero-section";
 import { TerrainScene } from "./TerrainScene";
 import { AboutSection } from "./about-section";
 import { TechnicalExperience } from "./technical-experience";
@@ -21,6 +21,11 @@ const sections = [
   { id: "gallery", component: GallerySection },
   { id: "contact", component: ContactPreview },
 ];
+
+/** Accent orange matching --accent-primary (dark mode) */
+const ACCENT = "#FF6B35";
+
+const SECTION_LABELS = ["Landing", "About Me", "Technical Experience", "Featured Projects", "Gallery", "Get In Touch"];
 
 export function HomePageSlider({ onViewProject, onViewAllProjects, onNavigateToContact }: HomePageSliderProps) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -88,6 +93,9 @@ export function HomePageSlider({ onViewProject, onViewAllProjects, onNavigateToC
       {/* Terrain Background */}
       <TerrainScene />
 
+      {/* Hero overlay — outside the carousel transform so mix-blend-mode composites against the terrain */}
+      {activeIndex === 0 && <HeroOverlay />}
+
       {/* Carousel container - scrolls vertically */}
       <div 
         className="absolute top-16 left-0 right-0 bottom-0"
@@ -108,8 +116,8 @@ export function HomePageSlider({ onViewProject, onViewAllProjects, onNavigateToC
         ))}
       </div>
 
-      {/* Section Indicators - adjusted for navbar height (h-16 = 64px, half is 32px) */}
-      <div className="fixed right-16 top-[calc(50%+32px)] -translate-y-1/2 z-50 flex flex-col items-end gap-6">
+      {/* Section Indicators — orange + difference blend for terrain-reactive orange */}
+      <div className="fixed right-16 top-[calc(50%+32px)] -translate-y-1/2 z-50 flex flex-col items-end gap-6 mix-blend-difference">
         {sections.map((section, index) => (
           <button
             key={index}
@@ -119,22 +127,21 @@ export function HomePageSlider({ onViewProject, onViewAllProjects, onNavigateToC
             }`}
             aria-label={`Go to ${section.id}`}
           >
-            <span className={`text-white uppercase tracking-wider transition-all duration-300 ${
-              index === activeIndex ? "text-sm font-bold" : "text-xs font-normal opacity-60 hover:opacity-80"
-            }`}>
-              {index === 0 && "Landing"}
-              {index === 1 && "About Me"}
-              {index === 2 && "Technical Experience"}
-              {index === 3 && "Featured Projects"}
-              {index === 4 && "Gallery"}
-              {index === 5 && "Get In Touch"}
+            <span
+              className={`uppercase tracking-wider transition-all duration-300 ${
+                index === activeIndex ? "text-sm font-bold" : "text-xs font-normal opacity-60 hover:opacity-80"
+              }`}
+              style={{ color: ACCENT }}
+            >
+              {SECTION_LABELS[index]}
             </span>
             <div className="w-4 h-4 flex items-center justify-center">
-              <div className={`rounded-full transition-all duration-300 ${
-                index === activeIndex 
-                  ? "bg-white w-3 h-3" 
-                  : "bg-white/30 w-1.5 h-1.5"
-              }`} />
+              <div
+                className={`rounded-full transition-all duration-300 ${
+                  index === activeIndex ? "w-3 h-3" : "w-1.5 h-1.5"
+                }`}
+                style={{ backgroundColor: ACCENT, opacity: index === activeIndex ? 1 : 0.3 }}
+              />
             </div>
           </button>
         ))}
