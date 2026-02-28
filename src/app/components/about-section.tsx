@@ -14,7 +14,7 @@ export function AboutSection() {
               alt="Song Im headshot at GDC 2025"
               className="absolute inset-0 w-full h-full object-cover object-top"
               loading="eager"
-              fetchPriority="high"
+              {...{ fetchpriority: "high" }}
             />
             <p className="absolute bottom-0 left-0 right-0 py-2 text-center italic text-xs font-semibold text-white/80">
               Picture taken at GDC 2025
