@@ -30,11 +30,9 @@ export function ProjectCard({
       key={project.slug}
       href={`#/projects/${project.slug}`}
       className="group cursor-pointer h-full"
-      onClick={(event) => {
-        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button === 1) {
-          return;
-        }
-        event.preventDefault();
+      onClick={(e) => {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1) return;
+        e.preventDefault();
         onViewProject(project.slug);
       }}
     >
@@ -44,7 +42,7 @@ export function ProjectCard({
             src={project.image}
             alt={project.title}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-200"
-            loading="eager"
+            loading="lazy"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent opacity-60"></div>
           {showStatus && project.status !== "N/A" && (
@@ -75,9 +73,9 @@ export function ProjectCard({
           </p>
 
           <div className="flex flex-wrap gap-2 mb-4">
-            {project.tags.map((tag, index) => (
+            {project.tags.map((tag) => (
               <span
-                key={index}
+                key={tag}
                 className="inline-flex items-center gap-1 px-2 py-1 bg-accent-lime/10 border border-accent-lime/25 rounded text-xs text-accent-lime h-fit"
               >
                 <Tag className="w-3 h-3" />

@@ -1,13 +1,13 @@
 import { Heart } from 'lucide-react';
 
-export function Footer() {
-  const quickLinks = [
-    { href: '#/', label: 'Home' },
-    { href: '#/projects', label: 'Projects' },
-    { href: '#/gallery', label: 'Gallery' },
-    { href: '#/contact', label: 'Contact' },
-  ];
+const quickLinks = [
+  { href: '#/', label: 'Home' },
+  { href: '#/projects', label: 'Projects' },
+  { href: '#/gallery', label: 'Gallery' },
+  { href: '#/contact', label: 'Contact' },
+] as const;
 
+export function Footer() {
   return (
     <footer className="bg-card border-t border-border">
       <div className="max-w-7xl mx-auto px-4 py-12">
@@ -56,7 +56,7 @@ export function Footer() {
 
         <div className="pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-muted-foreground text-sm">
-            © 2026 Song Im. All rights reserved.
+            © {new Date().getFullYear()} Song Im. All rights reserved.
           </p>
           <p className="text-muted-foreground text-sm flex items-center gap-2">
             Made with <Heart className="w-4 h-4 text-destructive fill-current" /> for game development

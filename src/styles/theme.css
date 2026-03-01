@@ -1,5 +1,3 @@
-  @custom-variant dark (&:is(.dark *));
-
 /* ============================================
    DESIGN SYSTEM - COLOR TOKENS
    ============================================
@@ -18,105 +16,10 @@
    ============================================ */
 
 /* ============================================
-   LIGHT MODE
+   COLOR TOKENS (dark-only — permanent dark mode)
    ============================================ */
 :root {
   /* ── Neon Accent Palette ─────────────────── */
-  /* Slightly deeper / more saturated in light mode for readability against pale bg */
-  --accent-primary:   #F25C1E;   /* Neon coral-orange  — hero, nav, contact  */
-  --accent-cyan:      #00B8D9;   /* Electric cyan      — about section       */
-  --accent-violet:    #8B5CF6;   /* Neon violet        — skills section       */
-  --accent-lime:      #16A34A;   /* Neon lime-green    — projects section     */
-  --accent-amber:     #D97706;   /* Neon amber         — gallery section      */
-
-  /* Legacy alias — keeps all existing `text-accent / bg-accent` working */
-  --accent:           var(--accent-primary);
-  --accent-secondary: var(--accent-cyan);
-  --accent-tertiary:  var(--accent-violet);
-  --accent-foreground: #FFFFFF;
-  --ring:             var(--accent-primary);
-
-  /* ── Backgrounds ─────────────────────────── */
-  --background:          #F8F7F4;   /* Warm off-white page background          */
-  --background-alt:      #F0EEE9;   /* Slightly warmer — alternating sections  */
-  --background-elevated: #FFFFFF;   /* Elevated cards / modals                 */
-  --card:                #FFFFFF;   /* Card surface                            */
-  --card-foreground:     #1A1916;   /* Text on cards                           */
-  --window-surface:      #1A1916;   /* Inverted surface (scrollbar, dark pills)*/
-
-  /* ── Text ────────────────────────────────── */
-  --foreground:           #1A1916;  /* Primary text — warm near-black          */
-  --foreground-secondary: #44403C;  /* Secondary text — warm dark gray         */
-  --muted:                #F0EEE9;  /* Muted surface                           */
-  --muted-foreground:     #78716C;  /* Muted text — warm medium gray           */
-  --text-on-dark:         #F5F4F0;  /* Text rendered on dark surfaces          */
-  --text-on-dark-muted:   #A8A29E;  /* Muted text on dark surfaces             */
-
-  /* ── Interactive ─────────────────────────── */
-  --primary:            #1A1916;
-  --primary-foreground: #F8F7F4;
-  --secondary:          #F0EEE9;
-  --secondary-foreground: #1A1916;
-
-  /* ── Borders & Inputs ────────────────────── */
-  --border:            #E2DDD7;   /* Warm light border                         */
-  --border-strong:     #C9C3BB;   /* Stronger border / dividers                */
-  --input:             #E2DDD7;   /* Input border                              */
-  --input-background:  #FFFFFF;   /* Input fill                                */
-  --switch-background: #C9C3BB;
-
-  /* ── Status ──────────────────────────────── */
-  --status-success:  #15803D;   /* Green  */
-  --status-error:    #DC2626;   /* Red    */
-  --status-warning:  #D97706;   /* Amber  */
-  --status-info:     #2563EB;   /* Blue   */
-  --destructive:     var(--status-error);
-  --destructive-foreground: #FFFFFF;
-
-  /* ── Popover ─────────────────────────────── */
-  --popover:            #FFFFFF;
-  --popover-foreground: #1A1916;
-
-  /* ── Sidebar ─────────────────────────────── */
-  --sidebar:                      #1A1916;
-  --sidebar-foreground:           #F5F4F0;
-  --sidebar-primary:              var(--accent-primary);
-  --sidebar-primary-foreground:   #FFFFFF;
-  --sidebar-accent:               #2C2924;
-  --sidebar-accent-foreground:    #C9C3BB;
-  --sidebar-border:               #2C2924;
-  --sidebar-ring:                 var(--accent-primary);
-
-  /* ── Charts ──────────────────────────────── */
-  --chart-1: var(--accent-primary);
-  --chart-2: var(--accent-lime);
-  --chart-3: var(--accent-cyan);
-  --chart-4: var(--accent-violet);
-  --chart-5: var(--status-error);
-
-  /*
-   * ── Glow RGB Reference ───────────────────────────────────────────────────
-   * Tailwind arbitrary shadow values can't interpolate CSS vars inside rgba(),
-   * so glow utilities in @layer components use literal rgba() values.
-   * Keep these in sync whenever accent colors change.
-   *
-   * LIGHT MODE (deeper tones — same hue as dark, just lower L):
-   *   --accent-primary  #F25C1E  → rgba(242,  92,  30, ...)
-   *   --accent-cyan     #00B8D9  → rgba(  0, 184, 217, ...)
-   *   --accent-violet   #8B5CF6  → rgba(139,  92, 246, ...)
-   *   --accent-lime     #16A34A  → rgba( 22, 163,  74, ...)
-   *   --accent-amber    #D97706  → rgba(217, 119,   6, ...)
-   *   --status-success  #15803D  → rgba( 21, 128,  61, ...)
-   *   --status-error    #DC2626  → rgba(220,  38,  38, ...)
-   * ─────────────────────────────────────────────────────────────────────── */
-}
-
-/* ============================================
-   DARK MODE
-   ============================================ */
-.dark {
-  /* ── Neon Accent Palette ─────────────────── */
-  /* Vibrant but controlled — pop against the near-black background without eye strain */
   --accent-primary:   #FF6B35;   /* Coral-orange       — hero, nav, contact  */
   --accent-cyan:      #00C8E8;   /* Electric cyan      — about section       */
   --accent-violet:    #A855F7;   /* Neon violet        — skills section       */
@@ -162,7 +65,7 @@
   /* ── Status ──────────────────────────────── */
   --status-success:  #22C55E;   /* Bright green                               */
   --status-error:    #FF4444;   /* Bright red                                 */
-  --status-warning:  #FFB800;   /* Bright amber (shares with --accent-amber)  */
+  --status-warning:  #FFB800;   /* Bright amber                               */
   --status-info:     #38BFFF;   /* Sky blue                                   */
   --destructive:     var(--status-error);
   --destructive-foreground: #0E0D11;
@@ -187,18 +90,6 @@
   --chart-3: var(--accent-cyan);
   --chart-4: var(--accent-violet);
   --chart-5: var(--status-error);
-
-  /*
-   * ── Glow RGB Reference ───────────────────────────────────────────────────
-   * DARK MODE (current neon values):
-   *   --accent-primary  #FF6B35  → rgba(255, 107,  53, ...)
-   *   --accent-cyan     #00C8E8  → rgba(  0, 200, 232, ...)
-   *   --accent-violet   #A855F7  → rgba(168,  85, 247, ...)
-   *   --accent-lime     #2ECC71  → rgba( 46, 204, 113, ...)
-   *   --accent-amber    #F5A623  → rgba(245, 166,  35, ...)
-   *   --status-success  #22C55E  → rgba( 34, 197,  94, ...)
-   *   --status-error    #FF4444  → rgba(255,  68,  68, ...)
-   * ─────────────────────────────────────────────────────────────────────── */
 }
 
 /* ============================================
@@ -362,35 +253,17 @@
 
 /* ============================================
    COMPONENT UTILITY CLASSES
+   Only classes actively used in the codebase.
    ============================================ */
 @layer components {
 
   /* ── Buttons ─────────────────────────────── */
 
   /* Primary CTA — coral neon fill */
-  /* Idle border matches fill; hover border is a darker shade of coral */
   .btn-primary {
     @apply inline-flex items-center gap-2 px-6 py-3
            bg-accent-primary text-white rounded-lg font-medium
            border-2 border-accent-primary
-           transition duration-100
-           hover:border-white;
-  }
-
-  /* Secondary — ghost card with accent border on hover */
-  .btn-secondary {
-    @apply inline-flex items-center gap-2 px-6 py-3
-           bg-card text-card-foreground border-2 border-border rounded-lg font-medium
-           transition duration-100
-           hover:border-white
-           hover:bg-accent-primary/10;
-  }
-
-  /* Cyan variant — for About section CTAs */
-  .btn-cyan {
-    @apply inline-flex items-center gap-2 px-6 py-3
-           bg-accent-cyan text-[#0E0D11] rounded-lg font-medium
-           border-2 border-accent-cyan
            transition duration-100
            hover:border-white;
   }
@@ -422,14 +295,6 @@
            group-hover:shadow-md group-hover:shadow-accent-primary/50;
   }
 
-  .icon-wrapper-lg {
-    @apply p-3 bg-accent-primary/10 border border-accent-primary/30 rounded-lg
-           transition duration-100
-           group-hover:bg-accent-primary/20 group-hover:border-accent-primary/60
-           group-hover:shadow-md group-hover:shadow-accent-primary/50;
-  }
-
-  /* Per-accent icon wrappers for section variety */
   .icon-wrapper-cyan {
     @apply p-2 bg-accent-cyan/10 border border-accent-cyan/30 rounded-lg
            transition duration-100
@@ -449,206 +314,5 @@
            transition duration-100
            group-hover:bg-accent-lime/20 group-hover:border-accent-lime/60
            group-hover:shadow-md group-hover:shadow-accent-lime/50;
-  }
-
-  .icon-wrapper-amber {
-    @apply p-2 bg-accent-amber/10 border border-accent-amber/30 rounded-lg
-           transition duration-100
-           group-hover:bg-accent-amber/20 group-hover:border-accent-amber/60
-           group-hover:shadow-md group-hover:shadow-accent-amber/50;
-  }
-
-  /* ── Glow Utilities ──────────────────────── */
-
-  /* Coral / primary */
-  .glow-primary    { @apply shadow-[0_0_20px_rgba(255,107,53,0.45)]; }
-  .glow-primary-sm { @apply shadow-[0_0_10px_rgba(255,107,53,0.35)]; }
-  .glow-primary-lg { @apply shadow-[0_0_40px_rgba(255,107,53,0.55)]; }
-
-  /* Cyan */
-  .glow-cyan    { @apply shadow-[0_0_20px_rgba(0,229,255,0.45)]; }
-  .glow-cyan-sm { @apply shadow-[0_0_10px_rgba(0,229,255,0.35)]; }
-  .glow-cyan-lg { @apply shadow-[0_0_40px_rgba(0,229,255,0.55)]; }
-
-  /* Violet */
-  .glow-violet    { @apply shadow-[0_0_20px_rgba(168,85,247,0.45)]; }
-  .glow-violet-sm { @apply shadow-[0_0_10px_rgba(168,85,247,0.35)]; }
-  .glow-violet-lg { @apply shadow-[0_0_40px_rgba(168,85,247,0.55)]; }
-
-  /* Lime */
-  .glow-lime    { @apply shadow-[0_0_20px_rgba(57,255,20,0.4)]; }
-  .glow-lime-sm { @apply shadow-[0_0_10px_rgba(57,255,20,0.3)]; }
-  .glow-lime-lg { @apply shadow-[0_0_40px_rgba(57,255,20,0.5)]; }
-
-  /* Amber */
-  .glow-amber    { @apply shadow-[0_0_20px_rgba(255,184,0,0.45)]; }
-  .glow-amber-sm { @apply shadow-[0_0_10px_rgba(255,184,0,0.35)]; }
-  .glow-amber-lg { @apply shadow-[0_0_40px_rgba(255,184,0,0.55)]; }
-
-  /* Status */
-  .glow-success { @apply shadow-[0_0_20px_rgba(34,197,94,0.4)]; }
-  .glow-error   { @apply shadow-[0_0_20px_rgba(255,68,68,0.4)]; }
-
-  /* Legacy aliases (keeps existing usages working) */
-  .glow-accent    { @apply shadow-[0_0_20px_rgba(255,107,53,0.45)]; }
-  .glow-accent-sm { @apply shadow-[0_0_10px_rgba(255,107,53,0.35)]; }
-  .glow-accent-lg { @apply shadow-[0_0_40px_rgba(255,107,53,0.55)]; }
-  .glow-purple    { @apply shadow-[0_0_20px_rgba(168,85,247,0.45)]; }
-
-  /* ── Text Glow ───────────────────────────── */
-
-  .text-glow-primary {
-    text-shadow: 0 0 10px rgba(255, 107,  53, 0.6),
-                 0 0 24px rgba(255, 107,  53, 0.3);
-  }
-  .text-glow-cyan {
-    text-shadow: 0 0 10px rgba(  0, 229, 255, 0.6),
-                 0 0 24px rgba(  0, 229, 255, 0.3);
-  }
-  .text-glow-violet {
-    text-shadow: 0 0 10px rgba(168,  85, 247, 0.6),
-                 0 0 24px rgba(168,  85, 247, 0.3);
-  }
-  .text-glow-lime {
-    text-shadow: 0 0 10px rgba( 57, 255,  20, 0.55),
-                 0 0 24px rgba( 57, 255,  20, 0.25);
-  }
-  .text-glow-amber {
-    text-shadow: 0 0 10px rgba(255, 184,   0, 0.6),
-                 0 0 24px rgba(255, 184,   0, 0.3);
-  }
-
-  /* Legacy aliases */
-  .text-glow-accent {
-    text-shadow: 0 0 10px rgba(255, 107,  53, 0.6),
-                 0 0 24px rgba(255, 107,  53, 0.3);
-  }
-  .text-glow-purple {
-    text-shadow: 0 0 10px rgba(168,  85, 247, 0.6),
-                 0 0 24px rgba(168,  85, 247, 0.3);
-  }
-
-  /* ── Status Badges ───────────────────────── */
-
-  .status-badge-success {
-    @apply inline-flex items-center gap-1 px-2 py-1
-           bg-[var(--status-success)]/15
-           border border-[var(--status-success)]/35
-           text-[var(--status-success)]
-           rounded text-xs font-medium;
-  }
-
-  .status-badge-warning {
-    @apply inline-flex items-center gap-1 px-2 py-1
-           bg-[var(--status-warning)]/15
-           border border-[var(--status-warning)]/35
-           text-[var(--status-warning)]
-           rounded text-xs font-medium;
-  }
-
-  .status-badge-info {
-    @apply inline-flex items-center gap-1 px-2 py-1
-           bg-[var(--status-info)]/15
-           border border-[var(--status-info)]/35
-           text-[var(--status-info)]
-           rounded text-xs font-medium;
-  }
-
-  .status-badge-error {
-    @apply inline-flex items-center gap-1 px-2 py-1
-           bg-destructive/15
-           border border-destructive/35
-           text-destructive
-           rounded text-xs font-medium;
-  }
-
-  /* ── Card Variants ───────────────────────── */
-
-  /* Default interactive card — coral hover */
-  .card-interactive {
-    @apply bg-card border border-border rounded-lg
-           transition duration-100
-           hover:border-accent-primary hover:bg-accent-primary/5
-           hover:shadow-lg hover:shadow-accent-primary/50;
-  }
-
-  /* Cyan interactive card — About section */
-  .card-interactive-cyan {
-    @apply bg-card border border-border rounded-lg
-           transition duration-100
-           hover:border-accent-cyan hover:bg-accent-cyan/5
-           hover:shadow-lg hover:shadow-accent-cyan/50;
-  }
-
-  /* Violet interactive card — Skills section */
-  .card-interactive-violet {
-    @apply bg-card border border-border rounded-lg
-           transition duration-100
-           hover:border-accent-violet hover:bg-accent-violet/5
-           hover:shadow-lg hover:shadow-accent-violet/50;
-  }
-
-  /* Lime interactive card — Projects section */
-  .card-interactive-lime {
-    @apply bg-card border border-border rounded-lg
-           transition duration-100
-           hover:border-accent-lime hover:bg-accent-lime/5
-           hover:shadow-lg hover:shadow-accent-lime/50;
-  }
-
-  /* Amber interactive card — Gallery section */
-  .card-interactive-amber {
-    @apply bg-card border border-border rounded-lg
-           transition duration-100
-           hover:border-accent-amber hover:bg-accent-amber/5
-           hover:shadow-lg hover:shadow-accent-amber/50;
-  }
-
-  .card-elevated {
-    @apply bg-card border border-border rounded-lg
-           shadow-[0_4px_20px_rgba(0,0,0,0.08)]
-           dark:shadow-[0_4px_24px_rgba(0,0,0,0.45)];
-  }
-
-  /* ── Section Accent Labels ───────────────── */
-  /* Small decorative label used above section headings */
-  .section-label-primary {
-    @apply text-xs font-semibold uppercase tracking-widest text-accent-primary;
-  }
-  .section-label-cyan {
-    @apply text-xs font-semibold uppercase tracking-widest text-accent-cyan;
-  }
-  .section-label-violet {
-    @apply text-xs font-semibold uppercase tracking-widest text-accent-violet;
-  }
-  .section-label-lime {
-    @apply text-xs font-semibold uppercase tracking-widest text-accent-lime;
-  }
-  .section-label-amber {
-    @apply text-xs font-semibold uppercase tracking-widest text-accent-amber;
-  }
-
-  /* Hide scrollbar but keep functionality */
-  .hide-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Section slide-up animation */
-  @keyframes slide-up {
-    from {
-      transform: translateY(100%);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-  .animate-slide-up {
-    animation: slide-up 500ms ease-out forwards;
   }
 }

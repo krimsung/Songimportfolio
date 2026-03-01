@@ -1,39 +1,39 @@
 import { Code2, Palette, Box, Gamepad2, Layers, Sparkles } from "lucide-react";
 
-export function TechnicalExperience() {
-  const skills = [
-    {
-      icon: Code2,
-      category: "Programming",
-      items: ["C#", "C++", "Java", "Python", "Blueprint Scripting"]
-    },
-    {
-      icon: Gamepad2,
-      category: "Game Engines",
-      items: ["Unreal Engine", "Unity", "GameMaker", "Source"]
-    },
-    {
-      icon: Palette,
-      category: "2D/3D Art",
-      items: ["Blender", "Maya", "Photoshop", "ZBrush", "Substance Painter"]
-    },
-    {
-      icon: Box,
-      category: "Technical Art",
-      items: ["Niagara Particle System", "Unreal Engine Shader Graph", "Unity VFX Graph", "Unity Shader Graph", "Model Rigging"]
-    },
-    {
-      icon: Layers,
-      category: "Design",
-      items: ["System Design", "Level Design", "Game Design", "UI/UX", "Prototyping"]
-    },
-    {
-      icon: Sparkles,
-      category: "Specializations",
-      items: ["Graphic Design", "Team Collaboration", "Rapid Prototyping", "QA Testing"]
-    }
-  ];
+const skills = [
+  {
+    icon: Code2,
+    category: "Programming",
+    items: ["C#", "C++", "Java", "Python", "Blueprint Scripting"],
+  },
+  {
+    icon: Gamepad2,
+    category: "Game Engines",
+    items: ["Unreal Engine", "Unity", "GameMaker", "Source"],
+  },
+  {
+    icon: Palette,
+    category: "2D/3D Art",
+    items: ["Blender", "Maya", "Photoshop", "ZBrush", "Substance Painter"],
+  },
+  {
+    icon: Box,
+    category: "Technical Art",
+    items: ["Niagara Particle System", "Unreal Engine Shader Graph", "Unity VFX Graph", "Unity Shader Graph", "Model Rigging"],
+  },
+  {
+    icon: Layers,
+    category: "Design",
+    items: ["System Design", "Level Design", "Game Design", "UI/UX", "Prototyping"],
+  },
+  {
+    icon: Sparkles,
+    category: "Specializations",
+    items: ["Graphic Design", "Team Collaboration", "Rapid Prototyping", "QA Testing"],
+  },
+] as const;
 
+export function TechnicalExperience() {
   return (
     <section className="w-full h-full flex items-center justify-center overflow-auto">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">

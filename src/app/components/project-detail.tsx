@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { ArrowLeft, Calendar, Tag, ExternalLink, Github } from "lucide-react";
 import ReactMarkdown, { Components } from "react-markdown";
 import { projectsBySlug } from "../../data/projects";
@@ -12,11 +13,7 @@ interface ProjectDetailProps {
 export function ProjectDetail({ projectId, onBack, backLabel }: ProjectDetailProps) {
   const project = projectsBySlug[projectId];
 
-  if (!project) {
-    return null;
-  }
-
-  const markdownComponents: Components = {
+  const markdownComponents: Components = useMemo(() => ({
     p: ({ children }) => (
       <p className="text-muted-foreground leading-relaxed">{children}</p>
     ),
@@ -31,8 +28,12 @@ export function ProjectDetail({ projectId, onBack, backLabel }: ProjectDetailPro
     ),
     strong: ({ children }) => (
       <strong className="text-foreground font-semibold">{children}</strong>
-    )
-  };
+    ),
+  }), []);
+
+  if (!project) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-background pt-20">
@@ -40,11 +41,9 @@ export function ProjectDetail({ projectId, onBack, backLabel }: ProjectDetailPro
         {/* Back Button */}
         <a
           href="#/"
-          onClick={(event) => {
-            if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button === 1) {
-              return;
-            }
-            event.preventDefault();
+          onClick={(e) => {
+            if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1) return;
+            e.preventDefault();
             onBack?.();
           }}
           className="inline-flex items-center gap-2 text-accent-lime hover:text-accent-lime/80 transition-colors mb-8 group"

@@ -8,18 +8,15 @@ interface ProjectsPageProps {
 }
 
 export function ProjectsPage({ onBack, onViewProject }: ProjectsPageProps) {
-  const allProjects = projects;
 
   return (
     <div className="min-h-screen bg-background pt-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <a
           href="#/"
-          onClick={(event) => {
-            if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button === 1) {
-              return;
-            }
-            event.preventDefault();
+          onClick={(e) => {
+            if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1) return;
+            e.preventDefault();
             onBack();
           }}
           className="inline-flex items-center gap-2 text-accent-lime hover:text-accent-lime/80 transition-colors mb-8 group"
@@ -38,7 +35,7 @@ export function ProjectsPage({ onBack, onViewProject }: ProjectsPageProps) {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {allProjects.map((project) => (
+          {projects.map((project) => (
             <ProjectCard
               key={project.slug}
               project={project}

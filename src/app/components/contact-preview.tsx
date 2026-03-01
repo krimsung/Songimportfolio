@@ -26,11 +26,9 @@ export function ContactPreview({ onNavigateToContact }: ContactPreviewProps) {
 
           <a
             href="#/contact"
-            onClick={(event) => {
-              if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button === 1) {
-                return;
-              }
-              event.preventDefault();
+            onClick={(e) => {
+              if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1) return;
+              e.preventDefault();
               onNavigateToContact();
             }}
             className="btn-primary group"

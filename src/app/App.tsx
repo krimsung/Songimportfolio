@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Toaster } from "sonner";
 import { Navigation } from "./components/navigation";
 import { HomePageSlider } from "./components/home-page-slider";
@@ -11,11 +11,15 @@ import { projectsBySlug } from "../data/projects";
 
 type Page = "home" | "projects" | "gallery" | "contact" | "project-detail" | "project-not-found";
 
+/** Scroll to top after any page transition. */
+const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>("home");
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const [previousPage, setPreviousPage] = useState<Page>("home");
 
+  // ── Hash-based routing (single source of truth) ─────────────────────────
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
@@ -38,7 +42,7 @@ export default function App() {
         setCurrentPage("home");
         setSelectedProject(null);
       }
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      scrollToTop();
     };
 
     handleHashChange();
@@ -47,102 +51,84 @@ export default function App() {
     return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
 
-  const handleNavigate = (page: string) => {
-    setCurrentPage(page as Page);
-    window.location.hash = `#/${page}`;
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  // ── Navigation helpers (set hash only — listener handles state) ─────────
+  const handleNavigate = useCallback((page: string) => {
+    window.location.hash = page === "home" ? "#/" : `#/${page}`;
+  }, []);
 
-  const handleViewProject = (projectSlug: string) => {
+  const handleViewProject = useCallback((projectSlug: string) => {
     setPreviousPage(currentPage);
-    setSelectedProject(projectSlug);
-    setCurrentPage("project-detail");
     window.location.hash = `#/projects/${projectSlug}`;
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  }, [currentPage]);
 
-  const handleViewAllProjects = () => {
-    setCurrentPage("projects");
+  const handleViewAllProjects = useCallback(() => {
     window.location.hash = "#/projects";
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  }, []);
 
-  const handleBackToHome = () => {
-    setCurrentPage("home");
-    setSelectedProject(null);
+  const handleBackToHome = useCallback(() => {
     window.location.hash = "#/";
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  }, []);
 
-  const handleBackFromProject = () => {
-    if (previousPage === "projects") {
-      setCurrentPage("projects");
-      setSelectedProject(null);
-      window.location.hash = "#/projects";
-    } else {
-      setCurrentPage("home");
-      setSelectedProject(null);
-      window.location.hash = "#/";
-    }
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  const handleBackFromProject = useCallback(() => {
+    window.location.hash = previousPage === "projects" ? "#/projects" : "#/";
+  }, [previousPage]);
 
   const navigationPage = currentPage === "project-detail" ? "projects" : currentPage;
 
   return (
-      <div className="min-h-screen bg-background text-foreground">
-        <Navigation currentPage={navigationPage} onNavigate={handleNavigate} />
-        <Toaster position="bottom-right" richColors theme="dark" />
+    <div className="min-h-screen bg-background text-foreground">
+      <Navigation currentPage={navigationPage} onNavigate={handleNavigate} />
+      <Toaster position="bottom-right" richColors />
 
-        <main>
-          {currentPage === "home" && (
-            <HomePageSlider
-              onViewProject={handleViewProject}
-              onViewAllProjects={handleViewAllProjects}
-              onNavigateToContact={() => handleNavigate("contact")}
-            />
-          )}
+      <main>
+        {currentPage === "home" && (
+          <HomePageSlider
+            onViewProject={handleViewProject}
+            onViewAllProjects={handleViewAllProjects}
+            onNavigateToContact={() => handleNavigate("contact")}
+          />
+        )}
 
-          {currentPage === "projects" && (
-            <ProjectsPage
-              onBack={handleBackToHome}
-              onViewProject={handleViewProject}
-            />
-          )}
+        {currentPage === "projects" && (
+          <ProjectsPage
+            onBack={handleBackToHome}
+            onViewProject={handleViewProject}
+          />
+        )}
 
-          {currentPage === "gallery" && (
-            <GalleryPage />
-          )}
+        {currentPage === "gallery" && (
+          <GalleryPage />
+        )}
 
-          {currentPage === "contact" && (
-            <ContactPage />
-          )}
+        {currentPage === "contact" && (
+          <ContactPage />
+        )}
 
-          {currentPage === "project-detail" && selectedProject && (
-            <ProjectDetail
-              projectId={selectedProject}
-              onBack={handleBackFromProject}
-              backLabel={previousPage === "projects" ? "Back to Projects" : "Back to Home"}
-            />
-          )}
+        {currentPage === "project-detail" && selectedProject && (
+          <ProjectDetail
+            projectId={selectedProject}
+            onBack={handleBackFromProject}
+            backLabel={previousPage === "projects" ? "Back to Projects" : "Back to Home"}
+          />
+        )}
 
-          {currentPage === "project-not-found" && (
-            <div className="min-h-screen bg-background pt-20">
-              <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <h1 className="text-3xl font-bold text-foreground">Project not found</h1>
-                <p className="text-muted-foreground mt-2">Check the URL and try again.</p>
-                <a
-                  href="#/"
-                  className="mt-6 inline-flex items-center gap-2 text-accent hover:text-accent/90 transition-colors"
-                >
-                  <span>Back to Home</span>
-                </a>
-              </div>
+        {currentPage === "project-not-found" && (
+          <div className="min-h-screen bg-background pt-20">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+              <h1 className="text-3xl font-bold text-foreground">Project not found</h1>
+              <p className="text-muted-foreground mt-2">Check the URL and try again.</p>
+              <a
+                href="#/"
+                className="mt-6 inline-flex items-center gap-2 text-accent hover:text-accent/90 transition-colors"
+              >
+                <span>Back to Home</span>
+              </a>
             </div>
-          )}
-        </main>
+          </div>
+        )}
+      </main>
 
-        {currentPage !== "home" && <Footer />}
-      </div>
+      {currentPage !== "home" && <Footer />}
+    </div>
   );
 }

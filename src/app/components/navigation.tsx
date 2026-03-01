@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Menu, X } from "lucide-react";
 
 interface NavigationProps {
@@ -6,15 +6,41 @@ interface NavigationProps {
   onNavigate: (page: string) => void;
 }
 
+/** Returns true when a click has a modifier key held — allow default browser behavior. */
+function isModifiedClick(e: React.MouseEvent): boolean {
+  return e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1;
+}
+
+const navItems = [
+  { id: "home",     label: "Home",     activeClass: "text-accent-primary",  activeBg: "bg-accent-primary/10",  hoverClass: "hover:text-accent-primary"  },
+  { id: "projects", label: "Projects", activeClass: "text-accent-lime",     activeBg: "bg-accent-lime/10",     hoverClass: "hover:text-accent-lime"     },
+  { id: "gallery",  label: "Gallery",  activeClass: "text-accent-amber",    activeBg: "bg-accent-amber/10",    hoverClass: "hover:text-accent-amber"    },
+  { id: "contact",  label: "Contact",  activeClass: "text-accent-primary",  activeBg: "bg-accent-primary/10",  hoverClass: "hover:text-accent-primary"  },
+] as const;
+
 export function Navigation({ currentPage, onNavigate }: NavigationProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const navItems = [
-    { id: "home",     label: "Home",     activeClass: "text-accent-primary",  activeBg: "bg-accent-primary/10",  hoverClass: "hover:text-accent-primary"  },
-    { id: "projects", label: "Projects", activeClass: "text-accent-lime",     activeBg: "bg-accent-lime/10",     hoverClass: "hover:text-accent-lime"     },
-    { id: "gallery",  label: "Gallery",  activeClass: "text-accent-amber",    activeBg: "bg-accent-amber/10",    hoverClass: "hover:text-accent-amber"    },
-    { id: "contact",  label: "Contact",  activeClass: "text-accent-primary",  activeBg: "bg-accent-primary/10",  hoverClass: "hover:text-accent-primary"  },
-  ];
+  // Close mobile menu on Escape key
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key === "Escape") setMobileMenuOpen(false);
+  }, []);
+
+  // Close mobile menu on outside click
+  const handleOutsideClick = useCallback((e: MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (!target.closest("nav")) setMobileMenuOpen(false);
+  }, []);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("click", handleOutsideClick);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, [mobileMenuOpen, handleKeyDown, handleOutsideClick]);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-card border-b border-border">
@@ -24,11 +50,9 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
           <div className="flex items-center gap-4">
             <a
               href="#/"
-              onClick={(event) => {
-                if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button === 1) {
-                  return;
-                }
-                event.preventDefault();
+              onClick={(e) => {
+                if (isModifiedClick(e)) return;
+                e.preventDefault();
                 onNavigate("home");
               }}
               className="text-foreground hover:text-accent transition-colors"
@@ -47,11 +71,9 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
               <a
                 key={item.id}
                 href={item.id === "home" ? "#/" : `#/${item.id}`}
-                onClick={(event) => {
-                  if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button === 1) {
-                    return;
-                  }
-                  event.preventDefault();
+                onClick={(e) => {
+                  if (isModifiedClick(e)) return;
+                  e.preventDefault();
                   onNavigate(item.id);
                 }}
                 className={`transition-colors font-medium ${
@@ -90,11 +112,9 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
               <a
                 key={item.id}
                 href={item.id === "home" ? "#/" : `#/${item.id}`}
-                onClick={(event) => {
-                  if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button === 1) {
-                    return;
-                  }
-                  event.preventDefault();
+                onClick={(e) => {
+                  if (isModifiedClick(e)) return;
+                  e.preventDefault();
                   onNavigate(item.id);
                   setMobileMenuOpen(false);
                 }}

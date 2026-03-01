@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { HeroSection, HeroOverlay } from "./hero-section";
 import { TerrainScene } from "./TerrainScene";
 import { AboutSection } from "./about-section";
@@ -14,18 +14,13 @@ interface HomePageSliderProps {
 }
 
 const sections = [
-  { id: "hero", component: HeroSection },
-  { id: "about", component: AboutSection },
-  { id: "skills", component: TechnicalExperience },
-  { id: "projects", component: ProjectsSection },
-  { id: "gallery", component: GallerySection },
-  { id: "contact", component: ContactPreview },
-];
-
-/** Accent orange matching --accent-primary (dark mode) */
-const ACCENT = "#FF6B35";
-
-const SECTION_LABELS = ["Landing", "About Me", "Technical Experience", "Featured Projects", "Gallery", "Get In Touch"];
+  { id: "hero", label: "Landing" },
+  { id: "about", label: "About Me" },
+  { id: "skills", label: "Technical Experience" },
+  { id: "projects", label: "Featured Projects" },
+  { id: "gallery", label: "Gallery" },
+  { id: "contact", label: "Get In Touch" },
+] as const;
 
 export function HomePageSlider({ onViewProject, onViewAllProjects, onNavigateToContact }: HomePageSliderProps) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -79,6 +74,30 @@ export function HomePageSlider({ onViewProject, onViewAllProjects, onNavigateToC
     };
   }, [goToNext, goToPrevious, isAnimating]);
 
+  // ── Touch / swipe support ──────────────────────────────────────────────
+  const touchStartY = useRef<number | null>(null);
+
+  useEffect(() => {
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY.current = e.touches[0].clientY;
+    };
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (touchStartY.current === null || isAnimating) return;
+      const deltaY = touchStartY.current - e.changedTouches[0].clientY;
+      touchStartY.current = null;
+      if (Math.abs(deltaY) < 40) return; // ignore tiny swipes
+      if (deltaY > 0) goToNext();
+      else goToPrevious();
+    };
+
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchend", handleTouchEnd, { passive: true });
+    return () => {
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [goToNext, goToPrevious, isAnimating]);
+
   useEffect(() => {
     if (isAnimating) {
       const timer = setTimeout(() => {
@@ -93,8 +112,8 @@ export function HomePageSlider({ onViewProject, onViewAllProjects, onNavigateToC
       {/* Terrain Background */}
       <TerrainScene />
 
-      {/* Hero overlay — outside the carousel transform so mix-blend-mode composites against the terrain */}
-      {activeIndex === 0 && <HeroOverlay />}
+      {/* Hero overlay — scrolls with carousel, mix-blend-mode composites against the terrain */}
+      <HeroOverlay activeIndex={activeIndex} />
 
       {/* Carousel container - scrolls vertically */}
       <div 
@@ -120,27 +139,25 @@ export function HomePageSlider({ onViewProject, onViewAllProjects, onNavigateToC
       <div className="fixed right-16 top-[calc(50%+32px)] -translate-y-1/2 z-50 flex flex-col items-end gap-6 mix-blend-difference">
         {sections.map((section, index) => (
           <button
-            key={index}
+            key={section.id}
             onClick={() => goToSection(index)}
             className={`flex items-center gap-3 transition-all duration-300 h-8 ${
               index === activeIndex ? "opacity-100" : "opacity-40 hover:opacity-70"
             }`}
-            aria-label={`Go to ${section.id}`}
+            aria-label={`Go to ${section.label}`}
           >
             <span
-              className={`uppercase tracking-wider transition-all duration-300 ${
+              className={`uppercase tracking-wider transition-all duration-300 text-accent-primary ${
                 index === activeIndex ? "text-sm font-bold" : "text-xs font-normal opacity-60 hover:opacity-80"
               }`}
-              style={{ color: ACCENT }}
             >
-              {SECTION_LABELS[index]}
+              {section.label}
             </span>
             <div className="w-4 h-4 flex items-center justify-center">
               <div
-                className={`rounded-full transition-all duration-300 ${
-                  index === activeIndex ? "w-3 h-3" : "w-1.5 h-1.5"
+                className={`rounded-full bg-accent-primary transition-all duration-300 ${
+                  index === activeIndex ? "w-3 h-3" : "w-1.5 h-1.5 opacity-30"
                 }`}
-                style={{ backgroundColor: ACCENT, opacity: index === activeIndex ? 1 : 0.3 }}
               />
             </div>
           </button>

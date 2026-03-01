@@ -7,8 +7,6 @@ export interface TerrainSceneRef {
 }
 
 // ─── Configuration ─────────────────────────────────────────────────────────
-// Exported so the host project can match page background / overlay positioning
-// to the terrain scene.
 const HEIGHTMAP_RES = 512;
 const TERRAIN_SIZE  = 240;
 const PARTICLE_GRID = 310;   // 310x310 = 96 100 points
@@ -38,16 +36,12 @@ const RIPPLE_FRAG = /* glsl */`
 
   void main() {
     float curr = texture2D(tState, vUv).r;
-
-    // Pure exponential decay — no wave propagation, no oscillation
     float next = curr * 0.985;
 
-    // Stamp a Gaussian footprint wherever the cursor is active
     float dist = distance(vUv, uMousePos);
-    next += uMouseActive * 0.07 * exp(-dist * dist * 160.0);
+    next += uMouseActive * 0.07 * exp(-dist * dist * 444.0);
 
     next = clamp(next, 0.0, 1.0);
-    // Store current in G channel so particles can still read amplitude
     gl_FragColor = vec4(next, curr, 0.0, 1.0);
   }
 `;
@@ -65,38 +59,31 @@ const PARTICLE_VERT = /* glsl */`
   attribute float aRand;
 
   varying float vHeight;
-  varying float vRipple;
   varying float vRipVel;
   varying float vSizeScale;
   varying float vRiver;
 
   void main() {
-    // Scroll the heightmap U axis — right-to-left infinite terrain
     vec2  scrollUv = vec2(fract(aUv.x + uScrollOffset), aUv.y);
-    float h0      = texture2D(uHeightmap, scrollUv).r;
-    float riverMask = texture2D(uHeightmap, scrollUv).b;
-    float rip     = texture2D(uRipple, aUv).r;
-    float h       = clamp(h0 + rip * (uRippleStr / uTerrainH), 0.0, 1.0);
+    vec4  hmSample = texture2D(uHeightmap, scrollUv);
+    float h0       = hmSample.r;
+    float riverMask = hmSample.b;
+    float rip      = texture2D(uRipple, aUv).r;
+    float h        = clamp(h0 + rip * (uRippleStr / uTerrainH), 0.0, 1.0);
 
     vHeight = h0;
-    vRipple = rip;
     vRiver  = riverMask;
-    // Drive glow directly from decay amplitude — no pulse, just a fading trail
     vRipVel = clamp(rip * 2.8, 0.0, 1.0);
 
     vec3 pos = position;
-    // Very subtle breathe — keeps the cloud alive without visually drifting
     float breathe = sin(uTime * 0.9 + aRand) * 0.12;
     pos.y = h * uTerrainH + breathe;
 
     vec4 mvPos = modelViewMatrix * vec4(pos, 1.0);
     float camDist = -mvPos.z;
 
-    // Size: bigger near snow, smaller in ocean depths, all scaled by distance
     float sz = mix(1.8, 4.8, smoothstep(0.70, 1.0, h0))
               + mix(1.4, 2.4, smoothstep(0.0, 0.25, h0)) * (1.0 - smoothstep(0.25, 0.35, h0));
-    // Boost point size in ripple-affected areas; pass the ratio so the frag
-    // shader can keep the hard core at a fixed pixel width.
     float ripBoost  = vRipVel * 4.0;
     float totalSz   = sz + ripBoost;
     vSizeScale      = totalSz / max(sz, 0.001);
@@ -107,13 +94,11 @@ const PARTICLE_VERT = /* glsl */`
 
 const PARTICLE_FRAG = /* glsl */`
   varying float vHeight;
-  varying float vRipple;
   varying float vRipVel;
   varying float vSizeScale;
   varying float vRiver;
 
   vec3 heightColor(float h) {
-    // Full 12-stop gradient matching the original terrain palette
     vec3 deepOcean  = vec3(0.00, 0.08, 0.28);
     vec3 ocean      = vec3(0.00, 0.20, 0.48);
     vec3 shallowSea = vec3(0.05, 0.38, 0.62);
@@ -145,26 +130,21 @@ const PARTICLE_FRAG = /* glsl */`
     float d    = length(c);
     if (d > 0.5) discard;
 
-    // Tight circular core — sharp falloff so particles stay crisp.
-    // Dividing thresholds by vSizeScale keeps the solid core the same
-    // pixel width regardless of how large the point sprite has grown.
     float fade = 1.0 - smoothstep(0.08 / vSizeScale, 0.28 / vSizeScale, d);
 
     vec3  col   = heightColor(vHeight);
 
-    // River overlay: blend toward shallow-sea water color where river mask is active
-    vec3  riverCol = vec3(0.05, 0.38, 0.62); // shallowSea from the gradient
+    vec3  riverCol = vec3(0.05, 0.38, 0.62);
     float riverBlend = smoothstep(0.05, 0.35, vRiver);
     col = mix(col, riverCol, riverBlend);
 
-    // Glow: tight bright halo (high coefficient = narrow bell) + colour tint
     float halo    = exp(-d * d * 55.0) * vRipVel * 0.55;
     vec3  glowTint = vec3(0.45, 0.72, 1.0);
     vec3  finalCol = col + glowTint * vRipVel * 0.55;
 
     float baseAlpha = mix(0.55, 0.90, smoothstep(0.60, 1.0, vHeight));
     float alpha = fade * baseAlpha + halo;
-    gl_FragColor = vec4(finalCol, clamp(alpha, 0.0, 1.0));
+    gl_FragColor = vec4(finalCol, alpha);
   }
 `;
 
@@ -186,7 +166,7 @@ export const TerrainScene = forwardRef<TerrainSceneRef>(function TerrainScene(_,
 
     // ── Renderer ──────────────────────────────────────────────────────────
     const renderer = new THREE.WebGLRenderer({
-      antialias: true,
+      antialias: false,  // point-sprite scene — MSAA has no effect on particle edges
       alpha: false,
       powerPreference: 'high-performance',
     });
@@ -206,11 +186,7 @@ export const TerrainScene = forwardRef<TerrainSceneRef>(function TerrainScene(_,
     const camBasePos = camera.position.clone();
 
     // ── Heightmap generation ──────────────────────────────────────────────
-    // X axis is mapped onto a circle in 3D noise space so the texture tiles
-    // seamlessly along the scroll axis — eliminates the wrap seam.
-
-    // Seeded PRNG (mulberry32) — deterministic terrain on every load.
-    // Change the seed constants to get a different (but stable) map.
+    // Seeded PRNG (mulberry32) — random base seed per page load for unique terrain.
     function mulberry32(seed: number): () => number {
       let s = seed | 0;
       return () => {
@@ -221,29 +197,27 @@ export const TerrainScene = forwardRef<TerrainSceneRef>(function TerrainScene(_,
       };
     }
 
-    const noiseA = createNoise3D(mulberry32(12345)); // continental base / zone selector
-    const noiseB = createNoise3D(mulberry32(67890)); // mountain ridges + tectonic mask
-    const noiseC = createNoise3D(mulberry32(24680)); // plains, detail, warp field Y
-    const noiseD = createNoise3D(mulberry32(13579)); // river channels / negative ridges
+    // #4 — Random seed per page load, salted per generator
+    const baseSeed = (Math.random() * 0xFFFFFFFF) >>> 0;
+    const noiseA = createNoise3D(mulberry32(baseSeed + 12345));
+    const noiseB = createNoise3D(mulberry32(baseSeed + 67890));
+    const noiseC = createNoise3D(mulberry32(baseSeed + 24680));
+    const noiseD = createNoise3D(mulberry32(baseSeed + 13579));
 
     const hmRes  = HEIGHTMAP_RES;
     const hmData = new Float32Array(hmRes * hmRes * 4);
-
-    const TAU = Math.PI * 2;
 
     // Utilities
     const smst    = (t: number) => t * t * (3.0 - 2.0 * t);
     const clamp01 = (t: number) => Math.max(0, Math.min(1, t));
     const lerp    = (a: number, b: number, t: number) => a + (b - a) * t;
 
-    // ── Seamless circle-mapped sample ────────────────────────────────────
+    // #2 — Linear noise sampling (no tiling, no trig)
     function ns(
       noise: (x: number, y: number, z: number) => number,
       nx: number, ny: number, freq: number
     ): number {
-      const r = freq / TAU;
-      const a = nx * TAU;
-      return noise(Math.cos(a) * r, Math.sin(a) * r, ny * freq);
+      return noise(nx * freq, ny * freq, 0);
     }
 
     // ── Parameterised fBm ──────────────────────────────────────────────────
@@ -257,7 +231,7 @@ export const TerrainScene = forwardRef<TerrainSceneRef>(function TerrainScene(_,
         v += ns(noise, nx, ny, f) * amp;
         tot += amp; amp *= persistence; f *= lacunarity;
       }
-      return v / tot; // [-1, +1]
+      return v / tot;
     }
 
     // ── Ridged multifractal (Musgrave) ─────────────────────────────────────
@@ -274,7 +248,7 @@ export const TerrainScene = forwardRef<TerrainSceneRef>(function TerrainScene(_,
         v += n * amp;
         tot += amp; amp *= persistence; f *= lacunarity;
       }
-      return (v / tot) * 2.0 - 1.0; // [-1, +1]
+      return (v / tot) * 2.0 - 1.0;
     }
 
     // ── River-specific ridged noise ───────────────────────────────────────
@@ -296,9 +270,12 @@ export const TerrainScene = forwardRef<TerrainSceneRef>(function TerrainScene(_,
       return clamp01(v / tot);
     }
 
-    for (let y = 0; y < hmRes; y++) {
-      for (let x = 0; x < hmRes; x++) {
-        const nx = x / hmRes;
+    // #1 — Streaming ring-buffer: per-column generator
+    function generateColumn(worldCol: number) {
+      const nx     = worldCol / hmRes;
+      const texCol = ((worldCol % hmRes) + hmRes) % hmRes;
+
+      for (let y = 0; y < hmRes; y++) {
         const ny = y / hmRes;
 
         // ── Layer 1: Continental — broad terrain shape ─────────────────────
@@ -307,12 +284,12 @@ export const TerrainScene = forwardRef<TerrainSceneRef>(function TerrainScene(_,
         const cnx = nx + 0.45 * cwx;
         const cny = ny + 0.45 * cwy;
 
-        const contRaw = fbm(noiseA, cnx, cny, 0.8, 5, 0.48, 2.0); // [-1, +1]
+        const contRaw = fbm(noiseA, cnx, cny, 0.8, 5, 0.48, 2.0);
 
-        const ct          = contRaw * 0.5 + 0.5;                    // [0, 1]
-        const continental = smst(smst(ct));                          // double smoothstep
-        const contSkewed  = Math.pow(continental, 0.96);             // gentle lift
-        const contH       = contSkewed * 0.83;                      // cap at 0.83
+        const ct          = contRaw * 0.5 + 0.5;
+        const continental = smst(smst(ct));
+        // #3b — removed Math.pow(continental, 0.96)
+        const contH       = continental * 0.83;
 
         // ── Layer 2: Mountain masses ───────────────────────────────────────
         const zoneRaw = fbm(noiseB, nx, ny + 1.3, 0.55, 3, 0.50, 2.0) * 0.5 + 0.5;
@@ -323,53 +300,33 @@ export const TerrainScene = forwardRef<TerrainSceneRef>(function TerrainScene(_,
         const mtnFat    = Math.pow(mtnShaped, 0.7);
         const mtnH      = mtnFat * 0.28 * zone;
 
-        // ── Layer 3: Plains / rolling hills ───────────────────────────────
-        const plainsRaw = fbm(noiseC, nx, ny + 8.3, 2.2, 4, 0.42, 2.1);
-        const plainsH   = plainsRaw * 0.04;
+        // #3a — Plains layer removed (< 4% amplitude, visually redundant)
 
         // ── Layer 4: Multi-scale surface detail ──────────────────────────
 
-        // 4a: Mountain ridgelines
+        // #3c — Ridge detail with height-varying amplitude (absorbs crags)
+        const highMask    = smst(clamp01((contH + mtnH - 0.58) / 0.15));
+        const ridgeAmp    = 0.08 + highMask * 0.055;
         const ridgeDetail = ridgedFbm(noiseB, cnx, cny, 4.0, 4, 0.42, 2.1);
-        const ridgeVal    = (ridgeDetail * 0.5 + 0.5);
-        const ridge4a     = ridgeVal * 0.08 * zone;
+        const ridgeVal    = (ridgeDetail * 0.5 + 0.5) * ridgeAmp * zone;
 
-        // 4b: Erosion / fold texture
-        const erosion4b   = fbm(noiseC, cnx, cny + 20.3, 5.5, 4, 0.44, 2.05);
-        const midBandMask = smst(clamp01((contH - 0.30) / 0.10))
-                          * (1.0 - smst(clamp01((contH - 0.70) / 0.12)));
-        const erosionVal  = erosion4b * 0.06 * midBandMask;
+        // #3d — Erosion + coastal roughness merged into single band detail
+        const bandMask = smst(clamp01((contH - 0.22) / 0.06))
+                       * (1.0 - smst(clamp01((contH - 0.70) / 0.12)));
+        const bandAmp  = lerp(0.045, 0.06, smst(clamp01((contH - 0.30) / 0.15)));
+        const bandVal  = bandMask > 0.001
+                       ? fbm(noiseC, cnx, cny + 20.3, 5.5, 4, 0.44, 2.05) * bandAmp * bandMask
+                       : 0;
 
-        // 4c: Coastal roughness
-        const coastNoise = fbm(noiseA, nx, ny + 30.7, 7.0, 3, 0.40, 2.2);
-        const coastMask  = smst(clamp01((contH - 0.22) / 0.06))
-                         * (1.0 - smst(clamp01((contH - 0.35) / 0.06)));
-        const coastVal   = coastNoise * 0.045 * coastMask;
+        // #3e — Three micro-detail layers merged into one
+        const microNoise = fbm(noiseA, nx, ny + 16.2, 12.0, 3, 0.42, 2.1);
+        const landMask   = smst(clamp01((contH - 0.20) / 0.10));
+        const microVal   = microNoise * lerp(0.015, 0.055, clamp01(contH)) * landMask;
 
-        // 4d: Highland crags
-        const cragNoise = ridgedFbm(noiseD, cnx, cny + 35.1, 7.5, 3, 0.38, 2.15);
-        const cragVal01 = cragNoise * 0.5 + 0.5;
-        const highMask  = smst(clamp01((contH + mtnH - 0.58) / 0.15));
-        const cragVal   = cragVal01 * 0.055 * highMask;
-
-        // 4e: Medium micro-detail
-        const micro1    = fbm(noiseA, nx, ny + 16.2, 12.0, 3, 0.42, 2.1);
-        const landMask4 = smst(clamp01((contH - 0.20) / 0.10));
-        const microVal1 = micro1 * lerp(0.012, 0.04, clamp01(contH)) * landMask4;
-
-        // 4f: Ultra-fine grain
-        const micro2    = fbm(noiseB, nx, ny + 44.8, 22.0, 2, 0.38, 2.0);
-        const microVal2 = micro2 * lerp(0.006, 0.025, clamp01(contH));
-
-        // 4g: Sub-pixel texture
-        const micro3    = fbm(noiseC, nx, ny + 52.3, 40.0, 2, 0.35, 2.0);
-        const microVal3 = micro3 * 0.01;
-
-        const detailAdd = ridge4a + erosionVal + coastVal + cragVal
-                        + microVal1 + microVal2 + microVal3;
+        const detailAdd = ridgeVal + bandVal + microVal;
 
         // ── Composite ─────────────────────────────────────────────────────
-        let h = contH + mtnH + plainsH + detailAdd;
+        let h = contH + mtnH + detailAdd;
 
         // ── Layer 5: River channels ───────────────────────────────────────
         const rwx = fbm(noiseD, nx, ny + 42.7, 0.7, 2, 0.50, 2.0);
@@ -377,29 +334,29 @@ export const TerrainScene = forwardRef<TerrainSceneRef>(function TerrainScene(_,
         const rnx = nx + 0.38 * rwx;
         const rny = ny + 0.38 * rwy;
 
-        const riv1 = riverRidged(noiseD, rnx, rny + 55.0, 0.6, 5, 0.48, 2.1);
-        const riv2 = riverRidged(noiseA, rnx, rny + 60.0, 1.1, 4, 0.45, 2.2);
+        // #3f — Single 6-octave river, width reuses continental warp
+        const river = riverRidged(noiseD, rnx, rny + 55.0, 0.6, 6, 0.48, 2.1);
 
-        const widthMod = fbm(noiseC, nx, ny + 73.0, 0.6, 2, 0.50, 2.0) * 0.5 + 0.5;
-
-        const sharp1 = Math.pow(riv1, lerp(3.0, 5.0, widthMod));
-        const sharp2 = Math.pow(riv2, lerp(4.0, 7.0, widthMod));
-
-        const riverRidge = Math.max(sharp1, sharp2 * 0.6);
+        const widthMod   = cwx * 0.5 + 0.5;
+        const sharpRiver = Math.pow(river, lerp(3.0, 6.0, widthMod));
 
         const riverLandMask = smst(clamp01((h - 0.28) / 0.18))
                             * (1.0 - smst(clamp01((h - 0.72) / 0.14)));
 
-        h -= riverRidge * 0.13 * riverLandMask;
+        h -= sharpRiver * 0.13 * riverLandMask;
         h = clamp01(h);
 
-        const idx = (y * hmRes + x) * 4;
+        const idx = (y * hmRes + texCol) * 4;
         hmData[idx]     = h;
-        hmData[idx + 1] = h;
-        hmData[idx + 2] = clamp01(riverRidge * riverLandMask); // river mask in B channel
+        hmData[idx + 1] = 0;  // #11 — G channel unused, zeroed
+        hmData[idx + 2] = clamp01(sharpRiver * riverLandMask);
         hmData[idx + 3] = 1;
       }
     }
+
+    // Initial fill
+    for (let c = 0; c < hmRes; c++) generateColumn(c);
+    let lastGeneratedCol = hmRes - 1;
 
     const heightmapTex = new THREE.DataTexture(
       hmData, hmRes, hmRes,
@@ -446,21 +403,24 @@ export const TerrainScene = forwardRef<TerrainSceneRef>(function TerrainScene(_,
       uMousePos:    { value: new THREE.Vector2(0.5, 0.5) },
       uMouseActive: { value: 0.0 },
     };
-    rippleScene.add(new THREE.Mesh(
-      new THREE.PlaneGeometry(2, 2),
-      new THREE.ShaderMaterial({
-        uniforms:       rippleUniforms,
-        vertexShader:   RIPPLE_VERT,
-        fragmentShader: RIPPLE_FRAG,
-      })
-    ));
+
+    // #10 — Named references + depthTest/depthWrite disabled
+    const rippleGeo = new THREE.PlaneGeometry(2, 2);
+    const rippleMat = new THREE.ShaderMaterial({
+      uniforms:       rippleUniforms,
+      vertexShader:   RIPPLE_VERT,
+      fragmentShader: RIPPLE_FRAG,
+      depthTest:      false,
+      depthWrite:     false,
+    });
+    rippleScene.add(new THREE.Mesh(rippleGeo, rippleMat));
 
     // ── Particle system ────────────────────────────────────────────────────
-    const pGrid  = PARTICLE_GRID;
-    const pCount = pGrid * pGrid;
-    const pPos   = new Float32Array(pCount * 3);
-    const pUv    = new Float32Array(pCount * 2);
-    const pRand  = new Float32Array(pCount);
+    const pGrid = PARTICLE_GRID;
+    // #16 — pCount removed, inlined pGrid * pGrid
+    const pPos  = new Float32Array(pGrid * pGrid * 3);
+    const pUv   = new Float32Array(pGrid * pGrid * 2);
+    const pRand = new Float32Array(pGrid * pGrid);
 
     // Seeded random for particle breathe offsets — fully deterministic
     const particleRng = mulberry32(99999);
@@ -506,37 +466,137 @@ export const TerrainScene = forwardRef<TerrainSceneRef>(function TerrainScene(_,
 
     // ── Cursor tracking ────────────────────────────────────────────────────
     const mouse           = new THREE.Vector2(0.5, 0.5);
+    const mouseTarget     = new THREE.Vector2(0.5, 0.5);   // raw ray-march result
+    const mousePrev       = new THREE.Vector2(0.5, 0.5);   // previous-frame smoothed pos
     const camDriftTarget  = new THREE.Vector2(0, 0);
     const camDriftCurrent = new THREE.Vector2(0, 0);
     let   mouseActive     = 0.0;
     let   mouseOver       = false;
+    let   currentScrollOffset = 0.0;   // shared between animate() and onMouseMove()
 
-    const raycaster   = new THREE.Raycaster();
-    const groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -(TERRAIN_H * 0.20));
-    const hitPoint    = new THREE.Vector3();
+    const raycaster = new THREE.Raycaster();
+
+    // #12 — Cached BoundingClientRect, refreshed on resize
+    let cachedRect = container.getBoundingClientRect();
+
+    // #13 — Pre-allocated NDC vector (eliminates per-mousemove allocation)
+    const _ndcVec = new THREE.Vector2();
+
+    // CPU heightmap sampler
+    function sampleTerrainHeight(u: number, v: number, scrollOff: number): number {
+      const su  = ((u + scrollOff) % 1.0 + 1.0) % 1.0;  // scroll-adjusted, wrapped [0,1)
+      const col = Math.min(Math.floor(su * hmRes), hmRes - 1);
+      const row = Math.min(Math.floor(v  * hmRes), hmRes - 1);
+      return hmData[(row * hmRes + col) * 4] * TERRAIN_H;
+    }
+
+    // CPU ray-march against heightmap
+    const HALF = TERRAIN_SIZE * 0.5;   // 120 — half the terrain extent
+    const MARCH_STEPS  = 40;           // coarse steps along the ray
+    const REFINE_STEPS = 7;            // binary-search iterations after crossing detected
+
+    function rayMarchTerrain(ray: THREE.Ray, scrollOff: number): THREE.Vector2 | null {
+      // Compute parametric t range where ray overlaps the terrain AABB
+      // AABB: x ∈ [-120, 120], y ∈ [-1, 34], z ∈ [-120, 120]
+      const invDirX = 1.0 / (ray.direction.x || 1e-12);
+      const invDirY = 1.0 / (ray.direction.y || 1e-12);
+      const invDirZ = 1.0 / (ray.direction.z || 1e-12);
+
+      let tMinX = (-HALF - ray.origin.x) * invDirX;
+      let tMaxX = ( HALF - ray.origin.x) * invDirX;
+      if (tMinX > tMaxX) { const tmp = tMinX; tMinX = tMaxX; tMaxX = tmp; }
+
+      let tMinY = (-1       - ray.origin.y) * invDirY;
+      let tMaxY = ((TERRAIN_H + 2) - ray.origin.y) * invDirY;
+      if (tMinY > tMaxY) { const tmp = tMinY; tMinY = tMaxY; tMaxY = tmp; }
+
+      let tMinZ = (-HALF - ray.origin.z) * invDirZ;
+      let tMaxZ = ( HALF - ray.origin.z) * invDirZ;
+      if (tMinZ > tMaxZ) { const tmp = tMinZ; tMinZ = tMaxZ; tMaxZ = tmp; }
+
+      const tEnter = Math.max(tMinX, tMinY, tMinZ, 0);
+      const tExit  = Math.min(tMaxX, tMaxY, tMaxZ);
+      if (tEnter >= tExit) return null;  // ray misses the terrain bounding box entirely
+
+      // Coarse march
+      const dt = (tExit - tEnter) / MARCH_STEPS;
+      let tPrev = tEnter;
+      let yPrev = ray.origin.y + ray.direction.y * tEnter;
+      let hPrev = -Infinity;
+
+      // Evaluate first step terrain height
+      {
+        const wx = ray.origin.x + ray.direction.x * tEnter;
+        const wz = ray.origin.z + ray.direction.z * tEnter;
+        const u  = (wx + HALF) / TERRAIN_SIZE;
+        const v  = (wz + HALF) / TERRAIN_SIZE;
+        if (u >= 0 && u <= 1 && v >= 0 && v <= 1) {
+          hPrev = sampleTerrainHeight(u, v, scrollOff);
+        }
+      }
+
+      for (let i = 1; i <= MARCH_STEPS; i++) {
+        const t  = tEnter + dt * i;
+        const wx = ray.origin.x + ray.direction.x * t;
+        const wz = ray.origin.z + ray.direction.z * t;
+        const ry = ray.origin.y + ray.direction.y * t;
+
+        const u = (wx + HALF) / TERRAIN_SIZE;
+        const v = (wz + HALF) / TERRAIN_SIZE;
+        if (u < 0 || u > 1 || v < 0 || v > 1) { tPrev = t; yPrev = ry; continue; }
+
+        const th = sampleTerrainHeight(u, v, scrollOff);
+
+        // Ray crossed below terrain surface
+        if (ry <= th && yPrev > hPrev) {
+          // Binary-search refinement
+          let tLo = tPrev, tHi = t;
+          for (let r = 0; r < REFINE_STEPS; r++) {
+            const tMid = (tLo + tHi) * 0.5;
+            const mx   = ray.origin.x + ray.direction.x * tMid;
+            const mz   = ray.origin.z + ray.direction.z * tMid;
+            const my   = ray.origin.y + ray.direction.y * tMid;
+            const mu   = (mx + HALF) / TERRAIN_SIZE;
+            const mv   = (mz + HALF) / TERRAIN_SIZE;
+            const mh   = sampleTerrainHeight(mu, mv, scrollOff);
+            if (my > mh) tLo = tMid; else tHi = tMid;
+          }
+          const tFinal = (tLo + tHi) * 0.5;
+          const fx = ray.origin.x + ray.direction.x * tFinal;
+          const fz = ray.origin.z + ray.direction.z * tFinal;
+          const fu = Math.max(0, Math.min(1, (fx + HALF) / TERRAIN_SIZE));
+          const fv = Math.max(0, Math.min(1, (fz + HALF) / TERRAIN_SIZE));
+          return _ndcVec.set(fu, fv);  // reuse _ndcVec as return carrier
+        }
+
+        tPrev = t;
+        yPrev = ry;
+        hPrev = th;
+      }
+
+      return null;
+    }
 
     const onMouseMove = (e: MouseEvent) => {
-      const rect = container.getBoundingClientRect();
-      const sx   = (e.clientX - rect.left) / rect.width;
-      const sy   = (e.clientY - rect.top)  / rect.height;
+      const sx = (e.clientX - cachedRect.left) / cachedRect.width;
+      const sy = (e.clientY - cachedRect.top)  / cachedRect.height;
 
       camDriftTarget.set((sx - 0.5) * 12, (0.5 - sy) * 5);
 
-      raycaster.setFromCamera(new THREE.Vector2(sx * 2 - 1, -(sy * 2 - 1)), camera);
-      if (!raycaster.ray.intersectPlane(groundPlane, hitPoint)) return;
+      // Cast ray through cursor — _ndcVec is reused: setFromCamera reads it
+      // immediately, then rayMarchTerrain overwrites it with the hit UV.
+      _ndcVec.set(sx * 2 - 1, -(sy * 2 - 1));
+      raycaster.setFromCamera(_ndcVec, camera);
 
-      const u = Math.max(0, Math.min(1, (hitPoint.x + TERRAIN_SIZE * 0.5) / TERRAIN_SIZE));
-      const v = Math.max(0, Math.min(1, (hitPoint.z + TERRAIN_SIZE * 0.5) / TERRAIN_SIZE));
-
-      const vel = Math.sqrt((u - mouse.x) ** 2 + (v - mouse.y) ** 2);
-      mouse.set(u, v);
-      mouseActive = Math.min(1.0, mouseActive + vel * 18.0);
+      const hit = rayMarchTerrain(raycaster.ray, currentScrollOffset);
+      if (hit) mouseTarget.set(hit.x, hit.y);
     };
 
     const onMouseEnter = () => { mouseOver = true; };
     const onMouseLeave = () => { mouseOver = false; };
 
-    window.addEventListener('mousemove',  onMouseMove);
+    // #14 — Passive mousemove listener
+    window.addEventListener('mousemove',  onMouseMove, { passive: true });
     window.addEventListener('mouseenter', onMouseEnter);
     window.addEventListener('mouseleave', onMouseLeave);
 
@@ -545,17 +605,23 @@ export const TerrainScene = forwardRef<TerrainSceneRef>(function TerrainScene(_,
       camera.aspect = container.clientWidth / container.clientHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(container.clientWidth, container.clientHeight);
+      cachedRect = container.getBoundingClientRect();  // #12 — refresh on resize
     };
     window.addEventListener('resize', onResize);
 
     // ── Animation loop ───────────────────────────────────────────────────
     let rafId: number;
-    const timer = new THREE.Timer();
+    let elapsedTime    = 0;
+    let lastTimestamp   = performance.now();
+    const MAX_FRAME_DT  = 0.1;  // 100ms cap — prevents time-jump on tab resume
 
     function animate() {
       rafId = requestAnimationFrame(animate);
-      timer.update();
-      const time = timer.getElapsed();
+      const now = performance.now();
+      const dt  = Math.min((now - lastTimestamp) / 1000, MAX_FRAME_DT);
+      lastTimestamp = now;
+      elapsedTime += dt;
+      const time = elapsedTime;
 
       // Smooth camera parallax
       camDriftCurrent.x += (camDriftTarget.x - camDriftCurrent.x) * 0.045;
@@ -563,6 +629,15 @@ export const TerrainScene = forwardRef<TerrainSceneRef>(function TerrainScene(_,
       camera.position.x  = camBasePos.x + camDriftCurrent.x + Math.sin(time * 0.04) * 3.0;
       camera.position.y  = camBasePos.y + camDriftCurrent.y;
       camera.lookAt(CAM_TARGET);
+
+      // Smooth mouse toward target + compute velocity for ripple activation
+      mousePrev.copy(mouse);
+      mouse.x += (mouseTarget.x - mouse.x) * 0.3;
+      mouse.y += (mouseTarget.y - mouse.y) * 0.3;
+      const smoothVel = Math.sqrt(
+        (mouse.x - mousePrev.x) ** 2 + (mouse.y - mousePrev.y) ** 2
+      );
+      mouseActive = Math.min(1.0, mouseActive + smoothVel * 18.0);
 
       // Ripple step
       rippleUniforms.tState.value       = rtRead.texture;
@@ -577,12 +652,25 @@ export const TerrainScene = forwardRef<TerrainSceneRef>(function TerrainScene(_,
       mouseActive *= 0.82;
       if (mouseOver) mouseActive = Math.max(mouseActive, 0.25);
 
+      // Scroll offset
+      currentScrollOffset = (time * SCROLL_SPEED) % 1.0;
+
       // Update particle uniforms
       particleUniforms.uRipple.value        = rtRead.texture;
       particleUniforms.uTime.value          = time;
-      particleUniforms.uScrollOffset.value  = (time * SCROLL_SPEED) % 1.0;
+      particleUniforms.uScrollOffset.value  = currentScrollOffset;
 
       renderer.render(scene, camera);
+
+      // #1 — Stream new columns as scroll advances
+      const rightmostNeeded = Math.floor(time * SCROLL_SPEED * hmRes) + hmRes - 1;
+      if (rightmostNeeded > lastGeneratedCol) {
+        for (let c = lastGeneratedCol + 1; c <= rightmostNeeded; c++) {
+          generateColumn(c);
+        }
+        lastGeneratedCol = rightmostNeeded;
+        heightmapTex.needsUpdate = true;
+      }
     }
 
     animate();
@@ -598,6 +686,8 @@ export const TerrainScene = forwardRef<TerrainSceneRef>(function TerrainScene(_,
       rtRead.dispose();
       rtWrite.dispose();
       heightmapTex.dispose();
+      rippleGeo.dispose();   // #15 — added
+      rippleMat.dispose();   // #15 — added
       particleGeo.dispose();
       particleMat.dispose();
       if (container.contains(renderer.domElement)) {

@@ -23,21 +23,26 @@ const ROLES = [
   "UX/UI DESIGNER",
 ];
 
-/** Accent orange matching --accent-primary (dark mode) */
-const ACCENT = "#FF6B35";
-
-export function HeroOverlay() {
+export function HeroOverlay({ activeIndex }: { activeIndex: number }) {
   return (
-    <div className="absolute inset-0 top-16 flex items-center justify-center overflow-hidden pointer-events-none mix-blend-difference">
+    <div 
+      className="absolute left-0 right-0 flex items-center justify-center overflow-hidden pointer-events-none mix-blend-difference"
+      style={{ 
+        top: '4rem', 
+        height: 'calc(100vh - 4rem)',
+        transform: `translateY(-${activeIndex * 100}%)`,
+        transition: 'transform 500ms ease-out'
+      }}
+    >
       {/* Hero Text */}
       <div className="text-center px-4">
         <h1
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-4 tracking-tight"
-          style={{ color: ACCENT }}
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-4 tracking-tight mix-blend-difference"
+          style={{ color: '#FFFFFF' }}
         >
           SONG IM
         </h1>
-        <div className="text-xl md:text-3xl max-w-2xl mx-auto h-32 flex items-center justify-center overflow-hidden relative">
+        <div className="text-xl md:text-3xl max-w-2xl mx-auto h-32 flex items-center justify-center overflow-hidden relative" aria-live="polite">
           <div className="relative w-full h-full flex justify-center items-center">
             {ROLES.map((role, index) => (
               <div
@@ -46,8 +51,7 @@ export function HeroOverlay() {
                 style={{ animationDelay: `${(index - 1) * 3}s` }}
               >
                 <span
-                  className="text-2xl md:text-3xl font-semibold whitespace-nowrap"
-                  style={{ color: ACCENT }}
+                  className="text-2xl md:text-3xl font-semibold whitespace-nowrap text-accent-primary"
                 >
                   {role}
                 </span>
@@ -60,17 +64,14 @@ export function HeroOverlay() {
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-8">
         <div className="flex items-center justify-center gap-4">
-          <div className="h-px w-12" style={{ backgroundColor: ACCENT }} />
-          <span className="text-sm uppercase tracking-wider" style={{ color: ACCENT }}>
+          <div className="h-px w-12 bg-accent-primary" />
+          <span className="text-sm uppercase tracking-wider text-accent-primary">
             Scroll to explore
           </span>
-          <div className="h-px w-12" style={{ backgroundColor: ACCENT }} />
+          <div className="h-px w-12 bg-accent-primary" />
         </div>
-        <div
-          className="w-6 h-10 border-2 rounded-full p-1 animate-bounce"
-          style={{ borderColor: ACCENT }}
-        >
-          <div className="w-1 h-2 rounded-full mx-auto" style={{ backgroundColor: ACCENT }} />
+        <div className="w-6 h-10 border-2 border-accent-primary rounded-full p-1 animate-bounce">
+          <div className="w-1 h-2 rounded-full mx-auto bg-accent-primary" />
         </div>
       </div>
     </div>
