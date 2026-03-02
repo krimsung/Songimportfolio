@@ -1,64 +1,85 @@
-import { ArrowLeft, ZoomIn, X, ChevronLeft, ChevronRight } from "lucide-react";
-import { useState, useEffect, useCallback } from "react";
+import { ArrowLeft, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useEffect, useCallback, useRef } from "react";
+
+import Hellbound from "../../media/videos/Hellbound.mp4";
+import Island from "../../media/videos/Island.mp4";
+import Snow from "../../media/videos/Snow.mp4";
+import BoulderDestruction from "../../media/videos/Boulder Destruction.mp4";
+import Sparks from "../../media/videos/Sparks.mp4";
+import Lighting from "../../media/videos/Lighting.mp4";
+import GrenadeToon from "../../media/videos/Grenade Toon.mp4";
+import Rocket from "../../media/videos/Rocket.mp4";
+import FinisherBig from "../../media/videos/Finisher Big.mp4";
+import Grenade from "../../media/videos/Grenade.mp4";
+import FinisherSmall from "../../media/videos/Finisher Small.mp4";
+import Campfire from "../../media/videos/Campfire.mp4";
+import Flamethrower from "../../media/videos/Flamethrower.mp4";
+import RenderTargetFogOfWar from "../../media/videos/Render Target Fog-of-War.mp4";
+import MetaconstructLightingPass from "../../media/videos/Metaconstruct Lighting Pass 720p.mp4";
+import GodForgedMainMenu from "../../media/videos/GodForged Main Menu.mp4";
+import PyGameGamejams from "../../media/videos/PyGame Gamejams.mp4";
 
 const galleryItems = [
-  {
-    url: "https://images.unsplash.com/photo-1765606290905-b9d377ea4d5e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYW50YXN5JTIwZ2FtZSUyMGNoYXJhY3RlciUyMGFydHxlbnwxfHx8fDE3NzAwNjY5MDN8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    title: "Fantasy Character Design",
-    category: "Character Art",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1727718296494-47d1e4fd41d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzY2ktZmklMjBlbnZpcm9ubWVudCUyMGNvbmNlcHR8ZW58MXx8fHwxNzcwMTU3MDE2fDA&ixlib=rb-4.1.0&q=80&w=1080",
-    title: "Sci-Fi Environment",
-    category: "Environment Art",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1668119065888-eb6b7a98a84a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2aWRlbyUyMGdhbWUlMjBhcnR3b3JrfGVufDF8fHx8MTc3MDEwMTc5M3ww&ixlib=rb-4.1.0&q=80&w=1080",
-    title: "Game Artwork",
-    category: "Concept Art",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1760802185763-fe4999466b78?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHwzZCUyMGdhbWUlMjBhc3NldHxlbnwxfHx8fDE3NzAxNTcwMTd8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    title: "3D Asset Creation",
-    category: "3D Modeling",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1683818051102-dd1199d163b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaWdpdGFsJTIwYXJ0JTIwcG9ydGZvbGlvfGVufDF8fHx8MTc3MDE1NzAxOHww&ixlib=rb-4.1.0&q=80&w=1080",
-    title: "Digital Art",
-    category: "Illustration",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1542751371-adc38448a05e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnYW1lJTIwZGV2ZWxvcG1lbnR8ZW58MXx8fHwxNzcwMTU3MDE5fDA&ixlib=rb-4.1.0&q=80&w=1080",
-    title: "Game Development",
-    category: "Development",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1511512578047-dfb367046420?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnYW1lJTIwcHJvamVjdCUyMG1hbmFnZW1lbnR8ZW58MXx8fHwxNzcwMTU3MDIw&ixlib=rb-4.1.0&q=80&w=1080",
-    title: "Project Management",
-    category: "Planning",
-  },
-] as const;
+  { src: Hellbound,             title: "Hellbound",                    subtitle: "VFX Animation" },
+  { src: Island,                title: "Island",                       subtitle: "VFX Animation" },
+  { src: Snow,                  title: "Snow",                         subtitle: "VFX Animation" },
+  { src: BoulderDestruction,    title: "Boulder Destruction",          subtitle: "VFX Animation" },
+  { src: Sparks,                title: "Sparks",                       subtitle: "VFX Animation" },
+  { src: Lighting,              title: "Lighting",                     subtitle: "VFX Animation" },
+  { src: GrenadeToon,           title: "Grenade Toon",                 subtitle: "VFX Animation" },
+  { src: Rocket,                title: "Rocket",                       subtitle: "VFX Animation" },
+  { src: FinisherBig,           title: "Finisher Big",                 subtitle: "VFX Animation" },
+  { src: Grenade,               title: "Grenade",                      subtitle: "VFX Animation" },
+  { src: FinisherSmall,         title: "Finisher Small",               subtitle: "VFX Animation" },
+  { src: Campfire,              title: "Campfire",                     subtitle: "VFX Animation" },
+  { src: Flamethrower,          title: "Flamethrower",                 subtitle: "VFX Animation" },
+  { src: RenderTargetFogOfWar,  title: "Render Target Fog-of-War",     subtitle: "VFX Animation" },
+  { src: MetaconstructLightingPass, title: "Metaconstruct Lighting Pass", subtitle: "VFX Animation" },
+  { src: GodForgedMainMenu,     title: "GodForged Main Menu",          subtitle: "VFX Animation" },
+  { src: PyGameGamejams,        title: "PyGame Gamejams",              subtitle: "VFX Animation" },
+];
+
+function LightboxVideo({ src }: { src: string }) {
+  const ref = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    ref.current?.play();
+  }, [src]);
+
+  return (
+    <video
+      ref={ref}
+      key={src}
+      src={src}
+      className="max-w-full max-h-[80vh] object-contain rounded-lg"
+      autoPlay
+      loop
+      muted
+      playsInline
+    />
+  );
+}
 
 export function GalleryPage() {
-  const [selectedImage, setSelectedImage] = useState<number | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
-  const closeLightbox = useCallback(() => setSelectedImage(null), []);
+  const closeLightbox = useCallback(() => setSelectedIndex(null), []);
 
   const goToPrevious = useCallback(() => {
-    setSelectedImage((prev) =>
+    setSelectedIndex((prev) =>
       prev === null ? null : (prev - 1 + galleryItems.length) % galleryItems.length
     );
   }, []);
 
   const goToNext = useCallback(() => {
-    setSelectedImage((prev) =>
+    setSelectedIndex((prev) =>
       prev === null ? null : (prev + 1) % galleryItems.length
     );
   }, []);
 
-  // Keyboard navigation: Escape / ArrowLeft / ArrowRight
+  // Keyboard navigation
   useEffect(() => {
-    if (selectedImage === null) return;
+    if (selectedIndex === null) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") closeLightbox();
       else if (e.key === "ArrowLeft") goToPrevious();
@@ -66,17 +87,13 @@ export function GalleryPage() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selectedImage, closeLightbox, goToPrevious, goToNext]);
+  }, [selectedIndex, closeLightbox, goToPrevious, goToNext]);
 
   // Lock body scroll when lightbox is open
   useEffect(() => {
-    if (selectedImage !== null) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    document.body.style.overflow = selectedIndex !== null ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
-  }, [selectedImage]);
+  }, [selectedIndex]);
 
   return (
     <div className="min-h-screen bg-background pt-20">
@@ -94,7 +111,7 @@ export function GalleryPage() {
             Gallery
           </h1>
           <p className="text-lg text-muted-foreground">
-            A showcase of my artwork, character designs, and environment pieces
+            A showcase of my VFX animations and effects work
           </p>
         </div>
 
@@ -104,27 +121,23 @@ export function GalleryPage() {
               key={item.title}
               type="button"
               className="group relative cursor-pointer text-left"
-              onClick={() => setSelectedImage(index)}
+              onClick={() => setSelectedIndex(index)}
             >
               <div className="relative overflow-hidden rounded-lg bg-card border border-border transition duration-100 hover:border-accent-amber hover:bg-accent-amber/5 hover:shadow-lg hover:shadow-accent-amber/50">
-                <div className="aspect-square relative">
-                  <img
-                    src={item.url}
-                    alt={item.title}
+                <div className="aspect-square relative bg-black">
+                  <video
+                    src={item.src}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-200"
-                    loading="lazy"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="p-3 bg-accent-amber border-2 border-accent-amber/70 rounded-full">
-                      <ZoomIn className="w-6 h-6 text-[#0E0D11]" />
-                    </div>
-                  </div>
-
                   <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-200">
                     <h3 className="text-foreground font-semibold mb-1">{item.title}</h3>
-                    <span className="text-sm text-accent-amber font-medium">{item.category}</span>
+                    <span className="text-sm text-accent-amber font-medium">{item.subtitle}</span>
                   </div>
                 </div>
               </div>
@@ -133,7 +146,7 @@ export function GalleryPage() {
         </div>
 
         {/* Lightbox Modal */}
-        {selectedImage !== null && (
+        {selectedIndex !== null && (
           <div
             className="fixed inset-0 z-50 flex items-center justify-center"
             onClick={closeLightbox}
@@ -154,7 +167,7 @@ export function GalleryPage() {
             <button
               className="btn-icon absolute left-4 top-1/2 -translate-y-1/2 z-10"
               onClick={(e) => { e.stopPropagation(); goToPrevious(); }}
-              aria-label="Previous image"
+              aria-label="Previous video"
             >
               <ChevronLeft className="w-6 h-6" />
             </button>
@@ -163,34 +176,30 @@ export function GalleryPage() {
             <button
               className="btn-icon absolute right-4 top-1/2 -translate-y-1/2 z-10"
               onClick={(e) => { e.stopPropagation(); goToNext(); }}
-              aria-label="Next image"
+              aria-label="Next video"
             >
               <ChevronRight className="w-6 h-6" />
             </button>
 
-            {/* Image + info */}
+            {/* Video + info */}
             <div
               className="relative max-w-[90vw] max-h-[90vh] flex flex-col items-center gap-4"
               onClick={(e) => e.stopPropagation()}
             >
-              <img
-                src={galleryItems[selectedImage].url}
-                alt={galleryItems[selectedImage].title}
-                className="max-w-full max-h-[80vh] object-contain rounded-lg"
-              />
+              <LightboxVideo src={galleryItems[selectedIndex].src} />
               <div className="text-center">
                 <h3 className="text-2xl font-bold text-foreground mb-2">
-                  {galleryItems[selectedImage].title}
+                  {galleryItems[selectedIndex].title}
                 </h3>
                 <span className="text-accent-amber font-medium">
-                  {galleryItems[selectedImage].category}
+                  {galleryItems[selectedIndex].subtitle}
                 </span>
               </div>
             </div>
 
-            {/* Image counter */}
+            {/* Counter */}
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-foreground text-sm bg-card/80 px-4 py-2 rounded-full backdrop-blur-sm">
-              {selectedImage + 1} / {galleryItems.length}
+              {selectedIndex + 1} / {galleryItems.length}
             </div>
           </div>
         )}
