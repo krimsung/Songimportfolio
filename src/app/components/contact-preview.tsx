@@ -7,8 +7,8 @@ interface ContactPreviewProps {
 export function ContactPreview({ onNavigateToContact }: ContactPreviewProps) {
   return (
     <section className="w-full h-full flex items-center justify-center">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-card rounded-lg p-8 md:p-12 border border-border transition duration-100 hover:border-accent-primary hover:shadow-lg hover:shadow-accent-primary/50">
+        <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-card rounded-lg p-8 border border-border transition duration-100 hover:border-accent-primary hover:shadow-lg hover:shadow-accent-primary/50">
           <div className="flex items-center gap-3 mb-6">
             <div className="p-3 bg-accent-primary/10 rounded-lg">
               <Mail className="w-8 h-8 text-accent-primary" />
@@ -24,18 +24,20 @@ export function ContactPreview({ onNavigateToContact }: ContactPreviewProps) {
             and discuss how I can contribute to bringing your vision to life.
           </p>
 
-          <a
-            href="#/contact"
-            onClick={(e) => {
-              if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1) return;
-              e.preventDefault();
-              onNavigateToContact();
-            }}
-            className="btn-primary group"
-          >
-            <span>Get In Touch</span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
-          </a>
+          <div className="flex justify-end">
+            <a
+              href="#/contact"
+              onClick={(e) => {
+                if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1) return;
+                e.preventDefault();
+                onNavigateToContact();
+              }}
+              className="btn-primary group"
+            >
+              <span>Get In Touch</span>
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
+            </a>
+          </div>
         </div>
       </div>
     </section>

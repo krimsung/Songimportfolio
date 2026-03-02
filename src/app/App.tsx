@@ -86,6 +86,7 @@ export default function App() {
             onViewProject={handleViewProject}
             onViewAllProjects={handleViewAllProjects}
             onNavigateToContact={() => handleNavigate("contact")}
+            onNavigateToGallery={() => handleNavigate("gallery")}
           />
         )}
 

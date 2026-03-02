@@ -1,4 +1,4 @@
-import { ArrowLeft, Mail, LinkedinIcon, GithubIcon, XIcon, Send, Download } from "lucide-react";
+import { ArrowLeft, Mail, LinkedinIcon, XIcon, Send, Download } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -105,17 +105,6 @@ export function ContactPage() {
                   <span>linkedin.com/in/song-im</span>
                 </a>
                 <a
-                  href="https://github.com/songim"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-muted-foreground hover:text-accent-violet transition-colors group"
-                >
-                  <div className="icon-wrapper-violet">
-                    <GithubIcon className="w-5 h-5 text-accent-violet" />
-                  </div>
-                  <span>github.com/songim</span>
-                </a>
-                <a
                   href="https://twitter.com/songim_dev"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -129,7 +118,7 @@ export function ContactPage() {
               </div>
             </div>
 
-            <div className="bg-card rounded-lg p-8 border border-border flex-1 flex flex-col transition duration-100 hover:border-accent-primary hover:bg-accent-primary/5 hover:shadow-lg hover:shadow-accent-primary/50">
+            <div className="bg-card rounded-lg p-8 border border-border transition duration-100 hover:border-accent-primary hover:bg-accent-primary/5 hover:shadow-lg hover:shadow-accent-primary/50">
               <h2 className="text-2xl font-bold text-foreground mb-4">Availability</h2>
               <p className="text-muted-foreground mb-6">
                 I'm currently accepting new projects and full-time positions. Expected response time: 24-48 hours.

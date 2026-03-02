@@ -1,4 +1,9 @@
 import { useState } from "react";
+import { ArrowRight } from "lucide-react";
+
+interface GallerySectionProps {
+  onNavigateToGallery?: () => void;
+}
 
 const images = [
   {
@@ -33,29 +38,29 @@ const images = [
   },
 ] as const;
 
-export function GallerySection() {
+export function GallerySection({ onNavigateToGallery }: GallerySectionProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   return (
     <section className="w-full h-full flex items-center justify-center overflow-auto">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 text-center">
           Gallery
         </h2>
 
-        <div className="relative bg-card rounded-lg overflow-hidden border border-border transition duration-100 hover:border-accent-amber hover:shadow-lg hover:shadow-accent-amber/50 mb-12">
-          {/* Main Image */}
-          <div className="relative h-[500px] overflow-hidden">
+        <div className="relative rounded-lg overflow-hidden border border-border transition duration-100 hover:border-accent-amber hover:shadow-lg hover:shadow-accent-amber/50 mb-12">
+          {/* Main Image — thumbnails overlaid at bottom */}
+          <div className="relative h-[624px] overflow-hidden">
             <img
               src={images[currentIndex].url}
               alt={images[currentIndex].title}
               className="w-full h-full object-cover"
               loading="lazy"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
 
-            {/* Image Info */}
-            <div className="absolute bottom-0 left-0 right-0 p-8">
+            {/* Image Info — positioned above thumbnails */}
+            <div className="absolute bottom-[132px] left-0 right-0 px-6">
               <h3 className="text-2xl font-semibold text-foreground mb-1">
                 {images[currentIndex].title}
               </h3>
@@ -63,29 +68,50 @@ export function GallerySection() {
                 {images[currentIndex].description}
               </p>
             </div>
-          </div>
 
-          {/* Thumbnails */}
-          <div className="flex gap-1 p-1 sm:gap-2 sm:p-2 bg-card overflow-hidden">
-            {images.map((image, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`flex-1 min-w-0 aspect-[3/2] rounded overflow-hidden border-2 transition duration-100 ${
-                  index === currentIndex
-                    ? "border-accent-amber bg-accent-amber/10 scale-105"
-                    : "border-border opacity-60 hover:opacity-100"
-                }`}
-              >
-                <img
-                  src={image.url}
-                  alt={image.title}
-                  className="w-full h-full object-cover transition-transform duration-200 hover:scale-110"
-                  loading="lazy"
-                />
-              </button>
-            ))}
+            {/* Thumbnails — overlaid at bottom, 5 small thumbnails */}
+            <div className="absolute bottom-0 left-0 right-0 flex gap-2 p-2 overflow-hidden">
+              {images.map((image, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentIndex(index)}
+                  className={`relative flex-1 min-w-0 h-[104px] rounded-lg overflow-hidden border-2 transition duration-100 ${
+                    index === currentIndex
+                      ? "border-accent-amber scale-105"
+                      : "border-border/50"
+                  }`}
+                >
+                  <img
+                    src={image.url}
+                    alt={image.title}
+                    className="w-full h-full object-cover transition-transform duration-200 hover:scale-110"
+                    loading="lazy"
+                  />
+                  {index !== currentIndex && (
+                    <div className="absolute inset-0 bg-black/50 hover:bg-black/20 transition duration-100" />
+                  )}
+                </button>
+              ))}
+            </div>
           </div>
+        </div>
+
+        {/* View Full Gallery Link */}
+        <div className="flex justify-end">
+          <a
+            href="#/gallery"
+            onClick={(event) => {
+              if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button === 1) {
+                return;
+              }
+              event.preventDefault();
+              onNavigateToGallery?.();
+            }}
+            className="btn-amber group"
+          >
+            <span>View Full Gallery</span>
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
+          </a>
         </div>
       </div>
     </section>

@@ -11,7 +11,7 @@ export function ProjectsSection({ onViewProject, onViewAllProjects }: ProjectsSe
 
   return (
     <section className="w-full h-full flex items-center justify-center overflow-auto">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 text-center">
           Featured Projects
         </h2>

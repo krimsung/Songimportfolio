@@ -114,10 +114,10 @@ export function GalleryPage() {
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-200"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="p-3 bg-accent-amber border-2 border-accent-amber/70 rounded-full shadow-lg shadow-accent-amber/50">
+                      <div className="p-3 bg-accent-amber border-2 border-accent-amber/70 rounded-full">
                       <ZoomIn className="w-6 h-6 text-[#0E0D11]" />
                     </div>
                   </div>

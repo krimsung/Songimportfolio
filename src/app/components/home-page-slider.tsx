@@ -11,18 +11,19 @@ interface HomePageSliderProps {
   onViewProject: (slug: string) => void;
   onViewAllProjects: () => void;
   onNavigateToContact: () => void;
+  onNavigateToGallery: () => void;
 }
 
 const sections = [
-  { id: "hero", label: "Landing" },
-  { id: "about", label: "About Me" },
-  { id: "skills", label: "Technical Experience" },
-  { id: "projects", label: "Featured Projects" },
-  { id: "gallery", label: "Gallery" },
-  { id: "contact", label: "Get In Touch" },
+  { id: "hero", label: "Landing", textColor: "text-accent-primary", bgColor: "bg-accent-primary" },
+  { id: "about", label: "About Me", textColor: "text-accent-cyan", bgColor: "bg-accent-cyan" },
+  { id: "skills", label: "Technical Experience", textColor: "text-accent-violet", bgColor: "bg-accent-violet" },
+  { id: "projects", label: "Featured Projects", textColor: "text-accent-lime", bgColor: "bg-accent-lime" },
+  { id: "gallery", label: "Gallery", textColor: "text-accent-amber", bgColor: "bg-accent-amber" },
+  { id: "contact", label: "Get In Touch", textColor: "text-accent-primary", bgColor: "bg-accent-primary" },
 ] as const;
 
-export function HomePageSlider({ onViewProject, onViewAllProjects, onNavigateToContact }: HomePageSliderProps) {
+export function HomePageSlider({ onViewProject, onViewAllProjects, onNavigateToContact, onNavigateToGallery }: HomePageSliderProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -129,7 +130,7 @@ export function HomePageSlider({ onViewProject, onViewAllProjects, onNavigateToC
             {section.id === "about" && <AboutSection />}
             {section.id === "skills" && <TechnicalExperience />}
             {section.id === "projects" && <ProjectsSection onViewProject={onViewProject} onViewAllProjects={onViewAllProjects} />}
-            {section.id === "gallery" && <GallerySection />}
+            {section.id === "gallery" && <GallerySection onNavigateToGallery={onNavigateToGallery} />}
             {section.id === "contact" && <ContactPreview onNavigateToContact={onNavigateToContact} />}
           </div>
         ))}
@@ -147,7 +148,7 @@ export function HomePageSlider({ onViewProject, onViewAllProjects, onNavigateToC
             aria-label={`Go to ${section.label}`}
           >
             <span
-              className={`uppercase tracking-wider transition-all duration-300 text-accent-primary ${
+              className={`uppercase tracking-wider transition-all duration-300 ${section.textColor} ${
                 index === activeIndex ? "text-sm font-bold" : "text-xs font-normal opacity-60 hover:opacity-80"
               }`}
             >
@@ -155,7 +156,7 @@ export function HomePageSlider({ onViewProject, onViewAllProjects, onNavigateToC
             </span>
             <div className="w-4 h-4 flex items-center justify-center">
               <div
-                className={`rounded-full bg-accent-primary transition-all duration-300 ${
+                className={`rounded-full ${section.bgColor} transition-all duration-300 ${
                   index === activeIndex ? "w-3 h-3" : "w-1.5 h-1.5 opacity-30"
                 }`}
               />

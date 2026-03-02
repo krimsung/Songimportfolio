@@ -19,7 +19,7 @@ const skills = [
   {
     icon: Box,
     category: "Technical Art",
-    items: ["Niagara Particle System", "Unreal Engine Shader Graph", "Unity VFX Graph", "Unity Shader Graph", "Model Rigging"],
+    items: ["Niagara Particle System", "UE5 Shader Graph", "Unity VFX Graph", "Unity Shader Graph", "Model Rigging"],
   },
   {
     icon: Layers,
@@ -36,7 +36,7 @@ const skills = [
 export function TechnicalExperience() {
   return (
     <section className="w-full h-full flex items-center justify-center overflow-auto">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 text-center">
           TECHNICAL EXPERIENCE
         </h2>
@@ -47,7 +47,7 @@ export function TechnicalExperience() {
             return (
               <div
                 key={index}
-                className="bg-card rounded-lg p-6 border border-border group transition duration-100 hover:border-accent-violet hover:shadow-lg hover:shadow-accent-violet/50"
+                className="aspect-square bg-card rounded-lg p-6 border border-border group transition duration-100 hover:border-accent-violet hover:shadow-lg hover:shadow-accent-violet/50"
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="p-2 bg-accent-violet/10 border border-accent-violet/30 rounded-lg">

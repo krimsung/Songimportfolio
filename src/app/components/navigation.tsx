@@ -44,7 +44,7 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-card border-b border-border">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo and Status */}
           <div className="flex items-center gap-4">
@@ -118,7 +118,7 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
                   onNavigate(item.id);
                   setMobileMenuOpen(false);
                 }}
-                className={`block w-full text-left px-3 py-2 rounded transition-colors font-medium ${
+                className={`block w-full text-left px-3 py-2 rounded-lg transition-colors font-medium ${
                   currentPage === item.id
                     ? `${item.activeClass} ${item.activeBg}`
                     : `text-muted-foreground ${item.hoverClass} hover:bg-border`
