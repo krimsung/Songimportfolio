@@ -2,12 +2,12 @@ import detailsCsv from "./Portfolio Website - Sheet1.csv?raw";
 import thumbsCsv from "./Portfolio Website Thumbnail - Sheet1.csv?raw";
 
 // Import thumbnail images
-import ghostCtrlThumb from "../media/images/thumbnails/Ghost CTRL Thumbnail.png";
-import finalShotThumb from "../media/images/thumbnails/Final Shot Thumbnail.png";
-import rogueDataThumb from "../media/images/thumbnails/Rogue Data Thumbnail.png";
-import metaconstructThumb from "../media/images/thumbnails/METACONSTRUCT Thumbnail.png";
-import tinySheriffThumb from "../media/images/thumbnails/Tiny Sheriff Thumbnail.jpg";
-import godforgedThumb from "../media/images/thumbnails/GODFORGED Thumbnail.png";
+import ghostCtrlThumb from "../media/thumbnails/Ghost CTRL Thumbnail.png";
+import finalShotThumb from "../media/thumbnails/Final Shot Thumbnail.png";
+import rogueDataThumb from "../media/thumbnails/Rogue Data Thumbnail.png";
+import metaconstructThumb from "../media/thumbnails/METACONSTRUCT Thumbnail.png";
+import tinySheriffThumb from "../media/thumbnails/Tiny Sheriff Thumbnail.jpg";
+import godforgedThumb from "../media/thumbnails/GODFORGED Thumbnail.png";
 
 // Map project titles (lowercased) to their thumbnail images.
 // Add a new entry here whenever a new project thumbnail is added.
@@ -28,7 +28,7 @@ const getThumbnailForProject = (title: string): string => {
 
 // Dynamically import all project gallery images at build time
 const projectImageModules = import.meta.glob<{ default: string }>(
-  "../media/images/projects/**/*.{png,jpg,jpeg,gif,webp}",
+  "../media/projects/**/*.{png,jpg,jpeg,gif,webp}",
   { eager: true }
 );
 
@@ -51,7 +51,7 @@ const getGalleryImagesForProject = (title: string): string[] => {
   const images: string[] = [];
 
   for (const [path, module] of Object.entries(projectImageModules)) {
-    // Path format: ../media/images/projects/[folderName]/[...subdirs/]image.ext
+    // Path format: ../media/projects/[folderName]/[...subdirs/]image.ext
     // We match only the immediate subfolder of "projects/" to avoid subdirectory images.
     const pathParts = path.split("/");
     const projectsIndex = pathParts.indexOf("projects");

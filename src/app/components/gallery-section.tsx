@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 
-import Hellbound from "../../media/videos/Hellbound.mp4";
-import Island from "../../media/videos/Island.mp4";
-import Snow from "../../media/videos/Snow.mp4";
-import BoulderDestruction from "../../media/videos/Boulder Destruction.mp4";
-import Sparks from "../../media/videos/Sparks.mp4";
-import Campfire from "../../media/videos/Campfire.mp4";
+import Hellbound from "../../media/gallery/Hellbound.mp4";
+import Island from "../../media/gallery/Island.mp4";
+import Snow from "../../media/gallery/Snow.mp4";
+import BoulderDestruction from "../../media/gallery/Boulder Destruction.mp4";
+import Sparks from "../../media/gallery/Sparks.mp4";
+import Campfire from "../../media/gallery/Campfire.mp4";
 
 interface GallerySectionProps {
   onNavigateToGallery?: () => void;
@@ -16,17 +16,31 @@ interface GallerySectionProps {
 // There are 6 slots. Swap out any entry to change what appears.
 // Each entry needs a `src` (imported video) and a `title` / `description`.
 const featuredVideos = [
-  { src: Hellbound,        title: "Hellbound",          description: "VFX animation" },
-  { src: Island,           title: "Island",             description: "VFX animation" },
-  { src: Snow,             title: "Snow",               description: "VFX animation" },
+  { src: Hellbound,          title: "Hellbound",           description: "VFX animation" },
+  { src: Island,             title: "Island",              description: "VFX animation" },
+  { src: Snow,               title: "Snow",                description: "VFX animation" },
   { src: BoulderDestruction, title: "Boulder Destruction", description: "VFX animation" },
-  { src: Sparks,           title: "Sparks",             description: "VFX animation" },
-  { src: Campfire,         title: "Campfire",           description: "VFX animation" },
+  { src: Sparks,             title: "Sparks",              description: "VFX animation" },
+  { src: Campfire,           title: "Campfire",            description: "VFX animation" },
 ];
 // ─────────────────────────────────────────────────────────────────────────────
 
 export function GallerySection({ onNavigateToGallery }: GallerySectionProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const mainVideoRef = useRef<HTMLVideoElement>(null);
+  const thumbRefs = useRef<(HTMLVideoElement | null)[]>([]);
+
+  // When the selected index changes, sync the main video's playback position
+  // from the thumbnail so it feels seamless (same src = browser cache hit, no re-download)
+  useEffect(() => {
+    const main = mainVideoRef.current;
+    const thumb = thumbRefs.current[currentIndex];
+    if (!main || !thumb) return;
+
+    main.currentTime = thumb.currentTime;
+    main.play();
+  }, [currentIndex]);
 
   return (
     <section className="w-full h-full flex items-center justify-center overflow-auto">
@@ -36,10 +50,11 @@ export function GallerySection({ onNavigateToGallery }: GallerySectionProps) {
         </h2>
 
         <div className="relative rounded-lg overflow-hidden border border-border transition duration-100 hover:border-accent-amber hover:shadow-lg hover:shadow-accent-amber/50 mb-12">
-          {/* Main video — thumbnails overlaid at bottom */}
           <div className="relative h-[624px] overflow-hidden bg-black">
+
+            {/* Main display — same src as selected thumbnail, synced to its currentTime */}
             <video
-              key={featuredVideos[currentIndex].src}
+              ref={mainVideoRef}
               src={featuredVideos[currentIndex].src}
               className="w-full h-full object-cover"
               autoPlay
@@ -47,9 +62,10 @@ export function GallerySection({ onNavigateToGallery }: GallerySectionProps) {
               muted
               playsInline
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent pointer-events-none" />
 
-            {/* Video info — positioned above thumbnails */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent pointer-events-none" />
+
+            {/* Video info */}
             <div className="absolute bottom-[132px] left-0 right-0 px-6">
               <h3 className="text-2xl font-semibold text-foreground mb-1">
                 {featuredVideos[currentIndex].title}
@@ -59,7 +75,7 @@ export function GallerySection({ onNavigateToGallery }: GallerySectionProps) {
               </p>
             </div>
 
-            {/* Thumbnails — overlaid at bottom */}
+            {/* Thumbnails — always mounted, always playing */}
             <div className="absolute bottom-0 left-0 right-0 flex gap-2 p-2 overflow-hidden">
               {featuredVideos.map((video, index) => (
                 <button
@@ -72,6 +88,7 @@ export function GallerySection({ onNavigateToGallery }: GallerySectionProps) {
                   }`}
                 >
                   <video
+                    ref={(el) => { thumbRefs.current[index] = el; }}
                     src={video.src}
                     className="w-full h-full object-cover"
                     autoPlay

@@ -1,5 +1,5 @@
 import { UserRound } from "lucide-react";
-import headshot from "../../media/images/portfolio-headshot.png";
+import headshot from "../../media/portfolio-headshot.png";
 
 export function AboutSection() {
   return (
