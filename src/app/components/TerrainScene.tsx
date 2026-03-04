@@ -6,6 +6,14 @@ export interface TerrainSceneRef {
   getCanvas: () => HTMLCanvasElement | null;
 }
 
+export interface TerrainSceneProps {
+  /** Called once after the very first WebGL frame has been rendered. */
+  onReady?: () => void;
+  /** When false the animation loop is paused (RAF cancelled). Geometry and
+   *  WebGL context remain intact so resume is a single requestAnimationFrame call. */
+  isActive?: boolean;
+}
+
 // ─── Configuration ─────────────────────────────────────────────────────────
 const HEIGHTMAP_RES = 512;
 const TERRAIN_SIZE  = 240;
@@ -149,9 +157,17 @@ const PARTICLE_FRAG = /* glsl */`
 `;
 
 // ─── Component ───────────────────────────────────────────────────────────────
-export const TerrainScene = forwardRef<TerrainSceneRef>(function TerrainScene(_, ref) {
+export const TerrainScene = forwardRef<TerrainSceneRef, TerrainSceneProps>(
+  function TerrainScene({ onReady, isActive = true }, ref) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  // Stable refs so the animation loop can always read the latest values
+  // without being a dependency of the setup effect.
+  const onReadyRef  = useRef(onReady);
+  const isActiveRef = useRef(isActive);
+  useEffect(() => { onReadyRef.current  = onReady;   }, [onReady]);
+  useEffect(() => { isActiveRef.current = isActive;  }, [isActive]);
 
   useImperativeHandle(ref, () => ({
     getCanvas: () => canvasRef.current,
@@ -614,6 +630,7 @@ export const TerrainScene = forwardRef<TerrainSceneRef>(function TerrainScene(_,
     let elapsedTime    = 0;
     let lastTimestamp   = performance.now();
     const MAX_FRAME_DT  = 0.1;  // 100ms cap — prevents time-jump on tab resume
+    let readyFired      = false;
 
     function animate() {
       rafId = requestAnimationFrame(animate);
@@ -662,6 +679,12 @@ export const TerrainScene = forwardRef<TerrainSceneRef>(function TerrainScene(_,
 
       renderer.render(scene, camera);
 
+      // Signal readiness after the very first completed frame
+      if (!readyFired) {
+        readyFired = true;
+        onReadyRef.current?.();
+      }
+
       // #1 — Stream new columns as scroll advances
       const rightmostNeeded = Math.floor(time * SCROLL_SPEED * hmRes) + hmRes - 1;
       if (rightmostNeeded > lastGeneratedCol) {
@@ -674,6 +697,18 @@ export const TerrainScene = forwardRef<TerrainSceneRef>(function TerrainScene(_,
     }
 
     animate();
+
+    // ── Pause / resume based on isActive prop ────────────────────────────
+    // A separate effect (below) watches isActive and calls this.
+    // We expose start/stop as closures captured by that effect.
+    (containerRef.current as unknown as { _terrainStop?: () => void; _terrainStart?: () => void })
+      ._terrainStop  = () => { cancelAnimationFrame(rafId); };
+    (containerRef.current as unknown as { _terrainStop?: () => void; _terrainStart?: () => void })
+      ._terrainStart = () => {
+        // Reset timestamp so dt doesn't spike after a long pause
+        lastTimestamp = performance.now();
+        animate();
+      };
 
     // ── Cleanup ────────────────────────────────────────────────────────────
     return () => {
@@ -694,7 +729,24 @@ export const TerrainScene = forwardRef<TerrainSceneRef>(function TerrainScene(_,
         container.removeChild(renderer.domElement);
       }
     };
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ── Pause / resume loop when isActive changes ───────────────────────────
+  // The setup effect above stashes _terrainStop / _terrainStart on the
+  // container element so this effect can reach them without coupling.
+  useEffect(() => {
+    const el = containerRef.current as (HTMLDivElement & {
+      _terrainStop?:  () => void;
+      _terrainStart?: () => void;
+    }) | null;
+    if (!el) return;
+
+    if (isActive) {
+      el._terrainStart?.();
+    } else {
+      el._terrainStop?.();
+    }
+  }, [isActive]);
 
   return (
     <div
@@ -712,3 +764,4 @@ export const TerrainScene = forwardRef<TerrainSceneRef>(function TerrainScene(_,
     />
   );
 });
+

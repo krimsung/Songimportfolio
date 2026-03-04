@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { HeroSection, HeroOverlay } from "./hero-section";
-import { TerrainScene } from "./TerrainScene";
 import { AboutSection } from "./about-section";
 import { TechnicalExperience } from "./technical-experience";
 import { ProjectsSection } from "./projects-section";
@@ -14,13 +13,16 @@ interface HomePageSliderProps {
   onNavigateToGallery: () => void;
 }
 
+/** Accent orange matching --accent-primary — single colour for mix-blend-difference */
+const ACCENT = "#FF6B35";
+
 const sections = [
-  { id: "hero", label: "Landing", textColor: "text-accent-primary", bgColor: "bg-accent-primary" },
-  { id: "about", label: "About Me", textColor: "text-accent-cyan", bgColor: "bg-accent-cyan" },
-  { id: "skills", label: "Technical Experience", textColor: "text-accent-violet", bgColor: "bg-accent-violet" },
-  { id: "projects", label: "Featured Projects", textColor: "text-accent-lime", bgColor: "bg-accent-lime" },
-  { id: "gallery", label: "Gallery", textColor: "text-accent-amber", bgColor: "bg-accent-amber" },
-  { id: "contact", label: "Get In Touch", textColor: "text-accent-primary", bgColor: "bg-accent-primary" },
+  { id: "hero",     label: "Landing"              },
+  { id: "about",    label: "About Me"             },
+  { id: "skills",   label: "Technical Experience" },
+  { id: "projects", label: "Featured Projects"    },
+  { id: "gallery",  label: "Gallery"              },
+  { id: "contact",  label: "Get In Touch"         },
 ] as const;
 
 export function HomePageSlider({ onViewProject, onViewAllProjects, onNavigateToContact, onNavigateToGallery }: HomePageSliderProps) {
@@ -110,10 +112,7 @@ export function HomePageSlider({ onViewProject, onViewAllProjects, onNavigateToC
 
   return (
     <div className="h-screen w-full relative overflow-hidden">
-      {/* Terrain Background */}
-      <TerrainScene />
-
-      {/* Hero overlay — scrolls with carousel, mix-blend-mode composites against the terrain */}
+      {/* Hero overlay — scrolls with carousel so mix-blend-mode composites against the terrain */}
       <HeroOverlay activeIndex={activeIndex} />
 
       {/* Carousel container - scrolls vertically */}
@@ -148,17 +147,19 @@ export function HomePageSlider({ onViewProject, onViewAllProjects, onNavigateToC
             aria-label={`Go to ${section.label}`}
           >
             <span
-              className={`uppercase tracking-wider transition-all duration-300 ${section.textColor} ${
+              className={`uppercase tracking-wider transition-all duration-300 ${
                 index === activeIndex ? "text-sm font-bold" : "text-xs font-normal opacity-60 hover:opacity-80"
               }`}
+              style={{ color: ACCENT }}
             >
               {section.label}
             </span>
             <div className="w-4 h-4 flex items-center justify-center">
               <div
-                className={`rounded-full ${section.bgColor} transition-all duration-300 ${
-                  index === activeIndex ? "w-3 h-3" : "w-1.5 h-1.5 opacity-30"
+                className={`rounded-full transition-all duration-300 ${
+                  index === activeIndex ? "w-3 h-3" : "w-1.5 h-1.5"
                 }`}
+                style={{ backgroundColor: ACCENT, opacity: index === activeIndex ? 1 : 0.3 }}
               />
             </div>
           </button>

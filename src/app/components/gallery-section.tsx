@@ -12,9 +12,6 @@ interface GallerySectionProps {
   onNavigateToGallery?: () => void;
 }
 
-// ─── Featured videos shown in the homepage gallery ───────────────────────────
-// There are 6 slots. Swap out any entry to change what appears.
-// Each entry needs a `src` (imported video) and a `title` / `description`.
 const featuredVideos = [
   { src: Hellbound,          title: "Hellbound",           description: "VFX animation" },
   { src: Island,             title: "Island",              description: "VFX animation" },
@@ -23,24 +20,91 @@ const featuredVideos = [
   { src: Sparks,             title: "Sparks",              description: "VFX animation" },
   { src: Campfire,           title: "Campfire",            description: "VFX animation" },
 ];
-// ─────────────────────────────────────────────────────────────────────────────
 
 export function GallerySection({ onNavigateToGallery }: GallerySectionProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const mainVideoRef = useRef<HTMLVideoElement>(null);
-  const thumbRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  // One ref per video element — used to drive play/pause and frame capture.
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
-  // When the selected index changes, sync the main video's playback position
-  // from the thumbnail so it feels seamless (same src = browser cache hit, no re-download)
+  // Canvas-captured poster frames for each thumbnail button.
+  const [thumbFrames, setThumbFrames] = useState<(string | null)[]>(
+    () => Array(featuredVideos.length).fill(null)
+  );
+
+  // ── Play/pause management ─────────────────────────────────────────────────
+  // Only the active video plays. All others are paused and their currentTime
+  // is reset so they are ready from the beginning when selected again.
+  // Using a ref to track the previous index avoids stale-closure issues.
+  const prevIndexRef = useRef<number>(-1);
+
   useEffect(() => {
-    const main = mainVideoRef.current;
-    const thumb = thumbRefs.current[currentIndex];
-    if (!main || !thumb) return;
+    const prev = prevIndexRef.current;
+    const curr = currentIndex;
 
-    main.currentTime = thumb.currentTime;
-    main.play();
+    // Pause + rewind the video that just became inactive.
+    if (prev !== -1 && prev !== curr) {
+      const prevVid = videoRefs.current[prev];
+      if (prevVid) {
+        prevVid.pause();
+        prevVid.currentTime = 0;
+      }
+    }
+
+    // Play the newly active video.
+    const currVid = videoRefs.current[curr];
+    if (currVid) {
+      void currVid.play().catch(() => {
+        // Autoplay was blocked — not fatal; video stays paused until
+        // the user interacts with the page (browser policy).
+      });
+    }
+
+    prevIndexRef.current = curr;
   }, [currentIndex]);
+
+  // ── Poster frame capture ──────────────────────────────────────────────────
+  // Draws the first decodable frame of each video onto a canvas and stores
+  // it as a JPEG data-URL for use in the thumbnail strip. This avoids keeping
+  // 6 simultaneous live decode pipelines just for thumbnails.
+  useEffect(() => {
+    const captures: (string | null)[] = Array(featuredVideos.length).fill(null);
+    let pending = featuredVideos.length;
+
+    featuredVideos.forEach((_, i) => {
+      const vid = videoRefs.current[i];
+      if (!vid) { pending--; return; }
+
+      const capture = () => {
+        try {
+          const canvas = document.createElement("canvas");
+          canvas.width  = vid.videoWidth  || 320;
+          canvas.height = vid.videoHeight || 180;
+          const ctx = canvas.getContext("2d");
+          if (ctx) {
+            ctx.drawImage(vid, 0, 0, canvas.width, canvas.height);
+            captures[i] = canvas.toDataURL("image/jpeg", 0.7);
+          }
+        } catch {
+          // Cross-origin or decode not ready — leave null; thumbnail stays dark.
+        }
+        pending--;
+        if (pending === 0) setThumbFrames([...captures]);
+      };
+
+      if (vid.readyState >= 2) {
+        // Already has enough data — seek and capture.
+        vid.currentTime = 0.1;
+        vid.addEventListener("seeked", capture, { once: true });
+      } else {
+        vid.addEventListener("canplay", () => {
+          vid.currentTime = 0.1;
+          vid.addEventListener("seeked", capture, { once: true });
+        }, { once: true });
+      }
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <section className="w-full h-full flex items-center justify-center overflow-auto">
@@ -50,23 +114,31 @@ export function GallerySection({ onNavigateToGallery }: GallerySectionProps) {
         </h2>
 
         <div className="relative rounded-lg overflow-hidden border border-border transition duration-100 hover:border-accent-amber hover:shadow-lg hover:shadow-accent-amber/50 mb-12">
+          {/* ── Main display: 6 videos stacked, only the selected one is visible ── */}
           <div className="relative h-[624px] overflow-hidden bg-black">
 
-            {/* Main display — same src as selected thumbnail, synced to its currentTime */}
-            <video
-              ref={mainVideoRef}
-              src={featuredVideos[currentIndex].src}
-              className="w-full h-full object-cover"
-              autoPlay
-              loop
-              muted
-              playsInline
-            />
+            {featuredVideos.map((video, index) => (
+              <video
+                key={video.src}
+                ref={(el) => { videoRefs.current[index] = el; }}
+                src={video.src}
+                className="absolute inset-0 w-full h-full object-cover"
+                style={{
+                  opacity:    index === currentIndex ? 1 : 0,
+                  zIndex:     index === currentIndex ? 1 : 0,
+                  transition: "opacity 150ms ease",
+                }}
+                // No autoPlay — play/pause is driven by the useEffect above.
+                loop
+                muted
+                playsInline
+                preload="auto"
+              />
+            ))}
 
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent pointer-events-none z-10" />
 
-            {/* Video info */}
-            <div className="absolute bottom-[132px] left-0 right-0 px-6">
+            <div className="absolute bottom-[132px] left-0 right-0 px-6 z-10">
               <h3 className="text-2xl font-semibold text-foreground mb-1">
                 {featuredVideos[currentIndex].title}
               </h3>
@@ -75,8 +147,8 @@ export function GallerySection({ onNavigateToGallery }: GallerySectionProps) {
               </p>
             </div>
 
-            {/* Thumbnails — always mounted, always playing */}
-            <div className="absolute bottom-0 left-0 right-0 flex gap-2 p-2 overflow-hidden">
+            {/* ── Thumbnail strip: static poster frames, no live video elements ── */}
+            <div className="absolute bottom-0 left-0 right-0 flex gap-2 p-2 overflow-hidden z-10">
               {featuredVideos.map((video, index) => (
                 <button
                   key={index}
@@ -87,17 +159,18 @@ export function GallerySection({ onNavigateToGallery }: GallerySectionProps) {
                       : "border-border/50"
                   }`}
                 >
-                  <video
-                    ref={(el) => { thumbRefs.current[index] = el; }}
-                    src={video.src}
-                    className="w-full h-full object-cover"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                  />
+                  {/* Show canvas-captured poster frame; falls back to dark bg */}
+                  {thumbFrames[index] ? (
+                    <img
+                      src={thumbFrames[index]!}
+                      alt={video.title}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 bg-neutral-900" />
+                  )}
                   {index !== currentIndex && (
-                    <div className="absolute inset-0 bg-black/50 hover:bg-black/20 transition duration-100" />
+                    <div className="absolute inset-0 bg-black/50 hover:bg-black/20 transition duration-100 z-10" />
                   )}
                 </button>
               ))}
@@ -105,7 +178,6 @@ export function GallerySection({ onNavigateToGallery }: GallerySectionProps) {
           </div>
         </div>
 
-        {/* View Full Gallery Link */}
         <div className="flex justify-end">
           <a
             href="#/gallery"

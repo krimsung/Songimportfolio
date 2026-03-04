@@ -1,7 +1,7 @@
 import { ArrowLeft, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useEffect, useCallback, useRef } from "react";
 
-// ── Videos ────────────────────────────────────────────────────────────────────
+// ── Videos (web-optimized — see VIDEO_ENCODING.md) ───────────────────────────
 import Hellbound from "../../media/gallery/Hellbound.mp4";
 import Island from "../../media/gallery/Island.mp4";
 import Snow from "../../media/gallery/Snow.mp4";
@@ -69,10 +69,8 @@ const galleryItems: GalleryItem[] = [
 export function GalleryPage() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
-  // Refs for video DOM-reparenting (videos only)
+  // One ref per gallery item — only video items will have a <video> element.
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
-  const lightboxSlotRef = useRef<HTMLDivElement>(null);
-  const cardSlotsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   const closeLightbox = useCallback(() => setSelectedIndex(null), []);
 
@@ -88,31 +86,39 @@ export function GalleryPage() {
     );
   }, []);
 
-  // For video items: move the card's <video> node into the lightbox slot (no double load).
-  // For image items: nothing to reparent — the lightbox renders an <img> directly.
+  // ── IntersectionObserver: play visible videos, pause off-screen ones ──────
+  // This is the sole throttle mechanism — no video pool, no manual reparenting.
+  // The browser's HTTP cache ensures re-plays after scrolling are instant.
   useEffect(() => {
-    const slot = lightboxSlotRef.current;
-
-    // On close: return any reparented video back to its card
-    if (selectedIndex === null) {
-      videoRefs.current.forEach((vid, i) => {
-        const cardSlot = cardSlotsRef.current[i];
-        if (vid && cardSlot && !cardSlot.contains(vid)) {
-          vid.className = "w-full h-full object-cover group-hover:scale-110 transition-transform duration-200";
-          cardSlot.appendChild(vid);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const vid = entry.target as HTMLVideoElement;
+          if (entry.isIntersecting) {
+            void vid.play().catch(() => {});
+          } else {
+            vid.pause();
+          }
         }
-      });
-      return;
+      },
+      { threshold: 0.1 }
+    );
+
+    // Observe every video element that has been rendered into the grid.
+    for (const vid of videoRefs.current) {
+      if (vid) observer.observe(vid);
     }
 
-    const item = galleryItems[selectedIndex];
-    if (item.type !== "video" || !slot) return;
+    return () => observer.disconnect();
+  }, []); // refs are stable — observer is set up once on mount
 
-    const vid = videoRefs.current[selectedIndex];
-    if (!vid) return;
-
-    vid.className = "max-w-full max-h-[80vh] object-contain rounded-lg";
-    slot.appendChild(vid);
+  // ── Pause card video when lightbox opens for that item ───────────────────
+  // When lightbox closes, IntersectionObserver resumes card video if in view.
+  useEffect(() => {
+    if (selectedIndex !== null) {
+      const vid = videoRefs.current[selectedIndex];
+      if (vid) vid.pause();
+    }
   }, [selectedIndex]);
 
   // Keyboard navigation
@@ -164,31 +170,29 @@ export function GalleryPage() {
               onClick={() => setSelectedIndex(index)}
             >
               <div className="relative overflow-hidden rounded-lg bg-card border border-border transition duration-100 hover:border-accent-amber hover:bg-accent-amber/5 hover:shadow-lg hover:shadow-accent-amber/50">
-                <div
-                  className="aspect-square relative bg-black"
-                  ref={(el) => { cardSlotsRef.current[index] = el; }}
-                >
+                <div className="aspect-square relative bg-black">
                   {item.type === "video" ? (
                     <video
                       ref={(el) => { videoRefs.current[index] = el; }}
                       src={item.src}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-200"
-                      autoPlay
+                      className="absolute inset-0 w-full h-full object-cover"
+                      // No autoPlay — IntersectionObserver drives play/pause.
                       loop
                       muted
                       playsInline
+                      preload="auto"
                     />
                   ) : (
                     <img
                       src={item.src}
                       alt={item.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-200"
-                      loading="lazy"
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-200"
                     />
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                  <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-200">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+
+                  <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-200 z-10">
                     <h3 className="text-foreground font-semibold mb-1">{item.title}</h3>
                     <span className="text-sm text-accent-amber font-medium">{item.subtitle}</span>
                   </div>
@@ -235,10 +239,18 @@ export function GalleryPage() {
               onClick={(e) => e.stopPropagation()}
             >
               {selectedItem.type === "video" ? (
-                /* Video: reparented node lands here */
-                <div ref={lightboxSlotRef} />
+                // Fresh <video> keyed by src — the browser reuses its cached
+                // buffer so playback starts instantly without re-downloading.
+                <video
+                  key={selectedItem.src}
+                  src={selectedItem.src}
+                  className="max-w-full max-h-[80vh] object-contain rounded-lg"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                />
               ) : (
-                /* Image: rendered directly, no reparenting needed */
                 <img
                   src={selectedItem.src}
                   alt={selectedItem.title}

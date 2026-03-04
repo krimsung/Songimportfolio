@@ -42,7 +42,6 @@ export function ProjectCard({
             src={project.image}
             alt={project.title}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-200"
-            loading="lazy"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent opacity-60"></div>
           {showStatus && project.status !== "N/A" && (

@@ -78,6 +78,16 @@
   scrollbar-color: var(--accent-primary) var(--window-surface);
 }
 
+/* ── Loading screen ──────────────────────────────────────────────────────────
+   Prevent all scrolling while the loading screen is active.
+   The LoadingScreen component adds / removes this class on <html>. */
+html.loading-active {
+  overflow: hidden;
+  /* iOS Safari: prevent rubber-band scroll behind the overlay */
+  position: fixed;
+  width: 100%;
+}
+
 /* Accessibility — respect OS reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   .carousel-item {
