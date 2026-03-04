@@ -270,7 +270,7 @@ export function LoadingScreen({ terrainReady, onSplitStart, onComplete }: Loadin
       );
     }
 
-    // All 18 videos: preload metadata only (moov atom, ~50 KB each).
+    // All videos: preload metadata only (moov atom, ~50 KB each).
     // Full buffering happens lazily as videos play in the gallery.
     for (const asset of videoAssets) {
       promises.push(

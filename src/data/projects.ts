@@ -6,8 +6,8 @@ import ghostCtrlThumb from "../media/thumbnails/Ghost CTRL Thumbnail.png";
 import finalShotThumb from "../media/thumbnails/Final Shot Thumbnail.png";
 import rogueDataThumb from "../media/thumbnails/Rogue Data Thumbnail.png";
 import metaconstructThumb from "../media/thumbnails/METACONSTRUCT Thumbnail.png";
-import tinySheriffThumb from "../media/thumbnails/Tiny Sheriff Thumbnail.jpg";
-import godforgedThumb from "../media/thumbnails/GODFORGED Thumbnail.png";
+import tinySheriffThumb from "../media/thumbnails/Tiny Sheriff Thumbnail.png";
+import insomniacThumb from "../media/thumbnails/Insomniac Thumbnail.png";
 
 // Map project titles (lowercased) to their thumbnail images.
 // Add a new entry here whenever a new project thumbnail is added.
@@ -17,7 +17,17 @@ const thumbnailMap: Record<string, string> = {
   "rogue data": rogueDataThumb,
   "metaconstruct": metaconstructThumb,
   "tiny sheriff": tinySheriffThumb,
-  "godforged": godforgedThumb,
+  "insomniac": insomniacThumb,
+};
+
+const statusMap: Record<string, string> = {
+  "ghost ctrl": "Released",
+  "tiny sheriff": "Released",
+  "insomniac": "Finished",
+  "metaconstruct": "Finished",
+  "final shot": "Finished",
+  "rogue data": "Finished",
+  "project quiver": "In Development",
 };
 
 const getThumbnailForProject = (title: string): string => {
@@ -258,6 +268,7 @@ const mergeRecords = (details: ReturnType<typeof buildDetailRecords>, thumbnails
   );
 
   return details.map((detail) => {
+    const normalizedTitle = detail.title.toLowerCase();
     const thumbnail = thumbByTitle.get(detail.title.toLowerCase());
     const mergedTags = thumbnail?.tags?.length ? thumbnail.tags : [];
     const shortDescription = thumbnail?.shortDescription ?? "N/A";
@@ -284,7 +295,7 @@ const mergeRecords = (details: ReturnType<typeof buildDetailRecords>, thumbnails
       liveProjectUrl: detail.liveProjectUrl,
       sourceCodeUrl: detail.sourceCodeUrl,
       image: getThumbnailForProject(detail.title),
-      status: "N/A",
+      status: statusMap[normalizedTitle] || "N/A",
       galleryImages: getGalleryImagesForProject(detail.title)
     };
   });

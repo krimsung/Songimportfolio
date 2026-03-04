@@ -12,14 +12,14 @@
 import headshot from "../media/portfolio-headshot.png";
 
 // ── Project thumbnails ────────────────────────────────────────────────────────
-import ghostCtrlThumb      from "../media/thumbnails/Ghost CTRL Thumbnail.png";
-import finalShotThumb      from "../media/thumbnails/Final Shot Thumbnail.png";
-import rogueDataThumb      from "../media/thumbnails/Rogue Data Thumbnail.png";
-import metaconstructThumb  from "../media/thumbnails/METACONSTRUCT Thumbnail.png";
-import tinySheriffThumb    from "../media/thumbnails/Tiny Sheriff Thumbnail.jpg";
-import godforgedThumb      from "../media/thumbnails/GODFORGED Thumbnail.png";
+import ghostCtrlThumb     from "../media/thumbnails/Ghost CTRL Thumbnail.png";
+import finalShotThumb     from "../media/thumbnails/Final Shot Thumbnail.png";
+import rogueDataThumb     from "../media/thumbnails/Rogue Data Thumbnail.png";
+import metaconstructThumb from "../media/thumbnails/METACONSTRUCT Thumbnail.png";
+import tinySheriffThumb   from "../media/thumbnails/Tiny Sheriff Thumbnail.png";
+import insomniacThumb     from "../media/thumbnails/Insomniac Thumbnail.png";
 
-// ── Gallery images ────────────────────────────────────────────────────────────
+// ── Gallery still images ──────────────────────────────────────────────────────
 import HighresScreenshot00012 from "../media/gallery/HighresScreenshot00012.png";
 import HighresScreenshot00010 from "../media/gallery/HighresScreenshot00010.png";
 import HighresScreenshot00004 from "../media/gallery/HighresScreenshot00004.png";
@@ -30,13 +30,33 @@ import FinalScreenshot4       from "../media/gallery/Final Screenshot 4.png";
 import FinalScreenshot5       from "../media/gallery/Final Screenshot 5.png";
 import FinalScreenshot6       from "../media/gallery/Final Screenshot 6.png";
 
+// ── Gallery video thumbnails ──────────────────────────────────────────────────
+import thumbHellbound                from "../media/gallery/thumbnail/Hellbound.png";
+import thumbBlizzard                 from "../media/gallery/thumbnail/Blizzard.png";
+import thumbBoulderDestruction       from "../media/gallery/thumbnail/Boulder Destruction.png";
+import thumbCampfire                 from "../media/gallery/thumbnail/Campfire.png";
+import thumbFinisherBig              from "../media/gallery/thumbnail/Finisher Big.png";
+import thumbFinisherSmall            from "../media/gallery/thumbnail/Finisher Small.png";
+import thumbFlamethrower             from "../media/gallery/thumbnail/Flamethrower.png";
+import thumbGodForgedMainMenu        from "../media/gallery/thumbnail/GodForged Main Menu.png";
+import thumbGrenade                  from "../media/gallery/thumbnail/Grenade.png";
+import thumbGrenadeToon              from "../media/gallery/thumbnail/Grenade Toon.png";
+import thumbHoudiniBuildingGenerator from "../media/gallery/thumbnail/Houdini Building Generator.png";
+import thumbLightning                from "../media/gallery/thumbnail/Lightning.png";
+import thumbMetaconstructLightingPass from "../media/gallery/thumbnail/Metaconstruct Lighting Pass 720p.png";
+import thumbPyGameGamejams           from "../media/gallery/thumbnail/PyGame Gamejams.png";
+import thumbRenderTargetFogOfWar     from "../media/gallery/thumbnail/Render Target Fog-of-War.png";
+import thumbRocket                   from "../media/gallery/thumbnail/Rocket.png";
+import thumbSparks                   from "../media/gallery/thumbnail/Sparks.png";
+import thumbVFXIsland                from "../media/gallery/thumbnail/VFX Island.png";
+
 // ── Gallery videos (web-optimized — see VIDEO_ENCODING.md) ───────────────────
 import Hellbound                from "../media/gallery/Hellbound.mp4";
-import Island                   from "../media/gallery/Island.mp4";
-import Snow                     from "../media/gallery/Snow.mp4";
+import VFXIsland                from "../media/gallery/VFX Island.mp4";
+import Blizzard                 from "../media/gallery/Blizzard.mp4";
 import BoulderDestruction       from "../media/gallery/Boulder Destruction.mp4";
 import Sparks                   from "../media/gallery/Sparks.mp4";
-import Lighting                 from "../media/gallery/Lighting.mp4";
+import Lightning                from "../media/gallery/Lightning.mp4";
 import GrenadeToon              from "../media/gallery/Grenade Toon.mp4";
 import Rocket                   from "../media/gallery/Rocket.mp4";
 import FinisherBig              from "../media/gallery/Finisher Big.mp4";
@@ -71,6 +91,8 @@ export interface VideoAsset {
   type: "video";
   src: string;
   label: string;
+  /** Pre-made thumbnail image for this video — shown in gallery grid/strip. */
+  thumbnail: string;
 }
 
 export type Asset = ImageAsset | VideoAsset;
@@ -78,15 +100,15 @@ export type Asset = ImageAsset | VideoAsset;
 // ── Image manifest ────────────────────────────────────────────────────────────
 
 export const imageAssets: ImageAsset[] = [
-  // Core UI images — highest visual priority, loaded first
+  // Core UI
   { type: "image", src: headshot,               label: "headshot"              },
-  // Thumbnails
+  // Project thumbnails
   { type: "image", src: ghostCtrlThumb,         label: "thumb-ghostctrl"       },
   { type: "image", src: finalShotThumb,         label: "thumb-finalshot"       },
   { type: "image", src: rogueDataThumb,         label: "thumb-roguedata"       },
   { type: "image", src: metaconstructThumb,     label: "thumb-metaconstruct"   },
   { type: "image", src: tinySheriffThumb,       label: "thumb-tinysheriff"     },
-  { type: "image", src: godforgedThumb,         label: "thumb-godforged"       },
+  { type: "image", src: insomniacThumb,         label: "thumb-insomniac"       },
   // Gallery stills
   { type: "image", src: HighresScreenshot00012, label: "gallery-hr12"          },
   { type: "image", src: HighresScreenshot00010, label: "gallery-hr10"          },
@@ -97,6 +119,25 @@ export const imageAssets: ImageAsset[] = [
   { type: "image", src: FinalScreenshot4,       label: "gallery-final4"        },
   { type: "image", src: FinalScreenshot5,       label: "gallery-final5"        },
   { type: "image", src: FinalScreenshot6,       label: "gallery-final6"        },
+  // Gallery video thumbnails
+  { type: "image", src: thumbHellbound,                label: "vthumb-hellbound"           },
+  { type: "image", src: thumbBlizzard,                 label: "vthumb-blizzard"            },
+  { type: "image", src: thumbBoulderDestruction,       label: "vthumb-boulderdestruction"  },
+  { type: "image", src: thumbCampfire,                 label: "vthumb-campfire"            },
+  { type: "image", src: thumbFinisherBig,              label: "vthumb-finisherbig"         },
+  { type: "image", src: thumbFinisherSmall,            label: "vthumb-finishersmall"       },
+  { type: "image", src: thumbFlamethrower,             label: "vthumb-flamethrower"        },
+  { type: "image", src: thumbGodForgedMainMenu,        label: "vthumb-godforgedmainmenu"   },
+  { type: "image", src: thumbGrenade,                  label: "vthumb-grenade"             },
+  { type: "image", src: thumbGrenadeToon,              label: "vthumb-grenadetoon"         },
+  { type: "image", src: thumbHoudiniBuildingGenerator, label: "vthumb-houdinibuildinggen"  },
+  { type: "image", src: thumbLightning,                label: "vthumb-lightning"           },
+  { type: "image", src: thumbMetaconstructLightingPass, label: "vthumb-metaconstruct"      },
+  { type: "image", src: thumbPyGameGamejams,           label: "vthumb-pygamegamejams"      },
+  { type: "image", src: thumbRenderTargetFogOfWar,     label: "vthumb-rendertargetfow"     },
+  { type: "image", src: thumbRocket,                   label: "vthumb-rocket"              },
+  { type: "image", src: thumbSparks,                   label: "vthumb-sparks"              },
+  { type: "image", src: thumbVFXIsland,                label: "vthumb-vfxisland"           },
   // Project gallery images (dynamically discovered via glob)
   ...projectImages.map((src, i): ImageAsset => ({
     type: "image",
@@ -108,25 +149,30 @@ export const imageAssets: ImageAsset[] = [
 // ── Video manifest ────────────────────────────────────────────────────────────
 
 export const videoAssets: VideoAsset[] = [
-  { type: "video", src: Hellbound,                 label: "Hellbound"                   },
-  { type: "video", src: Island,                    label: "Island"                      },
-  { type: "video", src: Snow,                      label: "Snow"                        },
-  { type: "video", src: BoulderDestruction,        label: "Boulder Destruction"         },
-  { type: "video", src: Sparks,                    label: "Sparks"                      },
-  { type: "video", src: Lighting,                  label: "Lighting"                    },
-  { type: "video", src: GrenadeToon,               label: "Grenade Toon"                },
-  { type: "video", src: Rocket,                    label: "Rocket"                      },
-  { type: "video", src: FinisherBig,               label: "Finisher Big"                },
-  { type: "video", src: Grenade,                   label: "Grenade"                     },
-  { type: "video", src: FinisherSmall,             label: "Finisher Small"              },
-  { type: "video", src: Campfire,                  label: "Campfire"                    },
-  { type: "video", src: Flamethrower,              label: "Flamethrower"                },
-  { type: "video", src: RenderTargetFogOfWar,      label: "Render Target Fog-of-War"    },
-  { type: "video", src: MetaconstructLightingPass, label: "Metaconstruct Lighting Pass" },
-  { type: "video", src: GodForgedMainMenu,         label: "GodForged Main Menu"         },
-  { type: "video", src: PyGameGamejams,            label: "PyGame Gamejams"             },
-  { type: "video", src: HoudiniBuildingGenerator,  label: "Houdini Building Generator"  },
+  { type: "video", src: Hellbound,                 label: "Hellbound",                   thumbnail: thumbHellbound                },
+  { type: "video", src: VFXIsland,                 label: "VFX Island",                  thumbnail: thumbVFXIsland                },
+  { type: "video", src: Blizzard,                  label: "Blizzard",                    thumbnail: thumbBlizzard                 },
+  { type: "video", src: BoulderDestruction,        label: "Boulder Destruction",          thumbnail: thumbBoulderDestruction       },
+  { type: "video", src: Sparks,                    label: "Sparks",                      thumbnail: thumbSparks                   },
+  { type: "video", src: Lightning,                 label: "Lightning",                   thumbnail: thumbLightning                },
+  { type: "video", src: GrenadeToon,               label: "Grenade Toon",                thumbnail: thumbGrenadeToon              },
+  { type: "video", src: Rocket,                    label: "Rocket",                      thumbnail: thumbRocket                   },
+  { type: "video", src: FinisherBig,               label: "Finisher Big",                thumbnail: thumbFinisherBig              },
+  { type: "video", src: Grenade,                   label: "Grenade",                     thumbnail: thumbGrenade                  },
+  { type: "video", src: FinisherSmall,             label: "Finisher Small",              thumbnail: thumbFinisherSmall            },
+  { type: "video", src: Campfire,                  label: "Campfire",                    thumbnail: thumbCampfire                 },
+  { type: "video", src: Flamethrower,              label: "Flamethrower",                thumbnail: thumbFlamethrower             },
+  { type: "video", src: RenderTargetFogOfWar,      label: "Render Target Fog-of-War",    thumbnail: thumbRenderTargetFogOfWar     },
+  { type: "video", src: MetaconstructLightingPass, label: "Metaconstruct Lighting Pass",  thumbnail: thumbMetaconstructLightingPass },
+  { type: "video", src: GodForgedMainMenu,         label: "GodForged Main Menu",          thumbnail: thumbGodForgedMainMenu        },
+  { type: "video", src: PyGameGamejams,            label: "PyGame Gamejams",              thumbnail: thumbPyGameGamejams           },
+  { type: "video", src: HoudiniBuildingGenerator,  label: "Houdini Building Generator",   thumbnail: thumbHoudiniBuildingGenerator },
 ];
+
+// Lookup map: video src → thumbnail image src
+export const videoThumbnailMap: Record<string, string> = Object.fromEntries(
+  videoAssets.map((a) => [a.src, a.thumbnail])
+);
 
 // ── Combined flat manifest ────────────────────────────────────────────────────
 

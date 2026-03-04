@@ -1,25 +1,6 @@
 import { ArrowLeft, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useEffect, useCallback, useRef } from "react";
-
-// ── Videos (web-optimized — see VIDEO_ENCODING.md) ───────────────────────────
-import Hellbound from "../../media/gallery/Hellbound.mp4";
-import Island from "../../media/gallery/Island.mp4";
-import Snow from "../../media/gallery/Snow.mp4";
-import BoulderDestruction from "../../media/gallery/Boulder Destruction.mp4";
-import Sparks from "../../media/gallery/Sparks.mp4";
-import Lighting from "../../media/gallery/Lighting.mp4";
-import GrenadeToon from "../../media/gallery/Grenade Toon.mp4";
-import Rocket from "../../media/gallery/Rocket.mp4";
-import FinisherBig from "../../media/gallery/Finisher Big.mp4";
-import Grenade from "../../media/gallery/Grenade.mp4";
-import FinisherSmall from "../../media/gallery/Finisher Small.mp4";
-import Campfire from "../../media/gallery/Campfire.mp4";
-import Flamethrower from "../../media/gallery/Flamethrower.mp4";
-import RenderTargetFogOfWar from "../../media/gallery/Render Target Fog-of-War.mp4";
-import MetaconstructLightingPass from "../../media/gallery/Metaconstruct Lighting Pass 720p.mp4";
-import GodForgedMainMenu from "../../media/gallery/GodForged Main Menu.mp4";
-import PyGameGamejams from "../../media/gallery/PyGame Gamejams.mp4";
-import HoudiniBuildingGenerator from "../../media/gallery/Houdini Building Generator.mp4";
+import { videoAssets } from "../assetManifest";
 
 // ── Images ────────────────────────────────────────────────────────────────────
 import HighresScreenshot00012 from "../../media/gallery/HighresScreenshot00012.png";
@@ -32,45 +13,62 @@ import FinalScreenshot4 from "../../media/gallery/Final Screenshot 4.png";
 import FinalScreenshot5 from "../../media/gallery/Final Screenshot 5.png";
 import FinalScreenshot6 from "../../media/gallery/Final Screenshot 6.png";
 
+// Build a lookup: video src → thumbnail image src (populated from assetManifest)
+const videoThumbnailMap: Record<string, string> = Object.fromEntries(
+  videoAssets.map((a) => [a.src, a.thumbnail])
+);
+
 type GalleryItem =
   | { type: "video"; src: string; title: string; subtitle: string }
   | { type: "image"; src: string; title: string; subtitle: string };
 
+// Pull video srcs directly from the manifest so names stay in sync
+const v = Object.fromEntries(videoAssets.map((a) => [a.label, a.src]));
+
 const galleryItems: GalleryItem[] = [
-  { type: "video", src: Hellbound,                 title: "Hellbound",                   subtitle: "VFX Animation" },
-  { type: "video", src: Island,                    title: "Island",                      subtitle: "VFX Animation" },
-  { type: "video", src: Snow,                      title: "Snow",                        subtitle: "VFX Animation" },
-  { type: "video", src: BoulderDestruction,        title: "Boulder Destruction",         subtitle: "VFX Animation" },
-  { type: "video", src: Sparks,                    title: "Sparks",                      subtitle: "VFX Animation" },
-  { type: "video", src: Lighting,                  title: "Lighting",                    subtitle: "VFX Animation" },
-  { type: "video", src: GrenadeToon,               title: "Grenade Toon",                subtitle: "VFX Animation" },
-  { type: "video", src: Rocket,                    title: "Rocket",                      subtitle: "VFX Animation" },
-  { type: "video", src: FinisherBig,               title: "Finisher Big",                subtitle: "VFX Animation" },
-  { type: "video", src: Grenade,                   title: "Grenade",                     subtitle: "VFX Animation" },
-  { type: "video", src: FinisherSmall,             title: "Finisher Small",              subtitle: "VFX Animation" },
-  { type: "video", src: Campfire,                  title: "Campfire",                    subtitle: "VFX Animation" },
-  { type: "video", src: Flamethrower,              title: "Flamethrower",                subtitle: "VFX Animation" },
-  { type: "video", src: RenderTargetFogOfWar,      title: "Render Target Fog-of-War",    subtitle: "VFX Animation" },
-  { type: "video", src: MetaconstructLightingPass, title: "Metaconstruct Lighting Pass", subtitle: "VFX Animation" },
-  { type: "video", src: GodForgedMainMenu,         title: "GodForged Main Menu",         subtitle: "VFX Animation" },
-  { type: "video", src: PyGameGamejams,            title: "PyGame Gamejams",             subtitle: "VFX Animation" },
-  { type: "video", src: HoudiniBuildingGenerator,  title: "Houdini Building Generator",  subtitle: "VFX Animation" },
-  { type: "image", src: HighresScreenshot00012,    title: "HighresScreenshot00012",      subtitle: "VFX Animation" },
-  { type: "image", src: HighresScreenshot00010,    title: "HighresScreenshot00010",      subtitle: "VFX Animation" },
-  { type: "image", src: HighresScreenshot00004,    title: "HighresScreenshot00004",      subtitle: "VFX Animation" },
-  { type: "image", src: FinalScreenshot1,          title: "Final Screenshot 1",          subtitle: "VFX Animation" },
-  { type: "image", src: FinalScreenshot2,          title: "Final Screenshot 2",          subtitle: "VFX Animation" },
-  { type: "image", src: FinalScreenshot3,          title: "Final Screenshot 3",          subtitle: "VFX Animation" },
-  { type: "image", src: FinalScreenshot4,          title: "Final Screenshot 4",          subtitle: "VFX Animation" },
-  { type: "image", src: FinalScreenshot5,          title: "Final Screenshot 5",          subtitle: "VFX Animation" },
-  { type: "image", src: FinalScreenshot6,          title: "Final Screenshot 6",          subtitle: "VFX Animation" },
+  { type: "video", src: v["Hellbound"],                   title: "Hellbound",                   subtitle: "VFX Animation" },
+  { type: "video", src: v["VFX Island"],                  title: "VFX Island",                  subtitle: "VFX Animation" },
+  { type: "video", src: v["Blizzard"],                    title: "Blizzard",                    subtitle: "VFX Animation" },
+  { type: "video", src: v["Boulder Destruction"],         title: "Boulder Destruction",         subtitle: "VFX Animation" },
+  { type: "video", src: v["Sparks"],                      title: "Sparks",                      subtitle: "VFX Animation" },
+  { type: "video", src: v["Lightning"],                   title: "Lightning",                   subtitle: "VFX Animation" },
+  { type: "video", src: v["Grenade Toon"],                title: "Grenade Toon",                subtitle: "VFX Animation" },
+  { type: "video", src: v["Rocket"],                      title: "Rocket",                      subtitle: "VFX Animation" },
+  { type: "video", src: v["Finisher Big"],                title: "Finisher Big",                subtitle: "VFX Animation" },
+  { type: "video", src: v["Grenade"],                     title: "Grenade",                     subtitle: "VFX Animation" },
+  { type: "video", src: v["Finisher Small"],              title: "Finisher Small",              subtitle: "VFX Animation" },
+  { type: "video", src: v["Campfire"],                    title: "Campfire",                    subtitle: "VFX Animation" },
+  { type: "video", src: v["Flamethrower"],                title: "Flamethrower",                subtitle: "VFX Animation" },
+  { type: "video", src: v["Render Target Fog-of-War"],    title: "Render Target Fog-of-War",    subtitle: "VFX Animation" },
+  { type: "video", src: v["Metaconstruct Lighting Pass"], title: "Metaconstruct Lighting Pass", subtitle: "VFX Animation" },
+  { type: "video", src: v["GodForged Main Menu"],         title: "GodForged Main Menu",         subtitle: "VFX Animation" },
+  { type: "video", src: v["PyGame Gamejams"],             title: "PyGame Gamejams",             subtitle: "VFX Animation" },
+  { type: "video", src: v["Houdini Building Generator"],  title: "Houdini Building Generator",  subtitle: "VFX Animation" },
+  { type: "image", src: HighresScreenshot00012,           title: "HighresScreenshot00012",      subtitle: "Game Screenshot" },
+  { type: "image", src: HighresScreenshot00010,           title: "HighresScreenshot00010",      subtitle: "Game Screenshot" },
+  { type: "image", src: HighresScreenshot00004,           title: "HighresScreenshot00004",      subtitle: "Game Screenshot" },
+  { type: "image", src: FinalScreenshot1,                 title: "Final Screenshot 1",          subtitle: "Game Screenshot" },
+  { type: "image", src: FinalScreenshot2,                 title: "Final Screenshot 2",          subtitle: "Game Screenshot" },
+  { type: "image", src: FinalScreenshot3,                 title: "Final Screenshot 3",          subtitle: "Game Screenshot" },
+  { type: "image", src: FinalScreenshot4,                 title: "Final Screenshot 4",          subtitle: "Game Screenshot" },
+  { type: "image", src: FinalScreenshot5,                 title: "Final Screenshot 5",          subtitle: "Game Screenshot" },
+  { type: "image", src: FinalScreenshot6,                 title: "Final Screenshot 6",          subtitle: "Game Screenshot" },
 ];
 
 export function GalleryPage() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-  // One ref per gallery item — only video items will have a <video> element.
+  // Display video refs — used for hover play/pause only.
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+
+  // Thumbnail for each item: video thumbnail image or image src directly.
+  const thumbSrcs = galleryItems.map((item) =>
+    item.type === "image" ? item.src : (videoThumbnailMap[item.src] ?? null)
+  );
+
+  // Track playback time when user hovers, for lightbox resume.
+  const hoverTimeRef = useRef<number[]>(Array(galleryItems.length).fill(0));
 
   const closeLightbox = useCallback(() => setSelectedIndex(null), []);
 
@@ -86,38 +84,40 @@ export function GalleryPage() {
     );
   }, []);
 
-  // ── IntersectionObserver: play visible videos, pause off-screen ones ──────
-  // This is the sole throttle mechanism — no video pool, no manual reparenting.
-  // The browser's HTTP cache ensures re-plays after scrolling are instant.
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          const vid = entry.target as HTMLVideoElement;
-          if (entry.isIntersecting) {
-            void vid.play().catch(() => {});
-          } else {
-            vid.pause();
-          }
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    // Observe every video element that has been rendered into the grid.
-    for (const vid of videoRefs.current) {
-      if (vid) observer.observe(vid);
+  // ── Hover handlers for video cards ────────────────────────────────────────
+  const handleMouseEnter = (index: number) => {
+    const item = galleryItems[index];
+    if (item.type !== "video") return;
+    setHoveredIndex(index);
+    const vid = videoRefs.current[index];
+    if (vid) {
+      vid.currentTime = 0;
+      void vid.play().catch(() => {});
     }
+  };
 
-    return () => observer.disconnect();
-  }, []); // refs are stable — observer is set up once on mount
+  const handleMouseLeave = (index: number) => {
+    const item = galleryItems[index];
+    if (item.type !== "video") return;
+    const vid = videoRefs.current[index];
+    if (vid) {
+      hoverTimeRef.current[index] = vid.currentTime;
+      vid.pause();
+      vid.currentTime = 0;
+    }
+    setHoveredIndex(null);
+  };
 
-  // ── Pause card video when lightbox opens for that item ───────────────────
-  // When lightbox closes, IntersectionObserver resumes card video if in view.
+  // ── Pause card video when lightbox opens ─────────────────────────────────
   useEffect(() => {
     if (selectedIndex !== null) {
       const vid = videoRefs.current[selectedIndex];
-      if (vid) vid.pause();
+      if (vid) {
+        // hoverTimeRef already saved in handleMouseLeave
+        vid.pause();
+        vid.currentTime = 0;
+      }
+      setHoveredIndex(null);
     }
   }, [selectedIndex]);
 
@@ -168,20 +168,35 @@ export function GalleryPage() {
               type="button"
               className="group relative cursor-pointer text-left"
               onClick={() => setSelectedIndex(index)}
+              onMouseEnter={() => handleMouseEnter(index)}
+              onMouseLeave={() => handleMouseLeave(index)}
             >
               <div className="relative overflow-hidden rounded-lg bg-card border border-border transition duration-100 hover:border-accent-amber hover:bg-accent-amber/5 hover:shadow-lg hover:shadow-accent-amber/50">
                 <div className="aspect-square relative bg-black">
                   {item.type === "video" ? (
-                    <video
-                      ref={(el) => { videoRefs.current[index] = el; }}
-                      src={item.src}
-                      className="absolute inset-0 w-full h-full object-cover"
-                      // No autoPlay — IntersectionObserver drives play/pause.
-                      loop
-                      muted
-                      playsInline
-                      preload="auto"
-                    />
+                    <>
+                      {/* Thumbnail image — always visible, preloaded by loading screen */}
+                      {thumbSrcs[index] ? (
+                        <img
+                          src={thumbSrcs[index]!}
+                          alt={item.title}
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 bg-neutral-900" />
+                      )}
+                      {/* Video — fades in on hover */}
+                      <video
+                        ref={(el) => { videoRefs.current[index] = el; }}
+                        src={item.src}
+                        className="absolute inset-0 w-full h-full object-cover transition-opacity duration-200"
+                        style={{ opacity: hoveredIndex === index ? 1 : 0 }}
+                        loop
+                        muted
+                        playsInline
+                        preload="metadata"
+                      />
+                    </>
                   ) : (
                     <img
                       src={item.src}
@@ -239,8 +254,8 @@ export function GalleryPage() {
               onClick={(e) => e.stopPropagation()}
             >
               {selectedItem.type === "video" ? (
-                // Fresh <video> keyed by src — the browser reuses its cached
-                // buffer so playback starts instantly without re-downloading.
+                // Fresh <video> keyed by src — browser reuses cached buffer.
+                // Resume from hover time if available, applied only once via ref flag.
                 <video
                   key={selectedItem.src}
                   src={selectedItem.src}
@@ -249,6 +264,17 @@ export function GalleryPage() {
                   loop
                   muted
                   playsInline
+                  ref={(vid) => {
+                    if (!vid) return;
+                    let seekApplied = false;
+                    const applySeek = () => {
+                      if (seekApplied) return;
+                      seekApplied = true;
+                      const savedTime = hoverTimeRef.current[selectedIndex ?? 0];
+                      if (savedTime > 0) vid.currentTime = savedTime;
+                    };
+                    vid.addEventListener("canplay", applySeek, { once: true });
+                  }}
                 />
               ) : (
                 <img

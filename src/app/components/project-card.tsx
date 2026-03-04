@@ -12,6 +12,8 @@ const getStatusColor = (status: string) => {
   switch (status) {
     case "Released":
       return "bg-[var(--status-success)]/15 border-[var(--status-success)]/35 text-[var(--status-success)]";
+    case "Finished":
+      return "bg-[var(--status-info)]/15 border-[var(--status-info)]/35 text-[var(--status-info)]";
     case "In Development":
       return "bg-[var(--accent-amber)]/15 border-[var(--accent-amber)]/35 text-[var(--accent-amber)]";
     default:

@@ -1,48 +1,58 @@
 import { useState, useRef, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
+import { videoAssets } from "../assetManifest";
 
-import Hellbound from "../../media/gallery/Hellbound.mp4";
-import Island from "../../media/gallery/Island.mp4";
-import Snow from "../../media/gallery/Snow.mp4";
-import BoulderDestruction from "../../media/gallery/Boulder Destruction.mp4";
-import Sparks from "../../media/gallery/Sparks.mp4";
-import Campfire from "../../media/gallery/Campfire.mp4";
+import Hellbound             from "../../media/gallery/Hellbound.mp4";
+import GodForgedMainMenu     from "../../media/gallery/GodForged Main Menu.mp4";
+import HoudiniBuildingGenerator from "../../media/gallery/Houdini Building Generator.mp4";
+import MetaconstructLightingPass from "../../media/gallery/Metaconstruct Lighting Pass 720p.mp4";
+import FinalScreenshot1      from "../../media/gallery/Final Screenshot 1.png";
+import FinisherBig           from "../../media/gallery/Finisher Big.mp4";
+
+// Lookup: video src → thumbnail image src
+const videoThumbnailMap: Record<string, string> = Object.fromEntries(
+  videoAssets.map((a) => [a.src, a.thumbnail])
+);
 
 interface GallerySectionProps {
   onNavigateToGallery?: () => void;
 }
 
-const featuredVideos = [
-  { src: Hellbound,          title: "Hellbound",           description: "VFX animation" },
-  { src: Island,             title: "Island",              description: "VFX animation" },
-  { src: Snow,               title: "Snow",                description: "VFX animation" },
-  { src: BoulderDestruction, title: "Boulder Destruction", description: "VFX animation" },
-  { src: Sparks,             title: "Sparks",              description: "VFX animation" },
-  { src: Campfire,           title: "Campfire",            description: "VFX animation" },
+type MediaItem = {
+  src: string;
+  title: string;
+  description: string;
+  type: "video" | "image";
+};
+
+const featuredVideos: MediaItem[] = [
+  { src: GodForgedMainMenu,         title: "Godforged Main Menu",        description: "Game menu UI",          type: "video" },
+  { src: HoudiniBuildingGenerator,  title: "Houdini Procedural Building", description: "Procedural generation", type: "video" },
+  { src: MetaconstructLightingPass, title: "Metaconstruct Lighting Pass", description: "VFX animation",         type: "video" },
+  { src: FinalScreenshot1,          title: "Final Screenshot 1",          description: "Game screenshot",       type: "image" },
+  { src: Hellbound,                 title: "Hellbound",                   description: "VFX animation",         type: "video" },
+  { src: FinisherBig,               title: "Finisher Big",                description: "VFX animation",         type: "video" },
 ];
 
 export function GallerySection({ onNavigateToGallery }: GallerySectionProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // One ref per video element — used to drive play/pause and frame capture.
+  // Display video refs — used for play/pause management only.
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
-  // Canvas-captured poster frames for each thumbnail button.
-  const [thumbFrames, setThumbFrames] = useState<(string | null)[]>(
-    () => Array(featuredVideos.length).fill(null)
+  // Thumbnail for each item: preloaded image or image src directly.
+  const thumbSrcs = featuredVideos.map((media) =>
+    media.type === "image" ? media.src : (videoThumbnailMap[media.src] ?? null)
   );
 
   // ── Play/pause management ─────────────────────────────────────────────────
-  // Only the active video plays. All others are paused and their currentTime
-  // is reset so they are ready from the beginning when selected again.
-  // Using a ref to track the previous index avoids stale-closure issues.
+  // Only the active video plays. All others are paused and rewound.
   const prevIndexRef = useRef<number>(-1);
 
   useEffect(() => {
     const prev = prevIndexRef.current;
     const curr = currentIndex;
 
-    // Pause + rewind the video that just became inactive.
     if (prev !== -1 && prev !== curr) {
       const prevVid = videoRefs.current[prev];
       if (prevVid) {
@@ -51,60 +61,13 @@ export function GallerySection({ onNavigateToGallery }: GallerySectionProps) {
       }
     }
 
-    // Play the newly active video.
     const currVid = videoRefs.current[curr];
     if (currVid) {
-      void currVid.play().catch(() => {
-        // Autoplay was blocked — not fatal; video stays paused until
-        // the user interacts with the page (browser policy).
-      });
+      void currVid.play().catch(() => {});
     }
 
     prevIndexRef.current = curr;
   }, [currentIndex]);
-
-  // ── Poster frame capture ──────────────────────────────────────────────────
-  // Draws the first decodable frame of each video onto a canvas and stores
-  // it as a JPEG data-URL for use in the thumbnail strip. This avoids keeping
-  // 6 simultaneous live decode pipelines just for thumbnails.
-  useEffect(() => {
-    const captures: (string | null)[] = Array(featuredVideos.length).fill(null);
-    let pending = featuredVideos.length;
-
-    featuredVideos.forEach((_, i) => {
-      const vid = videoRefs.current[i];
-      if (!vid) { pending--; return; }
-
-      const capture = () => {
-        try {
-          const canvas = document.createElement("canvas");
-          canvas.width  = vid.videoWidth  || 320;
-          canvas.height = vid.videoHeight || 180;
-          const ctx = canvas.getContext("2d");
-          if (ctx) {
-            ctx.drawImage(vid, 0, 0, canvas.width, canvas.height);
-            captures[i] = canvas.toDataURL("image/jpeg", 0.7);
-          }
-        } catch {
-          // Cross-origin or decode not ready — leave null; thumbnail stays dark.
-        }
-        pending--;
-        if (pending === 0) setThumbFrames([...captures]);
-      };
-
-      if (vid.readyState >= 2) {
-        // Already has enough data — seek and capture.
-        vid.currentTime = 0.1;
-        vid.addEventListener("seeked", capture, { once: true });
-      } else {
-        vid.addEventListener("canplay", () => {
-          vid.currentTime = 0.1;
-          vid.addEventListener("seeked", capture, { once: true });
-        }, { once: true });
-      }
-    });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <section className="w-full h-full flex items-center justify-center overflow-auto">
@@ -114,26 +77,40 @@ export function GallerySection({ onNavigateToGallery }: GallerySectionProps) {
         </h2>
 
         <div className="relative rounded-lg overflow-hidden border border-border transition duration-100 hover:border-accent-amber hover:shadow-lg hover:shadow-accent-amber/50 mb-12">
-          {/* ── Main display: 6 videos stacked, only the selected one is visible ── */}
+          {/* ── Main display: media items stacked, only the selected one is visible ── */}
           <div className="relative h-[624px] overflow-hidden bg-black">
 
-            {featuredVideos.map((video, index) => (
-              <video
-                key={video.src}
-                ref={(el) => { videoRefs.current[index] = el; }}
-                src={video.src}
-                className="absolute inset-0 w-full h-full object-cover"
-                style={{
-                  opacity:    index === currentIndex ? 1 : 0,
-                  zIndex:     index === currentIndex ? 1 : 0,
-                  transition: "opacity 150ms ease",
-                }}
-                // No autoPlay — play/pause is driven by the useEffect above.
-                loop
-                muted
-                playsInline
-                preload="auto"
-              />
+            {featuredVideos.map((media, index) => (
+              media.type === "video" ? (
+                <video
+                  key={media.src}
+                  ref={(el) => { videoRefs.current[index] = el; }}
+                  src={media.src}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  style={{
+                    opacity:       index === currentIndex ? 1 : 0,
+                    zIndex:        index === currentIndex ? 1 : 0,
+                    transition:    "opacity 150ms ease",
+                    pointerEvents: index === currentIndex ? "auto" : "none",
+                  }}
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
+                />
+              ) : (
+                <img
+                  key={media.src}
+                  src={media.src}
+                  alt={media.title}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  style={{
+                    opacity:    index === currentIndex ? 1 : 0,
+                    zIndex:     index === currentIndex ? 1 : 0,
+                    transition: "opacity 150ms ease",
+                  }}
+                />
+              )
             ))}
 
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent pointer-events-none z-10" />
@@ -147,9 +124,9 @@ export function GallerySection({ onNavigateToGallery }: GallerySectionProps) {
               </p>
             </div>
 
-            {/* ── Thumbnail strip: static poster frames, no live video elements ── */}
+            {/* ── Thumbnail strip: preloaded images ── */}
             <div className="absolute bottom-0 left-0 right-0 flex gap-2 p-2 overflow-hidden z-10">
-              {featuredVideos.map((video, index) => (
+              {featuredVideos.map((media, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentIndex(index)}
@@ -159,11 +136,10 @@ export function GallerySection({ onNavigateToGallery }: GallerySectionProps) {
                       : "border-border/50"
                   }`}
                 >
-                  {/* Show canvas-captured poster frame; falls back to dark bg */}
-                  {thumbFrames[index] ? (
+                  {thumbSrcs[index] ? (
                     <img
-                      src={thumbFrames[index]!}
-                      alt={video.title}
+                      src={thumbSrcs[index]!}
+                      alt={media.title}
                       className="absolute inset-0 w-full h-full object-cover"
                     />
                   ) : (
