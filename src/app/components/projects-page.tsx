@@ -10,7 +10,7 @@ interface ProjectsPageProps {
 export function ProjectsPage({ onBack, onViewProject }: ProjectsPageProps) {
 
   return (
-    <div className="min-h-screen bg-background pt-20">
+    <div className="min-h-screen bg-background pt-4">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <a
           href="#/"
@@ -19,7 +19,7 @@ export function ProjectsPage({ onBack, onViewProject }: ProjectsPageProps) {
             e.preventDefault();
             onBack();
           }}
-          className="inline-flex items-center gap-2 text-accent-lime hover:text-accent-lime/80 transition-colors mb-8 group"
+          className="inline-flex items-center gap-2 text-accent-amber hover:text-accent-amber/80 transition-colors mb-8 group"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-200" />
           <span>Back to Home</span>

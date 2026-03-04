@@ -13,8 +13,8 @@ interface HomePageSliderProps {
   onNavigateToGallery: () => void;
 }
 
-/** Accent orange matching --accent-primary — single colour for mix-blend-difference */
-const ACCENT = "#FF6B35";
+/** Accent amber matching --accent-primary — single colour for mix-blend-difference */
+const ACCENT = "#F5A623";
 
 const sections = [
   { id: "hero",     label: "Landing"              },

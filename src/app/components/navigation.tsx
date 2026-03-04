@@ -12,10 +12,10 @@ function isModifiedClick(e: React.MouseEvent): boolean {
 }
 
 const navItems = [
-  { id: "home",     label: "Home",     activeClass: "text-accent-primary",  activeBg: "bg-accent-primary/10",  hoverClass: "hover:text-accent-primary"  },
-  { id: "projects", label: "Projects", activeClass: "text-accent-lime",     activeBg: "bg-accent-lime/10",     hoverClass: "hover:text-accent-lime"     },
-  { id: "gallery",  label: "Gallery",  activeClass: "text-accent-amber",    activeBg: "bg-accent-amber/10",    hoverClass: "hover:text-accent-amber"    },
-  { id: "contact",  label: "Contact",  activeClass: "text-accent-primary",  activeBg: "bg-accent-primary/10",  hoverClass: "hover:text-accent-primary"  },
+  { id: "home",     label: "Home",     activeClass: "text-accent-amber",  activeBg: "bg-accent-amber/10",  hoverClass: "hover:text-accent-amber"  },
+  { id: "projects", label: "Projects", activeClass: "text-accent-amber",  activeBg: "bg-accent-amber/10",  hoverClass: "hover:text-accent-amber"  },
+  { id: "gallery",  label: "Gallery",  activeClass: "text-accent-amber",  activeBg: "bg-accent-amber/10",  hoverClass: "hover:text-accent-amber"  },
+  { id: "contact",  label: "Contact",  activeClass: "text-accent-amber",  activeBg: "bg-accent-amber/10",  hoverClass: "hover:text-accent-amber"  },
 ] as const;
 
 export function Navigation({ currentPage, onNavigate }: NavigationProps) {

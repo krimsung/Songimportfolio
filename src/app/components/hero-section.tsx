@@ -24,8 +24,8 @@ const ROLES = [
   "UX/UI DESIGNER",
 ];
 
-/** Accent orange matching --accent-primary (dark mode) */
-const ACCENT = "#FF6B35";
+/** Accent amber matching --accent-primary (dark mode) */
+const ACCENT = "#F5A623";
 
 export function HeroOverlay({ activeIndex }: { activeIndex: number }) {
   return (

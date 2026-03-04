@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { ArrowLeft, Calendar, Tag, ExternalLink, Github } from "lucide-react";
+import { ArrowLeft, Calendar, Tag, ExternalLink } from "lucide-react";
 import ReactMarkdown, { Components } from "react-markdown";
 import { projectsBySlug } from "../../data/projects";
 import { ProjectGallery } from "./project-gallery";
@@ -36,7 +36,7 @@ export function ProjectDetail({ projectId, onBack, backLabel }: ProjectDetailPro
   }
 
   return (
-    <div className="min-h-screen bg-background pt-20">
+    <div className="min-h-screen bg-background pt-4">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Back Button */}
         <a
@@ -46,7 +46,7 @@ export function ProjectDetail({ projectId, onBack, backLabel }: ProjectDetailPro
             e.preventDefault();
             onBack?.();
           }}
-          className="inline-flex items-center gap-2 text-accent-lime hover:text-accent-lime/80 transition-colors mb-8 group"
+          className="inline-flex items-center gap-2 text-accent-amber hover:text-accent-amber/80 transition-colors mb-8 group"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-200" />
           <span>{backLabel ?? "Back to Home"}</span>
@@ -73,7 +73,7 @@ export function ProjectDetail({ projectId, onBack, backLabel }: ProjectDetailPro
                 {project.tags.map((tag: string, index: number) => (
                   <span
                     key={index}
-                    className="inline-flex items-center gap-1 px-2 py-1 bg-accent-lime/10 border border-accent-lime/25 rounded text-xs text-accent-lime"
+                    className="inline-flex items-center gap-1 px-2 py-1 bg-accent-amber/10 border border-accent-amber/25 rounded text-xs text-accent-amber"
                   >
                     <Tag className="w-3 h-3" />
                     {tag}
@@ -88,25 +88,53 @@ export function ProjectDetail({ projectId, onBack, backLabel }: ProjectDetailPro
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
+            {/* Project Description */}
             <div className="bg-card rounded-lg p-8 border border-border">
-              <h2 className="text-2xl font-bold text-foreground mb-4">Project Overview</h2>
+              <h2 className="text-2xl font-bold text-foreground mb-4">Project Description</h2>
               <ReactMarkdown components={markdownComponents}>
                 {project.description}
               </ReactMarkdown>
             </div>
 
-            <div className="bg-card rounded-lg p-8 border border-border">
-              <h2 className="text-2xl font-bold text-foreground mb-4">Challenges & Solutions</h2>
-              <div className="space-y-4">
+            {/* Challenges */}
+            {project.challenges && project.challenges !== "N/A" && (
+              <div className="bg-card rounded-lg p-8 border border-border">
+                <h2 className="text-2xl font-bold text-foreground mb-4">Challenges</h2>
                 <ReactMarkdown components={markdownComponents}>
                   {project.challenges}
                 </ReactMarkdown>
               </div>
-              <h3 className="text-lg font-semibold text-foreground mb-2 mt-6">Outcome</h3>
-              <ReactMarkdown components={markdownComponents}>
-                {project.process}
-              </ReactMarkdown>
-            </div>
+            )}
+
+            {/* Process */}
+            {project.process && project.process !== "N/A" && (
+              <div className="bg-card rounded-lg p-8 border border-border">
+                <h2 className="text-2xl font-bold text-foreground mb-4">Process</h2>
+                <ReactMarkdown components={markdownComponents}>
+                  {project.process}
+                </ReactMarkdown>
+              </div>
+            )}
+
+            {/* Custom Section 1 */}
+            {project.custom1Header && project.custom1Body && (
+              <div className="bg-card rounded-lg p-8 border border-border">
+                <h2 className="text-2xl font-bold text-foreground mb-4">{project.custom1Header}</h2>
+                <ReactMarkdown components={markdownComponents}>
+                  {project.custom1Body}
+                </ReactMarkdown>
+              </div>
+            )}
+
+            {/* Custom Section 2 */}
+            {project.custom2Header && project.custom2Body && (
+              <div className="bg-card rounded-lg p-8 border border-border">
+                <h2 className="text-2xl font-bold text-foreground mb-4">{project.custom2Header}</h2>
+                <ReactMarkdown components={markdownComponents}>
+                  {project.custom2Body}
+                </ReactMarkdown>
+              </div>
+            )}
 
             {/* Project Gallery */}
             {project.galleryImages && project.galleryImages.length > 0 && (
@@ -146,32 +174,19 @@ export function ProjectDetail({ projectId, onBack, backLabel }: ProjectDetailPro
               </div>
             </div>
 
-            {(project.liveProjectUrl || project.sourceCodeUrl) && (
+            {project.liveProjectUrl && (
               <div className="bg-card rounded-lg p-6 border border-border">
                 <h3 className="text-xl font-bold text-foreground mb-4">Project Links</h3>
                 <div className="space-y-3">
-                  {project.liveProjectUrl && (
-                    <a
-                      href={project.liveProjectUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                      <span>View Live Project</span>
-                    </a>
-                  )}
-                  {project.sourceCodeUrl && (
-                    <a
-                      href={project.sourceCodeUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors"
-                    >
-                      <Github className="w-4 h-4" />
-                      <span>Source Code</span>
-                    </a>
-                  )}
+                  <a
+                    href={project.liveProjectUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    <span>View Live Project</span>
+                  </a>
                 </div>
               </div>
             )}

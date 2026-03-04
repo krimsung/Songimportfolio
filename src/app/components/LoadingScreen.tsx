@@ -443,9 +443,9 @@ export function LoadingScreen({ terrainReady, onSplitStart, onComplete }: Loadin
                   inset:           0,
                   right:           "auto",
                   width:           `${displayProgress}%`,
-                  background:      "#FF6B35",
-                  borderRadius:    "999px",
-                  boxShadow:       "0 0 8px 1px rgba(255,107,53,0.55), 0 0 2px rgba(255,107,53,0.9)",
+                   background:      "#F5A623",
+                   borderRadius:    "999px",
+                   boxShadow:       "0 0 8px 1px rgba(245,166,35,0.55), 0 0 2px rgba(245,166,35,0.9)",
                   transform:       isCollapsing ? "scaleX(0)" : "scaleX(1)",
                   transformOrigin: "center",
                   transition:      isCollapsing

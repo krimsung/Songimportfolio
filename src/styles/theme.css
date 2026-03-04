@@ -6,12 +6,12 @@
 
    SECTION ACCENT MAP
    ─────────────────────────────────────────────
-   Hero / Nav       → --accent-primary   (neon coral)
-   About            → --accent-cyan      (electric cyan)
-   Skills           → --accent-violet    (neon violet)
-   Projects         → --accent-lime      (neon lime)
-   Gallery          → --accent-amber     (neon amber)
-   Contact          → --accent-primary   (neon coral, loops back)
+   Hero / Nav       → --accent-primary   (amber — unified highlight)
+   About            → --accent-amber     (amber — unified highlight)
+   Skills           → --accent-amber     (amber — unified highlight)
+   Projects         → --accent-amber     (amber — unified highlight)
+   Gallery          → --accent-amber     (amber — unified highlight)
+   Contact          → --accent-amber     (amber — unified highlight)
    ─────────────────────────────────────────────
    ============================================ */
 
@@ -20,11 +20,11 @@
    ============================================ */
 :root {
   /* ── Neon Accent Palette ─────────────────── */
-  --accent-primary:   #FF6B35;   /* Coral-orange       — hero, nav, contact  */
-  --accent-cyan:      #00C8E8;   /* Electric cyan      — about section       */
-  --accent-violet:    #A855F7;   /* Neon violet        — skills section       */
-  --accent-lime:      #2ECC71;   /* Vivid green        — projects section     */
-  --accent-amber:     #F5A623;   /* Warm amber         — gallery section      */
+  --accent-primary:   #F5A623;   /* Amber — unified highlight across all sections */
+  --accent-cyan:      #00C8E8;   /* Electric cyan — social icon buttons (LinkedIn, Email, X) */
+  --accent-violet:    #F5A623;   /* Unified amber — skills section            */
+  --accent-lime:      #F5A623;   /* Unified amber — projects section          */
+  --accent-amber:     #F5A623;   /* Warm amber — gallery section              */
 
   /* Legacy aliases */
   --accent:           var(--accent-primary);
@@ -206,7 +206,14 @@
 
   html {
     font-size: var(--font-size);
-    scrollbar-gutter: stable;
+    /* Native scrollbar on <html> is hidden globally — scrollable pages use
+       a custom scrollbar scoped to their own container instead. */
+    scrollbar-width: none;
+    overflow-y: hidden;
+  }
+
+  html::-webkit-scrollbar {
+    display: none;
   }
 
   h1 {
@@ -260,10 +267,10 @@
 
   /* ── Buttons ─────────────────────────────── */
 
-  /* Primary CTA — coral neon fill */
+  /* Primary CTA — amber fill */
   .btn-primary {
     @apply inline-flex items-center gap-2 px-6 py-3
-           bg-accent-primary text-white rounded-lg font-medium
+           bg-accent-primary text-[#0E0D11] rounded-lg font-medium
            border-2 border-accent-primary
            transition duration-100
            hover:border-white;

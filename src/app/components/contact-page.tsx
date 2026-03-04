@@ -63,7 +63,7 @@ export function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background pt-20">
+    <div className="min-h-screen bg-background pt-4">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <a
           href="#/"
@@ -86,10 +86,10 @@ export function ContactPage() {
               <div className="space-y-4">
                 <a
                   href="mailto:contact@songim.dev"
-                  className="flex items-center gap-3 text-muted-foreground hover:text-accent transition-colors group"
+                  className="flex items-center gap-3 text-muted-foreground hover:text-accent-cyan transition-colors group"
                 >
-                  <div className="icon-wrapper">
-                    <Mail className="w-5 h-5 text-accent-primary" />
+                  <div className="icon-wrapper-cyan">
+                    <Mail className="w-5 h-5 text-accent-cyan" />
                   </div>
                   <span>contact@songim.dev</span>
                 </a>
@@ -105,15 +105,15 @@ export function ContactPage() {
                   <span>linkedin.com/in/song-im</span>
                 </a>
                 <a
-                  href="https://twitter.com/songim_dev"
+                  href="https://x.com/digitalghoste"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-muted-foreground hover:text-accent-lime transition-colors group"
+                  className="flex items-center gap-3 text-muted-foreground hover:text-accent-cyan transition-colors group"
                 >
-                  <div className="icon-wrapper-lime">
-                    <XIcon className="w-5 h-5 text-accent-lime" />
+                  <div className="icon-wrapper-cyan">
+                    <XIcon className="w-5 h-5 text-accent-cyan" />
                   </div>
-                  <span>@songim_dev</span>
+                  <span>@digitalghoste</span>
                 </a>
               </div>
             </div>

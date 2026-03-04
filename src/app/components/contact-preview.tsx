@@ -8,10 +8,10 @@ export function ContactPreview({ onNavigateToContact }: ContactPreviewProps) {
   return (
     <section className="w-full h-full flex items-center justify-center">
         <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-card rounded-lg p-8 border border-border transition duration-100 hover:border-accent-primary hover:shadow-lg hover:shadow-accent-primary/50">
+        <div className="bg-card rounded-lg p-8 border border-border transition duration-100 hover:border-accent-amber hover:shadow-lg hover:shadow-accent-amber/50">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-3 bg-accent-primary/10 rounded-lg">
-              <Mail className="w-8 h-8 text-accent-primary" />
+            <div className="p-3 bg-accent-amber/10 rounded-lg">
+              <Mail className="w-8 h-8 text-accent-amber" />
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground">
               Let's Work Together

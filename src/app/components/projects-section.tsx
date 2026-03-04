@@ -22,7 +22,7 @@ export function ProjectsSection({ onViewProject, onViewAllProjects }: ProjectsSe
               key={project.slug}
               project={project}
               onViewProject={onViewProject}
-              showViewLink={true}
+              showStatus={true}
             />
           ))}
         </div>
@@ -38,7 +38,7 @@ export function ProjectsSection({ onViewProject, onViewAllProjects }: ProjectsSe
               event.preventDefault();
               onViewAllProjects();
             }}
-            className="btn-lime group"
+            className="btn-amber group"
           >
             <span>View All Projects</span>
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />

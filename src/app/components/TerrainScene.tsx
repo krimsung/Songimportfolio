@@ -191,6 +191,12 @@ export const TerrainScene = forwardRef<TerrainSceneRef, TerrainSceneProps>(
     renderer.setClearColor(BG_COLOR);
     container.appendChild(renderer.domElement);
     canvasRef.current = renderer.domElement;
+    // Pin the canvas to the container so its pixel dimensions never cause
+    // the document to overflow and produce a spurious scrollbar.
+    renderer.domElement.style.position = 'absolute';
+    renderer.domElement.style.inset = '0';
+    renderer.domElement.style.width = '100%';
+    renderer.domElement.style.height = '100%';
 
     // ── Scene / Camera ───────────────────────────────────────────────────
     const scene = new THREE.Scene();

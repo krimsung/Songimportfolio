@@ -47,11 +47,11 @@ export function TechnicalExperience() {
             return (
               <div
                 key={index}
-                className="aspect-square bg-card rounded-lg p-6 border border-border group transition duration-100 hover:border-accent-violet hover:shadow-lg hover:shadow-accent-violet/50"
+                className="aspect-square bg-card rounded-lg p-6 border border-border group transition duration-100 hover:border-accent-amber hover:shadow-lg hover:shadow-accent-amber/50"
               >
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="p-2 bg-accent-violet/10 border border-accent-violet/30 rounded-lg">
-                    <Icon className="w-6 h-6 text-accent-violet" />
+                  <div className="p-2 bg-accent-amber/10 border border-accent-amber/30 rounded-lg">
+                    <Icon className="w-6 h-6 text-accent-amber" />
                   </div>
                   <h3 className="text-xl font-semibold text-foreground">{skill.category}</h3>
                 </div>
@@ -61,7 +61,7 @@ export function TechnicalExperience() {
                       key={itemIndex}
                       className="text-muted-foreground flex items-center gap-2"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-accent-violet/70"></span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-accent-amber/70"></span>
                       {item}
                     </li>
                   ))}

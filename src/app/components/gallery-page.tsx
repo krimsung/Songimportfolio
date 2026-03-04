@@ -142,7 +142,7 @@ export function GalleryPage() {
   const selectedItem = selectedIndex !== null ? galleryItems[selectedIndex] : null;
 
   return (
-    <div className="min-h-screen bg-background pt-20">
+    <div className="min-h-screen bg-background pt-4">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <a
           href="#/"

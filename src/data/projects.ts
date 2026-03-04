@@ -96,10 +96,11 @@ export interface ProjectRecord {
   description: string;
   challenges: string;
   process: string;
-  custom1: string;
-  custom2: string;
+  custom1Header: string;
+  custom1Body: string;
+  custom2Header: string;
+  custom2Body: string;
   liveProjectUrl: string;
-  sourceCodeUrl: string;
   image: string;
   status: string;
   galleryImages: string[];
@@ -223,9 +224,24 @@ const collectTags = (
   return tags.filter((tag) => tag !== "N/A");
 };
 
+const splitCustomSection = (raw: string): { header: string; body: string } => {
+  const text = raw === "N/A" ? "" : raw;
+  const newlineIndex = text.indexOf("\n");
+  if (newlineIndex === -1) {
+    return { header: text.trim(), body: "" };
+  }
+  const header = text.slice(0, newlineIndex).trim();
+  const body = text.slice(newlineIndex + 1).trim();
+  return { header, body };
+};
+
 const buildDetailRecords = (csv: CsvData) => {
   return csv.rows.map((row) => {
     const title = getCell(row, csv.headerIndex, "Project Name");
+    const custom1Raw = getCell(row, csv.headerIndex, "Custom 1");
+    const custom2Raw = getCell(row, csv.headerIndex, "Custom 2");
+    const { header: custom1Header, body: custom1Body } = splitCustomSection(custom1Raw);
+    const { header: custom2Header, body: custom2Body } = splitCustomSection(custom2Raw);
 
     return {
       title,
@@ -240,10 +256,11 @@ const buildDetailRecords = (csv: CsvData) => {
       description: getCell(row, csv.headerIndex, "Description"),
       challenges: getCell(row, csv.headerIndex, "Challenges"),
       process: getCell(row, csv.headerIndex, "Process"),
-      custom1: getCell(row, csv.headerIndex, "Custom 1"),
-      custom2: getCell(row, csv.headerIndex, "Custom 2"),
+      custom1Header,
+      custom1Body,
+      custom2Header,
+      custom2Body,
       liveProjectUrl: getUrlCell(row, csv.headerIndex, "Live Project URL"),
-      sourceCodeUrl: getUrlCell(row, csv.headerIndex, "Source Code URL")
     };
   });
 };
@@ -290,10 +307,11 @@ const mergeRecords = (details: ReturnType<typeof buildDetailRecords>, thumbnails
       description: detail.description,
       challenges: detail.challenges,
       process: detail.process,
-      custom1: detail.custom1,
-      custom2: detail.custom2,
+      custom1Header: detail.custom1Header,
+      custom1Body: detail.custom1Body,
+      custom2Header: detail.custom2Header,
+      custom2Body: detail.custom2Body,
       liveProjectUrl: detail.liveProjectUrl,
-      sourceCodeUrl: detail.sourceCodeUrl,
       image: getThumbnailForProject(detail.title),
       status: statusMap[normalizedTitle] || "N/A",
       galleryImages: getGalleryImagesForProject(detail.title)

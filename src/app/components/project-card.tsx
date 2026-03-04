@@ -38,7 +38,7 @@ export function ProjectCard({
         onViewProject(project.slug);
       }}
     >
-      <div className="bg-card rounded-lg overflow-hidden border border-border h-full flex flex-col transition duration-100 hover:border-accent-lime hover:shadow-lg hover:shadow-accent-lime/50">
+      <div className="bg-card rounded-lg overflow-hidden border border-border h-full flex flex-col transition duration-100 hover:border-accent-amber hover:shadow-lg hover:shadow-accent-amber/50">
         <div className="relative w-full aspect-square overflow-hidden flex-shrink-0">
           <img
             src={project.image}
@@ -63,7 +63,7 @@ export function ProjectCard({
             {project.year}
           </div>
 
-          <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-accent-lime transition-colors">
+          <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-accent-amber transition-colors">
             {project.title}
           </h3>
 
@@ -77,7 +77,7 @@ export function ProjectCard({
             {project.tags.map((tag) => (
               <span
                 key={tag}
-                className="inline-flex items-center gap-1 px-2 py-1 bg-accent-lime/10 border border-accent-lime/25 rounded text-xs text-accent-lime h-fit"
+                className="inline-flex items-center gap-1 px-2 py-1 bg-accent-amber/10 border border-accent-amber/25 rounded text-xs text-accent-amber h-fit"
               >
                 <Tag className="w-3 h-3" />
                 {tag}
@@ -86,7 +86,7 @@ export function ProjectCard({
           </div>
 
           {showViewLink && (
-            <div className="flex items-center justify-end gap-2 text-accent-lime mt-auto">
+            <div className="flex items-center justify-end gap-2 text-accent-amber mt-auto">
               <span>View Project</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
             </div>

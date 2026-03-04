@@ -132,7 +132,7 @@ export function GallerySection({ onNavigateToGallery }: GallerySectionProps) {
                   onClick={() => setCurrentIndex(index)}
                   className={`relative flex-1 min-w-0 h-[104px] rounded-lg overflow-hidden border-2 transition duration-100 bg-black ${
                     index === currentIndex
-                      ? "border-accent-amber scale-105"
+                      ? "border-accent-amber"
                       : "border-border/50"
                   }`}
                 >

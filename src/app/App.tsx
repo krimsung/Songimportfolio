@@ -165,45 +165,54 @@ export default function App() {
             />
           )}
 
-          {currentPage === "projects" && (
-            <ProjectsPage
-              onBack={handleBackToHome}
-              onViewProject={handleViewProject}
-            />
-          )}
+          {/* Scrollable pages — custom scrollbar container fixed below the nav bar.
+              Keeps the scrollbar scoped here so <html> width never changes. */}
+          {currentPage !== "home" && (
+            <div
+              className="page-scroll"
+              style={{ position: "fixed", inset: 0, top: "4rem", zIndex: 1 }}
+            >
+              {currentPage === "projects" && (
+                <ProjectsPage
+                  onBack={handleBackToHome}
+                  onViewProject={handleViewProject}
+                />
+              )}
 
-          {currentPage === "gallery"  && <GalleryPage />}
-          {currentPage === "contact"  && <ContactPage />}
+              {currentPage === "gallery"  && <GalleryPage />}
+              {currentPage === "contact"  && <ContactPage />}
 
-          {currentPage === "project-detail" && selectedProject && (
-            <ProjectDetail
-              projectId={selectedProject}
-              onBack={handleBackFromProject}
-              backLabel={previousPage === "projects" ? "Back to Projects" : "Back to Home"}
-            />
-          )}
+              {currentPage === "project-detail" && selectedProject && (
+                <ProjectDetail
+                  projectId={selectedProject}
+                  onBack={handleBackFromProject}
+                  backLabel={previousPage === "projects" ? "Back to Projects" : "Back to Home"}
+                />
+              )}
 
-          {currentPage === "project-not-found" && (
-            <div className="min-h-screen bg-background pt-20">
-              <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <h1 className="text-3xl font-bold text-foreground">
-                  Project not found
-                </h1>
-                <p className="text-muted-foreground mt-2">
-                  Check the URL and try again.
-                </p>
-                <a
-                  href="#/"
-                  className="mt-6 inline-flex items-center gap-2 text-accent hover:text-accent/90 transition-colors"
-                >
-                  <span>Back to Home</span>
-                </a>
-              </div>
+              {currentPage === "project-not-found" && (
+                <div className="min-h-screen bg-background pt-20">
+                  <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                    <h1 className="text-3xl font-bold text-foreground">
+                      Project not found
+                    </h1>
+                    <p className="text-muted-foreground mt-2">
+                      Check the URL and try again.
+                    </p>
+                    <a
+                      href="#/"
+                      className="mt-6 inline-flex items-center gap-2 text-accent hover:text-accent/90 transition-colors"
+                    >
+                      <span>Back to Home</span>
+                    </a>
+                  </div>
+                </div>
+              )}
+
+              <Footer />
             </div>
           )}
         </main>
-
-        {currentPage !== "home" && <Footer />}
       </div>
     </div>
   );
