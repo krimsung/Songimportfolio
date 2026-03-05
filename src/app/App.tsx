@@ -1,15 +1,28 @@
 import { useState, useEffect, useCallback } from "react";
 import { Toaster } from "sonner";
-import { Navigation }      from "./components/navigation";
-import { HomePageSlider }  from "./components/home-page-slider";
-import { ProjectDetail }   from "./components/project-detail";
-import { ProjectsPage }    from "./components/projects-page";
-import { ContactPage }     from "./components/contact-page";
-import { GalleryPage }     from "./components/gallery-page";
-import { Footer }          from "./components/footer";
-import { TerrainScene }    from "./components/TerrainScene";
-import { LoadingScreen }   from "./components/LoadingScreen";
-import { projectsBySlug }  from "../data/projects";
+import { Navigation }         from "./components/navigation";
+import { HomePageSlider }     from "./components/home-page-slider";
+import { ProjectsPage }       from "./components/projects-page";
+import { ContactPage }        from "./components/contact-page";
+import { GalleryPage }        from "./components/gallery-page";
+import { Footer }             from "./components/footer";
+import { TerrainScene }       from "./components/TerrainScene";
+import { LoadingScreen }      from "./components/LoadingScreen";
+import { ALL_PROJECTS_BY_SLUG } from "../data/projectRegistry";
+
+// ── Per-project page components ──────────────────────────────────────────────
+import { GhostCorePage }      from "./projects/ghost-core";
+import { GhostCtrlPage }      from "./projects/ghost-ctrl";
+import { FinalShotPage }      from "./projects/final-shot";
+import { RogueDataPage }      from "./projects/rogue-data";
+import { MetaconstructPage }  from "./projects/metaconstruct";
+import { TinySheriffPage }    from "./projects/tiny-sheriff";
+import { ProjectQuiverPage }  from "./projects/project-quiver";
+import { InsomniacPage }         from "./projects/insomniac";
+import { DeHeavyHazardPage }     from "./projects/de-heavy-hazard";
+import { ZmLilaPanicRemakePage } from "./projects/zm-lila-panic-remake";
+import { GgNorthernPatrolPage }  from "./projects/gg-northern-patrol";
+import { CsSubjectivityPage }    from "./projects/cs-subjectivity";
 
 type Page =
   | "home"
@@ -45,7 +58,7 @@ export default function App() {
       const hash = window.location.hash;
       if (hash.startsWith("#/projects/")) {
         const slug = hash.replace("#/projects/", "");
-        if (projectsBySlug[slug]) {
+        if (ALL_PROJECTS_BY_SLUG[slug]) {
           setSelectedProject(slug);
           setCurrentPage("project-detail");
         } else {
@@ -182,13 +195,25 @@ export default function App() {
               {currentPage === "gallery"  && <GalleryPage />}
               {currentPage === "contact"  && <ContactPage />}
 
-              {currentPage === "project-detail" && selectedProject && (
-                <ProjectDetail
-                  projectId={selectedProject}
-                  onBack={handleBackFromProject}
-                  backLabel={previousPage === "projects" ? "Back to Projects" : "Back to Home"}
-                />
-              )}
+              {currentPage === "project-detail" && selectedProject && (() => {
+                const backLabel = previousPage === "projects" ? "Back to Projects" : "Back to Home";
+                const props = { onBack: handleBackFromProject, backLabel };
+                switch (selectedProject) {
+                  case "ghost-core":     return <GhostCorePage     {...props} />;
+                  case "ghost-ctrl":     return <GhostCtrlPage     {...props} />;
+                  case "final-shot":     return <FinalShotPage      {...props} />;
+                  case "rogue-data":     return <RogueDataPage      {...props} />;
+                  case "metaconstruct":  return <MetaconstructPage  {...props} />;
+                  case "tiny-sheriff":   return <TinySheriffPage    {...props} />;
+                  case "project-quiver": return <ProjectQuiverPage  {...props} />;
+                  case "insomniac":            return <InsomniacPage          {...props} />;
+                  case "de-heavy-hazard":      return <DeHeavyHazardPage      {...props} />;
+                  case "zm-lila-panic-remake": return <ZmLilaPanicRemakePage  {...props} />;
+                  case "gg-northern-patrol":   return <GgNorthernPatrolPage    {...props} />;
+                  case "cs-subjectivity":      return <CsSubjectivityPage      {...props} />;
+                  default:                     return null;
+                }
+              })()}
 
               {currentPage === "project-not-found" && (
                 <div className="min-h-screen bg-background pt-20">

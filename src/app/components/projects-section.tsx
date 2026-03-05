@@ -1,6 +1,8 @@
 import { ArrowRight } from "lucide-react";
-import { featuredProjects } from "../../data/projects";
+import { PROJECT_REGISTRY } from "../../data/projectRegistry";
 import { ProjectCard } from "./project-card";
+
+const featuredProjects = PROJECT_REGISTRY.slice(0, 3);
 
 interface ProjectsSectionProps {
   onViewProject: (projectId: string) => void;

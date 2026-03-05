@@ -1,5 +1,5 @@
 import { ArrowLeft } from "lucide-react";
-import { projects } from "../../data/projects";
+import { PROJECT_REGISTRY } from "../../data/projectRegistry";
 import { ProjectCard } from "./project-card";
 
 interface ProjectsPageProps {
@@ -8,10 +8,10 @@ interface ProjectsPageProps {
 }
 
 export function ProjectsPage({ onBack, onViewProject }: ProjectsPageProps) {
-
   return (
     <div className="min-h-screen bg-background pt-4">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
         <a
           href="#/"
           onClick={(e) => {
@@ -35,7 +35,7 @@ export function ProjectsPage({ onBack, onViewProject }: ProjectsPageProps) {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project) => (
+          {PROJECT_REGISTRY.map((project) => (
             <ProjectCard
               key={project.slug}
               project={project}
@@ -44,6 +44,7 @@ export function ProjectsPage({ onBack, onViewProject }: ProjectsPageProps) {
             />
           ))}
         </div>
+
       </div>
     </div>
   );

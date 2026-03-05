@@ -1,8 +1,9 @@
 import { ArrowRight, Calendar, Tag } from "lucide-react";
-import { ProjectRecord } from "../../data/projects";
+import { ProjectEntry } from "../../data/projectRegistry";
+import sourceLogo from "../../media/SourceLogo.webp";
 
 interface ProjectCardProps {
-  project: ProjectRecord;
+  project: ProjectEntry;
   onViewProject: (slug: string) => void;
   showStatus?: boolean;
   showViewLink?: boolean;
@@ -46,7 +47,16 @@ export function ProjectCard({
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-200"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent opacity-60"></div>
-          {showStatus && project.status !== "N/A" && (
+          {project.tags.includes("Source") && (
+            <div className="absolute top-4 left-4">
+              <img
+                src={sourceLogo}
+                alt="Source Engine"
+                className="h-8 w-auto object-contain drop-shadow-md"
+              />
+            </div>
+          )}
+          {showStatus && (
             <div className="absolute top-4 right-4">
               <span
                 className={`inline-flex px-3 py-1 rounded-full text-xs font-semibold border ${getStatusColor(project.status)}`}
@@ -68,9 +78,7 @@ export function ProjectCard({
           </h3>
 
           <p className="text-muted-foreground mb-4 line-clamp-2 flex-1">
-            {project.shortDescription !== "N/A"
-              ? project.shortDescription
-              : project.description}
+            {project.shortDescription}
           </p>
 
           <div className="flex flex-wrap gap-2 mb-4">

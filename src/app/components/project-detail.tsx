@@ -60,7 +60,7 @@ export function ProjectDetail({ projectId, onBack, backLabel }: ProjectDetailPro
               alt={project.title}
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
             <div className="absolute bottom-0 left-0 right-0 p-8">
               <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
                 <Calendar className="w-4 h-4" />
