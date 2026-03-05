@@ -39,7 +39,7 @@ export const PROJECT_REGISTRY: ProjectEntry[] = [
   {
     slug:             "de-heavy-hazard",
     title:            "Heavy Hazard",
-    year:             "2024",
+    year:             "2016",
     status:           "Finished",
     shortDescription: "DE_ map built in the Source engine",
     tags:             ["Source", "Level Design", "Solo"],
@@ -48,7 +48,7 @@ export const PROJECT_REGISTRY: ProjectEntry[] = [
   {
     slug:             "zm-lila-panic-remake",
     title:            "Lila Panic Remake",
-    year:             "2024",
+    year:             "2014",
     status:           "Finished",
     shortDescription: "ZM_ map remake built in the Source engine",
     tags:             ["Source", "Level Design", "Solo"],
@@ -57,7 +57,7 @@ export const PROJECT_REGISTRY: ProjectEntry[] = [
   {
     slug:             "gg-northern-patrol",
     title:            "Northern Patrol",
-    year:             "2024",
+    year:             "2015",
     status:           "Finished",
     shortDescription: "GG_ map built in the Source engine",
     tags:             ["Source", "Level Design", "Solo"],
@@ -66,7 +66,7 @@ export const PROJECT_REGISTRY: ProjectEntry[] = [
   {
     slug:             "cs-subjectivity",
     title:            "Subjectivity",
-    year:             "2024",
+    year:             "2015",
     status:           "Finished",
     shortDescription: "CS_ map built in the Source engine",
     tags:             ["Source", "Level Design", "Solo"],

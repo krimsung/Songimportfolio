@@ -125,8 +125,9 @@ export function ContactPage() {
               </p>
               <div>
                 <a
-                   href="/cv.pdf"
-                  download
+                   href="https://drive.google.com/uc?export=download&id=1wSsWn3grZ_bKw3TvN55JghAPtgg8K1k-"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="btn-primary w-full justify-center group"
                 >
                   <Download className="w-5 h-5 group-hover:translate-y-1 transition-transform duration-200" />

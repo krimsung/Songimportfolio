@@ -2,7 +2,8 @@ import { ArrowRight } from "lucide-react";
 import { PROJECT_REGISTRY } from "../../data/projectRegistry";
 import { ProjectCard } from "./project-card";
 
-const featuredProjects = PROJECT_REGISTRY.slice(0, 3);
+const FEATURED_SLUGS = ["ghost-ctrl", "final-shot", "insomniac"];
+const featuredProjects = FEATURED_SLUGS.map((slug) => PROJECT_REGISTRY.find((p) => p.slug === slug)!).filter(Boolean);
 
 interface ProjectsSectionProps {
   onViewProject: (projectId: string) => void;
