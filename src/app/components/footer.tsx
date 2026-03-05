@@ -1,4 +1,4 @@
-import { Heart } from 'lucide-react';
+import { Heart, Mail, LinkedinIcon, XIcon } from 'lucide-react';
 
 const quickLinks = [
   { href: '#/', label: 'Home' },
@@ -23,22 +23,24 @@ export function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div>
-            <h3 className="text-lg font-semibold text-foreground mb-4">
-              Quick Links
-            </h3>
-            <ul className="space-y-2">
-              {quickLinks.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    className="text-muted-foreground hover:text-accent-primary transition-colors"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+          <div className="md:flex md:flex-col md:items-center">
+            <div>
+              <h3 className="text-lg font-semibold text-foreground mb-4">
+                Quick Links
+              </h3>
+              <ul className="space-y-2">
+                {quickLinks.map((link) => (
+                  <li key={link.href}>
+                    <a
+                      href={link.href}
+                      className="text-muted-foreground hover:text-accent-primary transition-colors"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
           {/* Social */}
@@ -47,9 +49,37 @@ export function Footer() {
               Connect
             </h3>
             <div className="flex gap-3">
-              <p className="text-muted-foreground text-sm">
-                Find me on social media
-              </p>
+              <a
+                href="mailto:contact@songim.dev"
+                title="Email"
+                className="text-muted-foreground hover:text-accent-cyan transition-colors group"
+              >
+                <div className="icon-wrapper-cyan">
+                  <Mail className="w-5 h-5 text-accent-cyan" />
+                </div>
+              </a>
+              <a
+                href="https://www.linkedin.com/in/song-im/"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="LinkedIn"
+                className="text-muted-foreground hover:text-accent-cyan transition-colors group"
+              >
+                <div className="icon-wrapper-cyan">
+                  <LinkedinIcon className="w-5 h-5 text-accent-cyan" />
+                </div>
+              </a>
+              <a
+                href="https://x.com/digitalghoste"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="X (Twitter)"
+                className="text-muted-foreground hover:text-accent-cyan transition-colors group"
+              >
+                <div className="icon-wrapper-cyan">
+                  <XIcon className="w-5 h-5 text-accent-cyan" />
+                </div>
+              </a>
             </div>
           </div>
         </div>

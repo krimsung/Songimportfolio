@@ -78,7 +78,7 @@ export const PROJECT_REGISTRY: ProjectEntry[] = [
     year:             "2026",
     status:           "In Development",
     shortDescription: "Dystopian sci-fi first-person extraction shooter — full indie studio project",
-    tags:             ["UE5", "Producer", "Level Design", "Tech Art"],
+    tags:             ["UE5", "Producer", "Level Design", "Tech Art", "Blueprint", "Team"],
     image:            ghostCoreThumb,
   },
   {
@@ -87,7 +87,7 @@ export const PROJECT_REGISTRY: ProjectEntry[] = [
     year:             "2025",
     status:           "Released",
     shortDescription: "Dystopian cyberpunk extraction shooter with playable demo",
-    tags:             ["UE5", "Level Design", "Tech Art", "Solo"],
+    tags:             ["UE5", "Level Design", "Tech Art", "Solo", "Blueprint"],
     image:            ghostCtrlThumb,
   },
   {
@@ -105,7 +105,7 @@ export const PROJECT_REGISTRY: ProjectEntry[] = [
     year:             "2025",
     status:           "Finished",
     shortDescription: "2D movement platformer focused on level design",
-    tags:             ["UE5", "Level Design", "Tech Art", "Solo"],
+    tags:             ["UE5", "Level Design", "Tech Art", "Solo", "Blueprint"],
     image:            rogueDataThumb,
   },
   {
@@ -114,7 +114,7 @@ export const PROJECT_REGISTRY: ProjectEntry[] = [
     year:             "2024",
     status:           "Finished",
     shortDescription: "Polished FPS game featuring procedural generation",
-    tags:             ["UE5", "Producer", "Procedural", "Team"],
+    tags:             ["UE5", "Producer", "Procedural", "Team", "Blueprint", "Tech Art"],
     image:            metaconstructThumb,
   },
   {
@@ -142,7 +142,7 @@ export const PROJECT_REGISTRY: ProjectEntry[] = [
     year:             "2025",
     status:           "Finished",
     shortDescription: "Walking simulator set in a dystopian underground South Korean megastructure",
-    tags:             ["UE5", "Level Design", "Solo"],
+    tags:             ["UE5", "Level Design", "Solo", "Blueprint"],
     image:            insomniacThumb,
   },
 ];

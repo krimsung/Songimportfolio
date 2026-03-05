@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef } from "react";
-import { ArrowLeft, SlidersHorizontal, ArrowUpDown, X } from "lucide-react";
+import { ArrowLeft, SlidersHorizontal, ArrowUpDown, X, LayoutGrid, List } from "lucide-react";
 import { PROJECT_REGISTRY, ProjectStatus } from "../../data/projectRegistry";
 import { ProjectCard } from "./project-card";
 
@@ -32,6 +32,7 @@ export function ProjectsPage({ onBack, onViewProject }: ProjectsPageProps) {
   const [activeTags,      setActiveTags]      = useState<Set<string>>(new Set());
   const [activeStatuses,  setActiveStatuses]  = useState<Set<ProjectStatus>>(new Set());
   const [sortAsc,         setSortAsc]         = useState(false); // default: newest first
+  const [viewMode,        setViewMode]        = useState<"grid" | "list">("grid");
 
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -102,22 +103,49 @@ export function ProjectsPage({ onBack, onViewProject }: ProjectsPageProps) {
             <p className="text-base sm:text-lg text-muted-foreground">
               A comprehensive collection of my game development work
             </p>
-            <button
-              onClick={() => setFilterOpen((o) => !o)}
-              className={`flex-shrink-0 inline-flex items-center gap-2 px-4 py-1.5 rounded-lg border text-sm font-medium transition-all duration-200
-                ${filterOpen
-                  ? "bg-accent-amber/15 border-accent-amber text-accent-amber"
-                  : "bg-card border-border text-muted-foreground hover:border-accent-amber/60 hover:text-foreground"
-                }`}
-            >
-              <SlidersHorizontal className="w-4 h-4" />
-              Filter
-              {hasActiveFilters && (
-                <span className="ml-1 flex h-4 w-4 items-center justify-center rounded-full bg-accent-amber text-[10px] font-bold text-background">
-                  {activeTags.size + activeStatuses.size}
-                </span>
-              )}
-            </button>
+            <div className="flex-shrink-0 flex items-center gap-1">
+              {/* ── View mode toggle (lg+ only) ───────────────────────────── */}
+              <button
+                onClick={() => setViewMode("grid")}
+                title="Grid view"
+                className={`hidden md:inline-flex items-center justify-center w-8 h-8 rounded-lg border transition-all duration-200
+                  ${viewMode === "grid"
+                    ? "bg-accent-amber/15 border-accent-amber text-accent-amber"
+                    : "bg-card border-border text-muted-foreground hover:border-accent-amber/60 hover:text-foreground"
+                  }`}
+              >
+                <LayoutGrid className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => setViewMode("list")}
+                title="List view"
+                className={`hidden md:inline-flex items-center justify-center w-8 h-8 rounded-lg border transition-all duration-200
+                  ${viewMode === "list"
+                    ? "bg-accent-amber/15 border-accent-amber text-accent-amber"
+                    : "bg-card border-border text-muted-foreground hover:border-accent-amber/60 hover:text-foreground"
+                  }`}
+              >
+                <List className="w-4 h-4" />
+              </button>
+
+              {/* ── Filter button ─────────────────────────────────────────── */}
+              <button
+                onClick={() => setFilterOpen((o) => !o)}
+                className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-lg border text-sm font-medium transition-all duration-200
+                  ${filterOpen
+                    ? "bg-accent-amber/15 border-accent-amber text-accent-amber"
+                    : "bg-card border-border text-muted-foreground hover:border-accent-amber/60 hover:text-foreground"
+                  }`}
+              >
+                <SlidersHorizontal className="w-4 h-4" />
+                Filter
+                {hasActiveFilters && (
+                  <span className="ml-1 flex h-4 w-4 items-center justify-center rounded-full bg-accent-amber text-[10px] font-bold text-background">
+                    {activeTags.size + activeStatuses.size}
+                  </span>
+                )}
+              </button>
+            </div>
           </div>
         </div>
 
@@ -228,7 +256,7 @@ export function ProjectsPage({ onBack, onViewProject }: ProjectsPageProps) {
         </div>
 
         {/* ── Project grid ───────────────────────────────────────────────── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className={viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" : "flex flex-col gap-3"}>
           {displayed.length > 0 ? (
             displayed.map((project) => (
               <ProjectCard
@@ -236,6 +264,7 @@ export function ProjectsPage({ onBack, onViewProject }: ProjectsPageProps) {
                 project={project}
                 onViewProject={onViewProject}
                 showStatus={true}
+                listMode={viewMode === "list"}
               />
             ))
           ) : (

@@ -6,12 +6,17 @@ import { videoAssets } from "../assetManifest";
 import HighresScreenshot00012 from "../../media/gallery/HighresScreenshot00012.png";
 import HighresScreenshot00010 from "../../media/gallery/HighresScreenshot00010.png";
 import HighresScreenshot00004 from "../../media/gallery/HighresScreenshot00004.png";
+import HighresScreenshot00006 from "../../media/gallery/HighresScreenshot00006.png";
 import FinalScreenshot1 from "../../media/gallery/Final Screenshot 1.png";
 import FinalScreenshot2 from "../../media/gallery/Final Screenshot 2.png";
 import FinalScreenshot3 from "../../media/gallery/Final Screenshot 3.png";
 import FinalScreenshot4 from "../../media/gallery/Final Screenshot 4.png";
-import FinalScreenshot5 from "../../media/gallery/Final Screenshot 5.png";
 import FinalScreenshot6 from "../../media/gallery/Final Screenshot 6.png";
+import FinalScreenshot7 from "../../media/gallery/Final Screenshot 7.png";
+import Screenshot1      from "../../media/gallery/Screenshot_1.png";
+import Screenshot2      from "../../media/gallery/Screenshot_2.png";
+import Screenshot3      from "../../media/gallery/Screenshot_3.png";
+import Screenshot4      from "../../media/gallery/Screenshot_4.png";
 
 // Build a lookup: video src → thumbnail image src (populated from assetManifest)
 const videoThumbnailMap: Record<string, string> = Object.fromEntries(
@@ -26,7 +31,7 @@ type GalleryItem =
 const v = Object.fromEntries(videoAssets.map((a) => [a.label, a.src]));
 
 const galleryItems: GalleryItem[] = [
-  { type: "video", src: v["Hellbound"],                   title: "Hellbound",                   subtitle: "VFX Animation" },
+  { type: "video", src: v["Hellbound"],                   title: "Hellbound Title Screen",                   subtitle: "VFX Animation" },
   { type: "video", src: v["VFX Island"],                  title: "VFX Island",                  subtitle: "VFX Animation" },
   { type: "video", src: v["Blizzard"],                    title: "Blizzard",                    subtitle: "VFX Animation" },
   { type: "video", src: v["Boulder Destruction"],         title: "Boulder Destruction",         subtitle: "VFX Animation" },
@@ -39,20 +44,25 @@ const galleryItems: GalleryItem[] = [
   { type: "video", src: v["Finisher Small"],              title: "Finisher Small",              subtitle: "VFX Animation" },
   { type: "video", src: v["Campfire"],                    title: "Campfire",                    subtitle: "VFX Animation" },
   { type: "video", src: v["Flamethrower"],                title: "Flamethrower",                subtitle: "VFX Animation" },
-  { type: "video", src: v["Render Target Fog-of-War"],    title: "Render Target Fog-of-War",    subtitle: "VFX Animation" },
-  { type: "video", src: v["Metaconstruct Lighting Pass"], title: "Metaconstruct Lighting Pass", subtitle: "VFX Animation" },
-  { type: "video", src: v["GodForged Main Menu"],         title: "GodForged Main Menu",         subtitle: "VFX Animation" },
-  { type: "video", src: v["PyGame Gamejams"],             title: "PyGame Gamejams",             subtitle: "VFX Animation" },
-  { type: "video", src: v["Houdini Building Generator"],  title: "Houdini Building Generator",  subtitle: "VFX Animation" },
-  { type: "image", src: HighresScreenshot00012,           title: "HighresScreenshot00012",      subtitle: "Game Screenshot" },
-  { type: "image", src: HighresScreenshot00010,           title: "HighresScreenshot00010",      subtitle: "Game Screenshot" },
-  { type: "image", src: HighresScreenshot00004,           title: "HighresScreenshot00004",      subtitle: "Game Screenshot" },
-  { type: "image", src: FinalScreenshot1,                 title: "Final Screenshot 1",          subtitle: "Game Screenshot" },
-  { type: "image", src: FinalScreenshot2,                 title: "Final Screenshot 2",          subtitle: "Game Screenshot" },
-  { type: "image", src: FinalScreenshot3,                 title: "Final Screenshot 3",          subtitle: "Game Screenshot" },
-  { type: "image", src: FinalScreenshot4,                 title: "Final Screenshot 4",          subtitle: "Game Screenshot" },
-  { type: "image", src: FinalScreenshot5,                 title: "Final Screenshot 5",          subtitle: "Game Screenshot" },
-  { type: "image", src: FinalScreenshot6,                 title: "Final Screenshot 6",          subtitle: "Game Screenshot" },
+  { type: "video", src: v["Render Target Fog-of-War"],    title: "Render Target \nFog-of-War",    subtitle: "Technical Art" },
+  { type: "video", src: v["Metaconstruct Lighting Pass"], title: "Metaconstruct \nLighting Pass", subtitle: "Technical Art" },
+  { type: "video", src: v["GodForged Main Menu"],         title: "GodForged Main Menu",         subtitle: "Technical Art" },
+  { type: "video", src: v["PyGame Gamejams"],             title: "24 Hour Gamejams",             subtitle: "Made with PyGame" },
+  { type: "video", src: v["Houdini Building Generator"],  title: "Houdini Building Generator",  subtitle: "Technical Art" },
+  { type: "image", src: FinalScreenshot1,                 title: "Architecture Scene",          subtitle: "2023 Course Work" },
+  { type: "image", src: FinalScreenshot2,                 title: "Architecture Scene",          subtitle: "2023 Course Work" },
+  { type: "image", src: FinalScreenshot3,                 title: "Architecture Scene",          subtitle: "2023 Course Work" },
+  { type: "image", src: FinalScreenshot4,                 title: "Architecture Scene",          subtitle: "2023 Course Work" },
+  { type: "image", src: FinalScreenshot6,                 title: "Architecture Scene",          subtitle: "2023 Course Work" },
+  { type: "image", src: FinalScreenshot7,                 title: "Architecture Scene",          subtitle: "2023 Course Work" },
+  { type: "image", src: HighresScreenshot00012,           title: "Character Bust",      subtitle: "ZBrush Retopology" },
+  { type: "image", src: HighresScreenshot00004,           title: "Character Bust",      subtitle: "ZBrush Retopology" },
+  { type: "image", src: HighresScreenshot00010,           title: "Character Bust",      subtitle: "ZBrush Retopology" },
+  { type: "image", src: HighresScreenshot00006,           title: "Character Bust",      subtitle: "ZBrush Retopology" },
+  { type: "image", src: Screenshot1,                      title: "Imposter Syndrome",                subtitle: "ZBrush Model" },
+  { type: "image", src: Screenshot2,                      title: "Imposter Syndrome",                subtitle: "ZBrush Model" },
+  { type: "image", src: Screenshot3,                      title: "Imposter Syndrome",                subtitle: "ZBrush Model" },
+  { type: "image", src: Screenshot4,                      title: "Imposter Syndrome",                subtitle: "ZBrush Model" },
 ];
 
 export function GalleryPage() {
@@ -163,7 +173,7 @@ export function GalleryPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {galleryItems.map((item, index) => (
             <button
               key={item.title}
@@ -210,7 +220,7 @@ export function GalleryPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
 
                   <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-200 z-10">
-                    <h3 className="text-foreground font-semibold mb-1">{item.title}</h3>
+                    <h3 className="text-foreground font-semibold mb-1 whitespace-pre-line">{item.title}</h3>
                     <span className="text-sm text-accent-amber font-medium">{item.subtitle}</span>
                   </div>
                 </div>
@@ -286,7 +296,7 @@ export function GalleryPage() {
                 />
               )}
               <div className="text-center">
-                <h3 className="text-2xl font-bold text-foreground mb-2">
+                <h3 className="text-2xl font-bold text-foreground mb-2 whitespace-pre-line">
                   {selectedItem.title}
                 </h3>
                 <span className="text-accent-amber font-medium">

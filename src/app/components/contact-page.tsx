@@ -63,7 +63,7 @@ export function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background pt-2">
+    <div className="min-h-full bg-background pt-2">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-12">
         <a
           href="#/"
@@ -76,7 +76,7 @@ export function ContactPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* Contact Info */}
           <div className="flex flex-col">
-              <div className="bg-card rounded-lg p-5 sm:p-6 md:p-8 border border-border mb-6 transition duration-100 hover:border-accent-primary hover:bg-accent-primary/5 hover:shadow-lg hover:shadow-accent-primary/50">
+              <div className="bg-card rounded-lg p-5 sm:p-6 md:p-8 border border-border mb-4 transition duration-100 hover:border-accent-primary hover:bg-accent-primary/5 hover:shadow-lg hover:shadow-accent-primary/50">
               <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-4">Connect With Me</h2>
               <p className="text-muted-foreground mb-6">
                 I'm currently available for freelance projects and full-time opportunities. 
@@ -139,7 +139,7 @@ export function ContactPage() {
 
           {/* Contact Form */}
           <div>
-            <div className="bg-card rounded-lg p-5 sm:p-6 md:p-8 border border-border transition duration-100 hover:border-accent-primary hover:bg-accent-primary/5 hover:shadow-lg hover:shadow-accent-primary/50">
+            <div className="group bg-card rounded-lg p-5 sm:p-6 md:p-8 border border-border transition duration-100 hover:border-accent-primary hover:bg-accent-primary/5 hover:shadow-lg hover:shadow-accent-primary/50">
               <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-6">Send a Message</h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
@@ -153,7 +153,7 @@ export function ContactPage() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-input-background border border-input rounded-lg text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-input-background border border-input rounded-lg text-foreground placeholder:text-muted-foreground group-hover:border-accent-primary group-hover:bg-accent-primary/5 focus:border-accent focus:bg-accent-primary/5 focus:outline-none transition-colors"
                     placeholder="Your name"
                   />
                 </div>
@@ -169,7 +169,7 @@ export function ContactPage() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-input-background border border-input rounded-lg text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-input-background border border-input rounded-lg text-foreground placeholder:text-muted-foreground group-hover:border-accent-primary group-hover:bg-accent-primary/5 focus:border-accent focus:bg-accent-primary/5 focus:outline-none transition-colors"
                     placeholder="your.email@example.com"
                   />
                 </div>
@@ -184,7 +184,7 @@ export function ContactPage() {
                     name="company"
                     value={formData.company}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-input-background border border-input rounded-lg text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-input-background border border-input rounded-lg text-foreground placeholder:text-muted-foreground group-hover:border-accent-primary group-hover:bg-accent-primary/5 focus:border-accent focus:bg-accent-primary/5 focus:outline-none transition-colors"
                     placeholder="Your company or studio name"
                   />
                 </div>
@@ -200,7 +200,7 @@ export function ContactPage() {
                     onChange={handleChange}
                     required
                     rows={6}
-                    className="w-full px-4 py-3 bg-input-background border border-input rounded-lg text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none transition-colors resize-none"
+                    className="w-full px-4 py-3 bg-input-background border border-input rounded-lg text-foreground placeholder:text-muted-foreground group-hover:border-accent-primary group-hover:bg-accent-primary/5 focus:border-accent focus:bg-accent-primary/5 focus:outline-none transition-colors resize-none"
                     placeholder="Tell me about your project..."
                   />
                 </div>

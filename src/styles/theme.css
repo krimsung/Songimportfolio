@@ -276,7 +276,7 @@
            bg-accent-primary text-[#0E0D11] rounded-lg font-medium
            border-2 border-accent-primary
            transition duration-100
-           hover:border-white;
+           hover:border-white hover:text-white;
   }
 
   /* Lime variant — for Projects section CTAs */
@@ -285,7 +285,7 @@
            bg-accent-lime text-[#0E0D11] rounded-lg font-medium
            border-2 border-accent-lime
            transition duration-100
-           hover:border-white;
+           hover:border-white hover:text-white;
   }
 
   /* Amber variant — for Gallery section CTAs */
@@ -294,7 +294,7 @@
            bg-accent-amber text-[#0E0D11] rounded-lg font-medium
            border-2 border-accent-amber
            transition duration-100
-           hover:border-white;
+           hover:border-white hover:text-white;
   }
 
   /* Icon button — for lightbox controls, close buttons, etc. */

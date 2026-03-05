@@ -7,6 +7,7 @@ interface ProjectCardProps {
   onViewProject: (slug: string) => void;
   showStatus?: boolean;
   showViewLink?: boolean;
+  listMode?: boolean;
 }
 
 const getStatusColor = (status: string) => {
@@ -27,29 +28,23 @@ export function ProjectCard({
   onViewProject,
   showStatus = false,
   showViewLink = false,
+  listMode = false,
 }: ProjectCardProps) {
   return (
     <a
       key={project.slug}
       href={`#/projects/${project.slug}`}
-      className="group cursor-pointer h-48 sm:h-44 md:h-full"
+      className={`group cursor-pointer ${listMode ? "h-36 sm:h-32" : "h-48 sm:h-44 md:h-full"}`}
       onClick={(e) => {
         if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1) return;
         e.preventDefault();
         onViewProject(project.slug);
       }}
     >
-      {/*
-        Layout strategy:
-        - Mobile (<md): horizontal flex-row — thumbnail is a fixed square on the left,
-          text content on the right. Compact height (~120–150px) fits multiple cards.
-        - Tablet+ (md+): vertical flex-col — full-width aspect-square thumbnail on top,
-          text content below. Classic card layout.
-      */}
-      <div className="bg-card rounded-lg overflow-hidden border border-border h-full flex flex-row md:flex-col transition duration-100 hover:border-accent-amber hover:shadow-lg hover:shadow-accent-amber/50">
+      <div className={`bg-card rounded-lg overflow-hidden border border-border h-full flex flex-row transition duration-100 hover:border-accent-amber hover:shadow-lg hover:shadow-accent-amber/50 ${listMode ? "" : "md:flex-col"}`}>
 
         {/* Thumbnail */}
-        <div className="relative w-28 flex-shrink-0 md:w-full md:aspect-square overflow-hidden">
+        <div className={`relative flex-shrink-0 overflow-hidden ${listMode ? "w-28 sm:w-36" : "w-28 md:w-full md:aspect-square"}`}>
           <img
             src={project.image}
             alt={project.title}
@@ -58,19 +53,19 @@ export function ProjectCard({
           <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent opacity-60"></div>
 
           {project.tags.includes("Source") && (
-            <div className="absolute bottom-2 left-2 md:top-4 md:bottom-auto md:left-4">
+            <div className={`absolute bottom-2 left-2 ${listMode ? "" : "md:top-4 md:bottom-auto md:left-4"}`}>
               <img
                 src={sourceLogo}
                 alt="Source Engine"
-                className="h-5 md:h-8 w-auto object-contain drop-shadow-md"
+                className={`h-5 w-auto object-contain drop-shadow-md ${listMode ? "" : "md:h-8"}`}
               />
             </div>
           )}
 
           {showStatus && (
-            <div className="absolute top-2 right-2 md:top-4 md:right-4">
+            <div className={`absolute top-2 right-2 ${listMode ? "" : "md:top-4 md:right-4"}`}>
               <span
-                className={`inline-flex px-2 py-0.5 md:px-3 md:py-1 rounded-full text-xs font-semibold border ${getStatusColor(project.status)}`}
+                className={`inline-flex rounded-full font-semibold border ${getStatusColor(project.status)} ${listMode ? "px-2 py-0.5 text-xs" : "px-2 py-0.5 md:px-3 md:py-1 text-xs"}`}
               >
                 {project.status}
               </span>
@@ -79,27 +74,27 @@ export function ProjectCard({
         </div>
 
         {/* Text content */}
-        <div className="p-3 md:p-6 flex flex-col flex-1 min-w-0">
-          <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground mb-1 md:mb-3">
-            <Calendar className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
+        <div className={`flex flex-col flex-1 min-w-0 ${listMode ? "p-3" : "p-3 md:p-6"}`}>
+          <div className={`flex items-center gap-2 text-muted-foreground mb-1 ${listMode ? "text-xs" : "text-xs md:text-sm md:mb-3"}`}>
+            <Calendar className={`flex-shrink-0 ${listMode ? "w-3 h-3" : "w-3 h-3 md:w-4 md:h-4"}`} />
             {project.year}
           </div>
 
-          <h3 className="text-base md:text-xl font-semibold text-foreground mb-1 md:mb-2 group-hover:text-accent-amber transition-colors leading-snug">
+          <h3 className={`font-semibold text-foreground mb-1 group-hover:text-accent-amber transition-colors leading-snug text-base ${listMode ? "" : "md:text-xl md:mb-2"}`}>
             {project.title}
           </h3>
 
-          <p className="text-muted-foreground text-xs md:text-sm mb-2 md:mb-4 line-clamp-2 flex-1">
+          <p className={`text-muted-foreground line-clamp-2 ${listMode ? "text-xs mb-2 flex-1" : "text-xs md:text-sm mb-2 md:mb-4 md:h-[42px]"}`}>
             {project.shortDescription}
           </p>
 
-          <div className="flex flex-wrap gap-1 md:gap-2 md:mb-4">
+          <div className={`flex flex-wrap overflow-hidden ${listMode ? "gap-1 pb-0" : "gap-1 md:gap-2 pb-3 md:pb-0 md:h-[64px]"}`}>
             {project.tags.map((tag) => (
               <span
                 key={tag}
-                className="inline-flex items-center gap-1 px-1.5 py-0.5 md:px-2 md:py-1 bg-accent-amber/10 border border-accent-amber/25 rounded text-xs text-accent-amber h-fit"
+                className={`inline-flex items-center gap-1 bg-accent-amber/10 border border-accent-amber/25 rounded text-xs text-accent-amber h-fit ${listMode ? "px-1.5 py-0.5" : "px-1.5 py-0.5 md:px-2 md:py-1"}`}
               >
-                <Tag className="w-2.5 h-2.5 md:w-3 md:h-3 flex-shrink-0" />
+                <Tag className={`flex-shrink-0 ${listMode ? "w-2.5 h-2.5" : "w-2.5 h-2.5 md:w-3 md:h-3"}`} />
                 {tag}
               </span>
             ))}

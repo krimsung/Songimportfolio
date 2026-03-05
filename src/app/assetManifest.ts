@@ -29,6 +29,11 @@ import FinalScreenshot3       from "../media/gallery/Final Screenshot 3.png";
 import FinalScreenshot4       from "../media/gallery/Final Screenshot 4.png";
 import FinalScreenshot5       from "../media/gallery/Final Screenshot 5.png";
 import FinalScreenshot6       from "../media/gallery/Final Screenshot 6.png";
+import FinalScreenshot7       from "../media/gallery/Final Screenshot 7.png";
+import Screenshot1            from "../media/gallery/Screenshot_1.png";
+import Screenshot2            from "../media/gallery/Screenshot_2.png";
+import Screenshot3            from "../media/gallery/Screenshot_3.png";
+import Screenshot4            from "../media/gallery/Screenshot_4.png";
 
 // ── Gallery video thumbnails ──────────────────────────────────────────────────
 import thumbHellbound                from "../media/gallery/thumbnail/Hellbound.png";
@@ -119,6 +124,11 @@ export const imageAssets: ImageAsset[] = [
   { type: "image", src: FinalScreenshot4,       label: "gallery-final4"        },
   { type: "image", src: FinalScreenshot5,       label: "gallery-final5"        },
   { type: "image", src: FinalScreenshot6,       label: "gallery-final6"        },
+  { type: "image", src: FinalScreenshot7,       label: "gallery-final7"        },
+  { type: "image", src: Screenshot1,            label: "gallery-screenshot1"   },
+  { type: "image", src: Screenshot2,            label: "gallery-screenshot2"   },
+  { type: "image", src: Screenshot3,            label: "gallery-screenshot3"   },
+  { type: "image", src: Screenshot4,            label: "gallery-screenshot4"   },
   // Gallery video thumbnails
   { type: "image", src: thumbHellbound,                label: "vthumb-hellbound"           },
   { type: "image", src: thumbBlizzard,                 label: "vthumb-blizzard"            },

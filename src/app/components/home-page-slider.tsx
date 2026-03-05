@@ -172,8 +172,11 @@ export function HomePageSlider({ onViewProject, onViewAllProjects, onNavigateToC
         ))}
       </div>
 
+      {/* Soft right-edge fade — only visible when labels appear at 2xl+ */}
+      <div className="hidden 2xl:block fixed right-0 top-0 h-full w-56 pointer-events-none z-40 bg-gradient-to-l from-black/80 to-transparent" />
+
       {/* Section indicator dots — hidden below md, dots-only md→xl, labels at 2xl+ */}
-      <div className="hidden md:flex fixed right-16 top-[calc(50%+32px)] -translate-y-1/2 z-50 flex-col items-end gap-6 mix-blend-difference">
+      <div className="hidden md:flex fixed right-8 top-[calc(50%+32px)] -translate-y-1/2 z-50 flex-col items-end gap-6 mix-blend-difference">
         {sections.map((section, index) => (
           <button
             key={section.id}
