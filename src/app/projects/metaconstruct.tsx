@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+﻿import { useState, useEffect, useCallback, useMemo } from "react";
 import { ArrowLeft, Calendar, Tag, ExternalLink, X, ChevronLeft, ChevronRight } from "lucide-react";
 import ReactMarkdown, { Components } from "react-markdown";
 
@@ -68,8 +68,8 @@ function Gallery({ images }: { images: string[] }) {
 
   return (
     <>
-      <div className="bg-card rounded-lg p-8 border border-border">
-        <h2 className="text-2xl font-bold text-foreground mb-6">Gallery</h2>
+      <div className="bg-card rounded-lg p-5 sm:p-6 md:p-8 border border-border">
+        <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-6">Gallery</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {images.map((src, i) => (
             <button key={i} onClick={() => setSelectedIndex(i)} className="group relative aspect-square overflow-hidden rounded-lg border border-border hover:border-accent transition-all duration-300 cursor-pointer">
@@ -82,8 +82,8 @@ function Gallery({ images }: { images: string[] }) {
         <div className="fixed inset-0 z-50 flex items-center justify-center" onClick={close}>
           <div className="absolute inset-0 bg-black/90" />
           <button onClick={close} className="btn-icon absolute top-4 right-4 z-10" aria-label="Close"><X className="w-6 h-6" /></button>
-          <button onClick={(e) => { e.stopPropagation(); prev(); }} className="btn-icon absolute left-4 top-1/2 -translate-y-1/2 z-10" aria-label="Previous"><ChevronLeft className="w-6 h-6" /></button>
-          <button onClick={(e) => { e.stopPropagation(); next(); }} className="btn-icon absolute right-4 top-1/2 -translate-y-1/2 z-10" aria-label="Next"><ChevronRight className="w-6 h-6" /></button>
+          <button onClick={(e) => { e.stopPropagation(); prev(); }} className="btn-icon absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10" aria-label="Previous"><ChevronLeft className="w-6 h-6" /></button>
+          <button onClick={(e) => { e.stopPropagation(); next(); }} className="btn-icon absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10" aria-label="Next"><ChevronRight className="w-6 h-6" /></button>
           <div className="relative max-w-[90vw] max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
             <img src={images[selectedIndex]} alt={`Screenshot ${selectedIndex + 1}`} className="max-w-full max-h-[90vh] object-contain rounded-lg" />
           </div>
@@ -112,8 +112,8 @@ export function MetaconstructPage({ onBack, backLabel }: Props) {
   }), []);
 
   return (
-    <div className="min-h-screen bg-background pt-4">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="min-h-screen bg-background pt-2">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-12">
 
         <a
           href="#/"
@@ -156,30 +156,30 @@ export function MetaconstructPage({ onBack, backLabel }: Props) {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2 space-y-8">
-            <div className="bg-card rounded-lg p-8 border border-border">
-              <h2 className="text-2xl font-bold text-foreground mb-4">Project Description</h2>
+            <div className="bg-card rounded-lg p-5 sm:p-6 md:p-8 border border-border">
+              <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-4">Project Description</h2>
               <ReactMarkdown components={md}>{DESCRIPTION}</ReactMarkdown>
             </div>
-            <div className="bg-card rounded-lg p-8 border border-border">
-              <h2 className="text-2xl font-bold text-foreground mb-4">Challenges</h2>
+            <div className="bg-card rounded-lg p-5 sm:p-6 md:p-8 border border-border">
+              <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-4">Challenges</h2>
               <ReactMarkdown components={md}>{CHALLENGES}</ReactMarkdown>
             </div>
-            <div className="bg-card rounded-lg p-8 border border-border">
-              <h2 className="text-2xl font-bold text-foreground mb-4">Procedural Generation</h2>
+            <div className="bg-card rounded-lg p-5 sm:p-6 md:p-8 border border-border">
+              <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-4">Procedural Generation</h2>
               <ReactMarkdown components={md}>{PROCEDURAL}</ReactMarkdown>
             </div>
-            <div className="bg-card rounded-lg p-8 border border-border">
-              <h2 className="text-2xl font-bold text-foreground mb-4">Technical Art</h2>
+            <div className="bg-card rounded-lg p-5 sm:p-6 md:p-8 border border-border">
+              <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-4">Technical Art</h2>
               <ReactMarkdown components={md}>{TECH_ART}</ReactMarkdown>
             </div>
             <Gallery images={GALLERY} />
           </div>
 
           <div className="space-y-6">
-            <div className="bg-card rounded-lg p-6 border border-border">
-              <h3 className="text-xl font-bold text-foreground mb-4">Details</h3>
+            <div className="bg-card rounded-lg p-5 sm:p-6 border border-border">
+              <h3 className="text-lg sm:text-xl font-bold text-foreground mb-4">Details</h3>
               <div className="space-y-3">
                 {[
                   ["Status",    STATUS],
@@ -198,8 +198,8 @@ export function MetaconstructPage({ onBack, backLabel }: Props) {
               </div>
             </div>
             {LIVE_URL && (
-              <div className="bg-card rounded-lg p-6 border border-border">
-                <h3 className="text-xl font-bold text-foreground mb-4">Project Links</h3>
+              <div className="bg-card rounded-lg p-5 sm:p-6 border border-border">
+                <h3 className="text-lg sm:text-xl font-bold text-foreground mb-4">Project Links</h3>
                 <a href={LIVE_URL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors">
                   <ExternalLink className="w-4 h-4" /><span>View Live Project</span>
                 </a>

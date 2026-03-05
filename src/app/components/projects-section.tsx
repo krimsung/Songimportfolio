@@ -11,15 +11,26 @@ interface ProjectsSectionProps {
 }
 
 export function ProjectsSection({ onViewProject, onViewAllProjects }: ProjectsSectionProps) {
-
   return (
-    <section className="w-full h-full flex items-center justify-center overflow-auto">
-      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 text-center">
+    /*
+      section: h-full fills the carousel panel.
+      flex flex-col justify-center vertically centers the block.
+      On mobile the horizontal cards are short enough to fit with room to spare.
+    */
+    <section className="w-full h-full flex flex-col justify-center">
+      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-6">
+
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4 md:mb-6 text-center">
           Featured Projects
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        {/*
+          Grid:
+          - Mobile: 1-col, horizontal project cards (short height, scrollable if needed).
+          - md: 3-col with vertical cards (thumbnail on top, text below).
+          gap tightened on mobile.
+        */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 md:mb-6">
           {featuredProjects.map((project) => (
             <ProjectCard
               key={project.slug}
@@ -30,7 +41,6 @@ export function ProjectsSection({ onViewProject, onViewAllProjects }: ProjectsSe
           ))}
         </div>
 
-        {/* View All Projects Link */}
         <div className="flex justify-end">
           <a
             href="#/projects"

@@ -41,9 +41,6 @@
 
 
 
-/* ── Loading screen ──────────────────────────────────────────────────────────
-   Prevent all scrolling while the loading screen is active.
-   The LoadingScreen component adds / removes this class on <html>. */
 /* ── Custom scrollbar — applied to scrollable page containers ────────────────
    Scoped to .page-scroll so it never touches <html> or the nav bar width.   */
 .page-scroll {
@@ -51,6 +48,7 @@
   /* Firefox */
   scrollbar-width: thin;
   scrollbar-color: #3D3947 transparent;
+  scrollbar-gutter: stable;
 }
 
 /* WebKit (Chrome, Safari, Edge) */
@@ -71,6 +69,36 @@
   background: #F5A623;
 }
 
+/* ── Slide panel scrollbar — home page carousel sections ─────────────────────
+   Thinner, subtler than .page-scroll — these panels are inside the full-screen
+   slider so a minimal indicator is appropriate. Only visible on Webkit; Firefox
+   and mobile use overlay scrollbars naturally.                                */
+.slide-panel {
+  scrollbar-width: thin;
+  scrollbar-color: #3D3947 transparent;
+  scrollbar-gutter: stable;
+}
+
+.slide-panel::-webkit-scrollbar {
+  width: 4px;
+}
+
+.slide-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.slide-panel::-webkit-scrollbar-thumb {
+  background: #3D3947;
+  border-radius: 999px;
+}
+
+.slide-panel::-webkit-scrollbar-thumb:hover {
+  background: #F5A623;
+}
+
+/* ── Loading screen body lock ────────────────────────────────────────────────
+   Prevent all scrolling while the loading screen is active.
+   The LoadingScreen component adds / removes this class on <html>.           */
 html.loading-active {
   overflow: hidden;
   /* iOS Safari: prevent rubber-band scroll behind the overlay */

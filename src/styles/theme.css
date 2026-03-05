@@ -111,6 +111,9 @@
   /* --- Border Radius --- */
   --radius: 0.625rem;             /* 10px - Base border radius */
 
+  /* --- Nav Height --- */
+  --nav-height: 4rem;             /* 64px - Fixed navigation bar height (h-16) */
+
   /* --- Spacing Tokens --- */
   --spacing-section-y: 5rem;      /* 80px - Vertical section spacing */
   --spacing-container-px: 1rem;   /* 16px - Mobile horizontal padding */

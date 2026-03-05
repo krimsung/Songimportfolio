@@ -29,9 +29,11 @@ export function HomePageSlider({ onViewProject, onViewAllProjects, onNavigateToC
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
+  // Refs for each section's scrollable container — used for smart swipe detection
+  const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
+
   const goToSection = useCallback((index: number) => {
     if (index < 0 || index >= sections.length || isAnimating || index === activeIndex) return;
-    
     setIsAnimating(true);
     setActiveIndex(index);
   }, [activeIndex, isAnimating]);
@@ -48,17 +50,12 @@ export function HomePageSlider({ onViewProject, onViewAllProjects, onNavigateToC
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
       if (isAnimating) return;
-      
-      if (e.deltaY > 0) {
-        goToNext();
-      } else {
-        goToPrevious();
-      }
+      if (e.deltaY > 0) goToNext();
+      else goToPrevious();
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (isAnimating) return;
-      
       if (e.key === "ArrowDown" || e.key === "ArrowRight" || e.key === " ") {
         e.preventDefault();
         goToNext();
@@ -70,27 +67,40 @@ export function HomePageSlider({ onViewProject, onViewAllProjects, onNavigateToC
 
     window.addEventListener("wheel", handleWheel, { passive: false });
     window.addEventListener("keydown", handleKeyDown);
-    
     return () => {
       window.removeEventListener("wheel", handleWheel);
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [goToNext, goToPrevious, isAnimating]);
 
-  // ── Touch / swipe support ──────────────────────────────────────────────
+  // ── Touch / swipe support with smart scroll detection ─────────────────────
+  // Only fire section navigation when the panel is already at its scroll
+  // boundary — prevents accidental section changes while scrolling content.
   const touchStartY = useRef<number | null>(null);
 
   useEffect(() => {
     const handleTouchStart = (e: TouchEvent) => {
       touchStartY.current = e.touches[0].clientY;
     };
+
     const handleTouchEnd = (e: TouchEvent) => {
       if (touchStartY.current === null || isAnimating) return;
       const deltaY = touchStartY.current - e.changedTouches[0].clientY;
       touchStartY.current = null;
-      if (Math.abs(deltaY) < 40) return; // ignore tiny swipes
-      if (deltaY > 0) goToNext();
-      else goToPrevious();
+      if (Math.abs(deltaY) < 50) return;
+
+      const activeEl = sectionRefs.current[activeIndex];
+
+      if (deltaY > 0) {
+        // Swiping up → next section — only if already at the bottom of content
+        const atBottom = !activeEl ||
+          activeEl.scrollTop + activeEl.clientHeight >= activeEl.scrollHeight - 4;
+        if (atBottom) goToNext();
+      } else {
+        // Swiping down → previous section — only if already at the top
+        const atTop = !activeEl || activeEl.scrollTop <= 4;
+        if (atTop) goToPrevious();
+      }
     };
 
     window.addEventListener("touchstart", handleTouchStart, { passive: true });
@@ -99,44 +109,71 @@ export function HomePageSlider({ onViewProject, onViewAllProjects, onNavigateToC
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [goToNext, goToPrevious, isAnimating]);
+  }, [goToNext, goToPrevious, isAnimating, activeIndex]);
+
+  // Reset each section's internal scroll when navigating to it
+  useEffect(() => {
+    const el = sectionRefs.current[activeIndex];
+    if (el) el.scrollTop = 0;
+  }, [activeIndex]);
 
   useEffect(() => {
     if (isAnimating) {
-      const timer = setTimeout(() => {
-        setIsAnimating(false);
-      }, 600);
+      const timer = setTimeout(() => setIsAnimating(false), 600);
       return () => clearTimeout(timer);
     }
   }, [isAnimating, activeIndex]);
 
   return (
+    /*
+      Outer shell: full viewport, clips the sliding stack.
+      The nav bar is `fixed` at z-50, so we need to account for its height (--nav-height = 4rem).
+      We do NOT use `top-16` padding here — the carousel container handles the offset below.
+    */
     <div className="h-screen w-full relative overflow-hidden">
-      {/* Hero overlay — scrolls with carousel so mix-blend-mode composites against the terrain */}
+      {/* Hero overlay — moves with the carousel transform for mix-blend-difference terrain compositing */}
       <HeroOverlay activeIndex={activeIndex} />
 
-      {/* Carousel container - scrolls vertically */}
-      <div 
-        className="absolute top-16 left-0 right-0 bottom-0"
-        style={{ 
+      {/*
+        Carousel container.
+        • Starts at `top: var(--nav-height)` so content begins below the fixed nav.
+        • Each child section is exactly `calc(100vh - var(--nav-height))` tall via h-full.
+        • translateY shifts the entire stack so the active section is in view.
+      */}
+      <div
+        className="absolute left-0 right-0 bottom-0"
+        style={{
+          top: "var(--nav-height)",
           transform: `translateY(-${activeIndex * 100}%)`,
-          transition: 'transform 500ms ease-out'
+          transition: "transform 500ms ease-out",
         }}
       >
-        {sections.map((section) => (
-          <div key={section.id} className="w-full h-full overflow-hidden">
-            {section.id === "hero" && <HeroSection />}
-            {section.id === "about" && <AboutSection />}
-            {section.id === "skills" && <TechnicalExperience />}
+        {sections.map((section, index) => (
+          /*
+            Each section panel:
+            • h-full = calc(100vh - nav-height) — fills exactly one viewport slot.
+            • overflow-y-auto — allows internal scroll when content exceeds the panel.
+            • slide-panel — applies thin custom scrollbar styling.
+            Sections internally use `min-h-full flex flex-col justify-center` so
+            their content is vertically centered when it fits, and scrollable when it doesn't.
+          */
+          <div
+            key={section.id}
+            ref={(el) => { sectionRefs.current[index] = el; }}
+            className="w-full h-full overflow-y-auto slide-panel"
+          >
+            {section.id === "hero"     && <HeroSection />}
+            {section.id === "about"    && <AboutSection />}
+            {section.id === "skills"   && <TechnicalExperience />}
             {section.id === "projects" && <ProjectsSection onViewProject={onViewProject} onViewAllProjects={onViewAllProjects} />}
-            {section.id === "gallery" && <GallerySection onNavigateToGallery={onNavigateToGallery} />}
-            {section.id === "contact" && <ContactPreview onNavigateToContact={onNavigateToContact} />}
+            {section.id === "gallery"  && <GallerySection onNavigateToGallery={onNavigateToGallery} />}
+            {section.id === "contact"  && <ContactPreview onNavigateToContact={onNavigateToContact} />}
           </div>
         ))}
       </div>
 
-      {/* Section Indicators — orange + difference blend for terrain-reactive orange */}
-      <div className="fixed right-16 top-[calc(50%+32px)] -translate-y-1/2 z-50 flex flex-col items-end gap-6 mix-blend-difference">
+      {/* Section indicator dots — hidden below md, dots-only md→xl, labels at 2xl+ */}
+      <div className="hidden md:flex fixed right-16 top-[calc(50%+32px)] -translate-y-1/2 z-50 flex-col items-end gap-6 mix-blend-difference">
         {sections.map((section, index) => (
           <button
             key={section.id}
@@ -147,7 +184,7 @@ export function HomePageSlider({ onViewProject, onViewAllProjects, onNavigateToC
             aria-label={`Go to ${section.label}`}
           >
             <span
-              className={`uppercase tracking-wider transition-all duration-300 ${
+              className={`hidden 2xl:inline uppercase tracking-wider transition-all duration-300 ${
                 index === activeIndex ? "text-sm font-bold" : "text-xs font-normal opacity-60 hover:opacity-80"
               }`}
               style={{ color: ACCENT }}

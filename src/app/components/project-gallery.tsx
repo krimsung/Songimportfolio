@@ -63,8 +63,8 @@ export function ProjectGallery({ images }: ProjectGalleryProps) {
   return (
     <>
       {/* Gallery Section */}
-      <div className="bg-card rounded-lg p-8 border border-border">
-        <h2 className="text-2xl font-bold text-foreground mb-6">Gallery</h2>
+      <div className="bg-card rounded-lg p-5 sm:p-6 md:p-8 border border-border">
+        <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-6">Gallery</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {images.map((image, index) => (
             <button
@@ -106,7 +106,7 @@ export function ProjectGallery({ images }: ProjectGalleryProps) {
               e.stopPropagation();
               goToPrevious();
             }}
-            className="btn-icon absolute left-4 top-1/2 -translate-y-1/2 z-10"
+            className="btn-icon absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10"
             aria-label="Previous image"
           >
             <ChevronLeft className="w-6 h-6" />
@@ -118,7 +118,7 @@ export function ProjectGallery({ images }: ProjectGalleryProps) {
               e.stopPropagation();
               goToNext();
             }}
-            className="btn-icon absolute right-4 top-1/2 -translate-y-1/2 z-10"
+            className="btn-icon absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10"
             aria-label="Next image"
           >
             <ChevronRight className="w-6 h-6" />

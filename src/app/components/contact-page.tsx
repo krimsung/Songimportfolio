@@ -63,8 +63,8 @@ export function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background pt-4">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="min-h-screen bg-background pt-2">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-12">
         <a
           href="#/"
           className="inline-flex items-center gap-2 text-accent-primary hover:text-accent-primary/80 transition-colors mb-8 group"
@@ -73,11 +73,11 @@ export function ContactPage() {
           <span>Back to Home</span>
         </a>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* Contact Info */}
           <div className="flex flex-col">
-              <div className="bg-card rounded-lg p-8 border border-border mb-6 transition duration-100 hover:border-accent-primary hover:bg-accent-primary/5 hover:shadow-lg hover:shadow-accent-primary/50">
-              <h2 className="text-2xl font-bold text-foreground mb-4">Connect With Me</h2>
+              <div className="bg-card rounded-lg p-5 sm:p-6 md:p-8 border border-border mb-6 transition duration-100 hover:border-accent-primary hover:bg-accent-primary/5 hover:shadow-lg hover:shadow-accent-primary/50">
+              <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-4">Connect With Me</h2>
               <p className="text-muted-foreground mb-6">
                 I'm currently available for freelance projects and full-time opportunities. 
                 Whether you're looking for a character artist, environment designer, or 
@@ -118,8 +118,8 @@ export function ContactPage() {
               </div>
             </div>
 
-            <div className="bg-card rounded-lg p-8 border border-border transition duration-100 hover:border-accent-primary hover:bg-accent-primary/5 hover:shadow-lg hover:shadow-accent-primary/50">
-              <h2 className="text-2xl font-bold text-foreground mb-4">Availability</h2>
+            <div className="bg-card rounded-lg p-5 sm:p-6 md:p-8 border border-border transition duration-100 hover:border-accent-primary hover:bg-accent-primary/5 hover:shadow-lg hover:shadow-accent-primary/50">
+              <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-4">Availability</h2>
               <p className="text-muted-foreground mb-6">
                 I'm currently accepting new projects and full-time positions. Expected response time: 24-48 hours.
               </p>
@@ -139,8 +139,8 @@ export function ContactPage() {
 
           {/* Contact Form */}
           <div>
-            <div className="bg-card rounded-lg p-8 border border-border transition duration-100 hover:border-accent-primary hover:bg-accent-primary/5 hover:shadow-lg hover:shadow-accent-primary/50">
-              <h2 className="text-2xl font-bold text-foreground mb-6">Send a Message</h2>
+            <div className="bg-card rounded-lg p-5 sm:p-6 md:p-8 border border-border transition duration-100 hover:border-accent-primary hover:bg-accent-primary/5 hover:shadow-lg hover:shadow-accent-primary/50">
+              <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-6">Send a Message</h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="name" className="block text-muted-foreground mb-2">

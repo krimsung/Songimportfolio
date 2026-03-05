@@ -76,8 +76,8 @@ export function ProjectsPage({ onBack, onViewProject }: ProjectsPageProps) {
   }, [activeTags, activeStatuses, sortAsc]);
 
   return (
-    <div className="min-h-screen bg-background pt-4">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="min-h-screen bg-background pt-2">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-12">
 
         {/* ── Back link ──────────────────────────────────────────────────── */}
         <a
@@ -93,18 +93,18 @@ export function ProjectsPage({ onBack, onViewProject }: ProjectsPageProps) {
           <span>Back to Home</span>
         </a>
 
-        {/* ── Header row ─────────────────────────────────────────────────── */}
-        <div className="mb-6">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+        {/* ── Header ───────────────────────────────────────────────────────── */}
+        <div className="mb-12">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-2 md:mb-4">
             All Projects
           </h1>
-          <div className="flex items-center justify-between gap-4 flex-wrap">
-            <p className="text-lg text-muted-foreground">
+          <div className="flex items-end justify-between gap-4">
+            <p className="text-base sm:text-lg text-muted-foreground">
               A comprehensive collection of my game development work
             </p>
             <button
               onClick={() => setFilterOpen((o) => !o)}
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-medium transition-all duration-200
+              className={`flex-shrink-0 inline-flex items-center gap-2 px-4 py-1.5 rounded-lg border text-sm font-medium transition-all duration-200
                 ${filterOpen
                   ? "bg-accent-amber/15 border-accent-amber text-accent-amber"
                   : "bg-card border-border text-muted-foreground hover:border-accent-amber/60 hover:text-foreground"
@@ -121,7 +121,7 @@ export function ProjectsPage({ onBack, onViewProject }: ProjectsPageProps) {
           </div>
         </div>
 
-        {/* ── Filter panel — height-based animated reveal ─────────────────── */}
+        {/* ── Filter panel ─────────────────────────────────────────────────── */}
         <div
           ref={panelRef}
           className="overflow-hidden transition-all duration-300 ease-in-out"
@@ -130,7 +130,7 @@ export function ProjectsPage({ onBack, onViewProject }: ProjectsPageProps) {
             opacity:   filterOpen ? 1 : 0,
           }}
         >
-          <div className="bg-card border border-border rounded-xl p-6 mb-8">
+          <div className="bg-card border border-border rounded-xl p-6 mb-12">
 
             {/* Sort */}
             <div className="flex items-center justify-between mb-5">
@@ -228,7 +228,7 @@ export function ProjectsPage({ onBack, onViewProject }: ProjectsPageProps) {
         </div>
 
         {/* ── Project grid ───────────────────────────────────────────────── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {displayed.length > 0 ? (
             displayed.map((project) => (
               <ProjectCard

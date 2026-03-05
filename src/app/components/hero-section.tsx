@@ -32,13 +32,13 @@ export function HeroOverlay({ activeIndex }: { activeIndex: number }) {
     <div
       className="absolute left-0 right-0 flex items-center justify-center overflow-hidden pointer-events-none mix-blend-difference"
       style={{
-        top: "4rem",
-        height: "calc(100vh - 4rem)",
+        top: "var(--nav-height)",
+        height: "calc(100vh - var(--nav-height))",
         transform: `translateY(-${activeIndex * 100}%)`,
         transition: "transform 500ms ease-out",
       }}
     >
-      {/* Hero Text */}
+      {/* Hero Text — centered in the full available viewport height */}
       <div className="text-center px-4">
         <h1
           className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-4 tracking-tight mix-blend-difference"
@@ -46,7 +46,7 @@ export function HeroOverlay({ activeIndex }: { activeIndex: number }) {
         >
           SONG IM
         </h1>
-        <div className="text-xl md:text-3xl max-w-2xl mx-auto h-32 flex items-center justify-center overflow-hidden relative">
+        <div className="max-w-2xl mx-auto h-24 sm:h-28 md:h-32 flex items-center justify-center overflow-hidden relative">
           <div className="relative w-full h-full flex justify-center items-center">
             {ROLES.map((role, index) => (
               <div
@@ -55,7 +55,7 @@ export function HeroOverlay({ activeIndex }: { activeIndex: number }) {
                 style={{ animationDelay: `${(index - 1) * 3}s` }}
               >
                 <span
-                  className="text-2xl md:text-3xl font-semibold whitespace-nowrap"
+                  className="text-xl sm:text-2xl md:text-3xl font-semibold whitespace-nowrap text-center"
                   style={{ color: ACCENT }}
                 >
                   {role}
@@ -66,20 +66,20 @@ export function HeroOverlay({ activeIndex }: { activeIndex: number }) {
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-8">
-        <div className="flex items-center justify-center gap-4">
-          <div className="h-px w-12" style={{ backgroundColor: ACCENT }} />
-          <span className="text-sm uppercase tracking-wider" style={{ color: ACCENT }}>
+      {/* Scroll indicator — pinned to bottom of the available area */}
+      <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 sm:gap-8">
+        <div className="flex items-center justify-center gap-3 sm:gap-4">
+          <div className="h-px w-8 sm:w-12" style={{ backgroundColor: ACCENT }} />
+          <span className="text-xs sm:text-sm uppercase tracking-wider whitespace-nowrap" style={{ color: ACCENT }}>
             Scroll to explore
           </span>
-          <div className="h-px w-12" style={{ backgroundColor: ACCENT }} />
+          <div className="h-px w-8 sm:w-12" style={{ backgroundColor: ACCENT }} />
         </div>
         <div
-          className="w-6 h-10 border-2 rounded-full p-1 animate-bounce"
+          className="w-5 h-8 sm:w-6 sm:h-10 border-2 rounded-full p-1 animate-bounce"
           style={{ borderColor: ACCENT }}
         >
-          <div className="w-1 h-2 rounded-full mx-auto" style={{ backgroundColor: ACCENT }} />
+          <div className="w-1 h-1.5 sm:h-2 rounded-full mx-auto" style={{ backgroundColor: ACCENT }} />
         </div>
       </div>
     </div>

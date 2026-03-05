@@ -142,8 +142,8 @@ export function GalleryPage() {
   const selectedItem = selectedIndex !== null ? galleryItems[selectedIndex] : null;
 
   return (
-    <div className="min-h-screen bg-background pt-4">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="min-h-screen bg-background pt-2">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-12">
         <a
           href="#/"
           className="inline-flex items-center gap-2 text-accent-amber hover:text-accent-amber/80 transition-colors mb-8 group"
@@ -153,12 +153,14 @@ export function GalleryPage() {
         </a>
 
         <div className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-2 md:mb-4">
             Gallery
           </h1>
-          <p className="text-lg text-muted-foreground">
-            A showcase of my VFX animations and effects work
-          </p>
+          <div className="flex items-end justify-between gap-4 min-h-[34px]">
+            <p className="text-base sm:text-lg text-muted-foreground">
+              A showcase of my VFX animations and effects work
+            </p>
+          </div>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -234,7 +236,7 @@ export function GalleryPage() {
             </button>
 
             <button
-              className="btn-icon absolute left-4 top-1/2 -translate-y-1/2 z-10"
+              className="btn-icon absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10"
               onClick={(e) => { e.stopPropagation(); goToPrevious(); }}
               aria-label="Previous"
             >
@@ -242,7 +244,7 @@ export function GalleryPage() {
             </button>
 
             <button
-              className="btn-icon absolute right-4 top-1/2 -translate-y-1/2 z-10"
+              className="btn-icon absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10"
               onClick={(e) => { e.stopPropagation(); goToNext(); }}
               aria-label="Next"
             >

@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+﻿import { useMemo } from "react";
 import { ArrowLeft, Calendar, Tag, ExternalLink } from "lucide-react";
 import ReactMarkdown, { Components } from "react-markdown";
 
@@ -51,8 +51,8 @@ export function ProjectQuiverPage({ onBack, backLabel }: Props) {
   }), []);
 
   return (
-    <div className="min-h-screen bg-background pt-4">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="min-h-screen bg-background pt-2">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-12">
 
         <a
           href="#/"
@@ -68,14 +68,14 @@ export function ProjectQuiverPage({ onBack, backLabel }: Props) {
         </a>
 
         <div className="bg-card rounded-lg overflow-hidden border border-border mb-8">
-          <div className="relative h-96">
+          <div className="relative h-48 sm:h-64 md:h-96">
             <img src={thumbnail} alt={TITLE} className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-8">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+            <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2 md:mb-3">
                 <Calendar className="w-4 h-4" />{YEAR}
               </div>
-              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">{TITLE}</h1>
+              <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-foreground mb-2 md:mb-4">{TITLE}</h1>
               <div className="flex flex-wrap gap-2">
                 {TAGS.map((tag) => (
                   <span key={tag} className="inline-flex items-center gap-1 px-2 py-1 bg-accent-amber/10 border border-accent-amber/25 rounded text-xs text-accent-amber">
@@ -87,29 +87,29 @@ export function ProjectQuiverPage({ onBack, backLabel }: Props) {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2 space-y-8">
-            <div className="bg-card rounded-lg p-8 border border-border">
-              <h2 className="text-2xl font-bold text-foreground mb-4">Project Description</h2>
+            <div className="bg-card rounded-lg p-5 sm:p-6 md:p-8 border border-border">
+              <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-4">Project Description</h2>
               <ReactMarkdown components={md}>{DESCRIPTION}</ReactMarkdown>
             </div>
-            <div className="bg-card rounded-lg p-8 border border-border">
-              <h2 className="text-2xl font-bold text-foreground mb-4">Challenges</h2>
+            <div className="bg-card rounded-lg p-5 sm:p-6 md:p-8 border border-border">
+              <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-4">Challenges</h2>
               <ReactMarkdown components={md}>{CHALLENGES}</ReactMarkdown>
             </div>
-            <div className="bg-card rounded-lg p-8 border border-border">
-              <h2 className="text-2xl font-bold text-foreground mb-4">Procedural Generation</h2>
+            <div className="bg-card rounded-lg p-5 sm:p-6 md:p-8 border border-border">
+              <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-4">Procedural Generation</h2>
               <ReactMarkdown components={md}>{PROCEDURAL}</ReactMarkdown>
             </div>
-            <div className="bg-card rounded-lg p-8 border border-border">
-              <h2 className="text-2xl font-bold text-foreground mb-4">Gameplay Ability System (GAS)</h2>
+            <div className="bg-card rounded-lg p-5 sm:p-6 md:p-8 border border-border">
+              <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-4">Gameplay Ability System (GAS)</h2>
               <ReactMarkdown components={md}>{GAS}</ReactMarkdown>
             </div>
           </div>
 
           <div className="space-y-6">
-            <div className="bg-card rounded-lg p-6 border border-border">
-              <h3 className="text-xl font-bold text-foreground mb-4">Details</h3>
+            <div className="bg-card rounded-lg p-5 sm:p-6 border border-border">
+              <h3 className="text-lg sm:text-xl font-bold text-foreground mb-4">Details</h3>
               <div className="space-y-3">
                 {[
                   ["Status",    STATUS],
@@ -128,8 +128,8 @@ export function ProjectQuiverPage({ onBack, backLabel }: Props) {
               </div>
             </div>
             {LIVE_URL && (
-              <div className="bg-card rounded-lg p-6 border border-border">
-                <h3 className="text-xl font-bold text-foreground mb-4">Project Links</h3>
+              <div className="bg-card rounded-lg p-5 sm:p-6 border border-border">
+                <h3 className="text-lg sm:text-xl font-bold text-foreground mb-4">Project Links</h3>
                 <a href={LIVE_URL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors">
                   <ExternalLink className="w-4 h-4" /><span>View Live Project</span>
                 </a>
