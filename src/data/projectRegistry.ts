@@ -75,7 +75,7 @@ export const PROJECT_REGISTRY: ProjectEntry[] = [
   {
     slug:             "ghost-core",
     title:            "Ghost Core",
-    year:             "2025",
+    year:             "2026",
     status:           "In Development",
     shortDescription: "Dystopian sci-fi first-person extraction shooter — full indie studio project",
     tags:             ["UE5", "Producer", "Level Design", "Tech Art"],
@@ -120,21 +120,22 @@ export const PROJECT_REGISTRY: ProjectEntry[] = [
   {
     slug:             "tiny-sheriff",
     title:            "Tiny Sheriff",
-    year:             "2024",
+    year:             "2025",
     status:           "Released",
     shortDescription: "2D movement platformer where weapons become traversal tools, built in Unity.",
     tags:             ["Unity", "C#", "Tech Art", "Team"],
     image:            tinySheriffThumb,
   },
-  {
-    slug:             "project-quiver",
-    title:            "Project Quiver",
-    year:             "2026",
-    status:           "In Development",
-    shortDescription: "Multiplayer movement-driven PvP roguelike — currently in prototype",
-    tags:             ["UE5", "Procedural", "GAS", "Team"],
-    image:            ghostCtrlThumb, // placeholder until dedicated thumbnail exists
-  },
+  // Hidden until further development — uncomment to restore
+  // {
+  //   slug:             "project-quiver",
+  //   title:            "Project Quiver",
+  //   year:             "2026",
+  //   status:           "In Development",
+  //   shortDescription: "Multiplayer movement-driven PvP roguelike — currently in prototype",
+  //   tags:             ["UE5", "Procedural", "GAS", "Team"],
+  //   image:            ghostCtrlThumb,
+  // },
   {
     slug:             "insomniac",
     title:            "Insomniac",

@@ -2,9 +2,6 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { ArrowLeft, Calendar, Tag, ExternalLink, X, ChevronLeft, ChevronRight } from "lucide-react";
 import ReactMarkdown, { Components } from "react-markdown";
 
-// ── Thumbnail ────────────────────────────────────────────────────────────────
-import thumbnail from "../../media/thumbnails/METACONSTRUCT Thumbnail.png";
-
 // ── Gallery images ───────────────────────────────────────────────────────────
 import g00 from "../../media/projects/metaconstruct/HighresScreenshot00000.png";
 import g01 from "../../media/projects/metaconstruct/HighresScreenshot00001.png";
@@ -21,7 +18,8 @@ const TEAM_SIZE = "5";
 const ROLE      = "Producer, Programmer, Tech Artist";
 const LANGUAGE  = "Blueprint";
 const DURATION  = "~3 months (one semester)";
-const LIVE_URL  = "";
+const YOUTUBE_ID = "rpnDgpLtLwY";
+const LIVE_URL   = "";
 const TAGS      = ["UE5", "Producer", "Procedural", "Team"];
 const GALLERY   = [g00, g01, g02, g03];
 
@@ -130,23 +128,31 @@ export function MetaconstructPage({ onBack, backLabel }: Props) {
           <span>{backLabel ?? "Back to Home"}</span>
         </a>
 
+        {/* Header bar */}
+        <div className="bg-card rounded-lg border border-border mb-4 px-6 py-4 flex flex-wrap items-center gap-4">
+          <h1 className="text-2xl font-bold text-foreground">{TITLE}</h1>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Calendar className="w-4 h-4" />{YEAR}
+          </div>
+          <div className="flex flex-wrap gap-2 ml-auto">
+            {TAGS.map((tag) => (
+              <span key={tag} className="inline-flex items-center gap-1 px-2 py-1 bg-accent-amber/10 border border-accent-amber/25 rounded text-xs text-accent-amber">
+                <Tag className="w-3 h-3" />{tag}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* YouTube embed */}
         <div className="bg-card rounded-lg overflow-hidden border border-border mb-8">
-          <div className="relative h-96">
-            <img src={thumbnail} alt={TITLE} className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-8">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
-                <Calendar className="w-4 h-4" />{YEAR}
-              </div>
-              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">{TITLE}</h1>
-              <div className="flex flex-wrap gap-2">
-                {TAGS.map((tag) => (
-                  <span key={tag} className="inline-flex items-center gap-1 px-2 py-1 bg-accent-amber/10 border border-accent-amber/25 rounded text-xs text-accent-amber">
-                    <Tag className="w-3 h-3" />{tag}
-                  </span>
-                ))}
-              </div>
-            </div>
+          <div className="relative w-full" style={{ paddingTop: "56.25%" }}>
+            <iframe
+              className="absolute inset-0 w-full h-full"
+              src={`https://www.youtube.com/embed/${YOUTUBE_ID}`}
+              title={TITLE}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
           </div>
         </div>
 
