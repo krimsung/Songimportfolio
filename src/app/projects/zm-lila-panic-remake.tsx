@@ -1,31 +1,29 @@
-﻿import { useState, useEffect, useCallback } from "react";
+﻿import { useState, useEffect, useCallback, useMemo } from "react";
 import { ArrowLeft, Calendar, Tag, X, ChevronLeft, ChevronRight } from "lucide-react";
+import ReactMarkdown, { Components } from "react-markdown";
 
 // ── Thumbnail ────────────────────────────────────────────────────────────────
-import thumbnail from "../../media/projects/zm_lila_panic remake/Untitled-3.png";
+import thumbnail from "../../media/projects/zm_lila_panic remake/banner.jpg";
 
 // ── Gallery images ───────────────────────────────────────────────────────────
-import g00 from "../../media/projects/zm_lila_panic remake/Untitled-3.png";
-import g01 from "../../media/projects/zm_lila_panic remake/240_56.jpg";
-import g02 from "../../media/projects/zm_lila_panic remake/240_57.jpg";
-import g03 from "../../media/projects/zm_lila_panic remake/240_58.jpg";
-import g04 from "../../media/projects/zm_lila_panic remake/240_59.jpg";
-import g05 from "../../media/projects/zm_lila_panic remake/240_60.jpg";
-import g06 from "../../media/projects/zm_lila_panic remake/240_61.jpg";
-import g07 from "../../media/projects/zm_lila_panic remake/240_62.jpg";
-import g08 from "../../media/projects/zm_lila_panic remake/240_63.jpg";
-import g09 from "../../media/projects/zm_lila_panic remake/240_64.jpg";
-import g10 from "../../media/projects/zm_lila_panic remake/240_65.jpg";
-import g11 from "../../media/projects/zm_lila_panic remake/240_66.jpg";
-import g12 from "../../media/projects/zm_lila_panic remake/240_67.jpg";
-import g13 from "../../media/projects/zm_lila_panic remake/240_68.jpg";
-import g14 from "../../media/projects/zm_lila_panic remake/240_69.jpg";
-import g15 from "../../media/projects/zm_lila_panic remake/240_70.jpg";
-import g16 from "../../media/projects/zm_lila_panic remake/240_71.jpg";
-import g17 from "../../media/projects/zm_lila_panic remake/240_72.jpg";
-import g18 from "../../media/projects/zm_lila_panic remake/240_73.jpg";
-import g19 from "../../media/projects/zm_lila_panic remake/240_74.jpg";
-import g20 from "../../media/projects/zm_lila_panic remake/240_75.jpg";
+import g00 from "../../media/projects/zm_lila_panic remake/1-1.jpg";
+import g01 from "../../media/projects/zm_lila_panic remake/1-2.jpg";
+import g02 from "../../media/projects/zm_lila_panic remake/2-1.jpg";
+import g03 from "../../media/projects/zm_lila_panic remake/2-2.jpg";
+import g04 from "../../media/projects/zm_lila_panic remake/3-1.jpg";
+import g05 from "../../media/projects/zm_lila_panic remake/3-2.jpg";
+import g06 from "../../media/projects/zm_lila_panic remake/4-1.jpg";
+import g07 from "../../media/projects/zm_lila_panic remake/4-2.jpg";
+import g08 from "../../media/projects/zm_lila_panic remake/5-1.jpg";
+import g09 from "../../media/projects/zm_lila_panic remake/5-2.jpg";
+import g10 from "../../media/projects/zm_lila_panic remake/6-1.jpg";
+import g11 from "../../media/projects/zm_lila_panic remake/6-2.jpg";
+import g12 from "../../media/projects/zm_lila_panic remake/7-1.jpg";
+import g13 from "../../media/projects/zm_lila_panic remake/7-2.jpg";
+import g14 from "../../media/projects/zm_lila_panic remake/8-1.jpg";
+import g15 from "../../media/projects/zm_lila_panic remake/8-2.jpg";
+import g16 from "../../media/projects/zm_lila_panic remake/9-1.jpg";
+import g17 from "../../media/projects/zm_lila_panic remake/9-2.jpg";
 
 // ── Static data ──────────────────────────────────────────────────────────────
 const TITLE    = "Lila Panic Remake";
@@ -37,8 +35,18 @@ const ROLE     = "Solo Level Designer";
 const TAGS     = ["Source", "Level Design", "Solo"];
 const GALLERY  = [
   g00, g01, g02, g03, g04, g05, g06, g07, g08, g09,
-  g10, g11, g12, g13, g14, g15, g16, g17, g18, g19, g20,
+  g10, g11, g12, g13, g14, g15, g16, g17,
 ];
+
+const DESCRIPTION = `*zm_lila_panic* is a classic map from early Counter-Strike: Source zombie mode history, dating back to 2006. The original shipped without lighting data or proper textures — functional, but visually bare.
+
+This remake tackles both shortcomings with a complete environmental pass: proper lighting, contextualized textures, and a defined setting. Beyond aesthetics, three new gameplay features were added on top of the original layout:
+
+- **Breachable bunker entrance** — an explosive that players can detonate to force open the bunker door, adding a new tactical option for zombies
+- **Destructible ceiling lights** — overhead lights that can be shot out, plunging specific areas into darkness and shifting the threat balance
+- **Periodic crate dispenser** — a box dispenser that drops crates at intervals, creating emergent cover and player interactions on the fly
+
+After completion, the map was submitted to and accepted by Counter-Strike: Source community servers.`;
 
 // ── Inline gallery ────────────────────────────────────────────────────────────
 function Gallery({ images }: { images: string[] }) {
@@ -109,6 +117,13 @@ interface Props {
 }
 
 export function ZmLilaPanicRemakePage({ onBack, backLabel }: Props) {
+  const md: Components = useMemo(() => ({
+    p: ({ children }) => <p className="text-muted-foreground leading-relaxed">{children}</p>,
+    ul: ({ children }) => <ul className="list-disc pl-5 space-y-2 text-muted-foreground marker:text-accent">{children}</ul>,
+    ol: ({ children }) => <ol className="list-decimal pl-5 space-y-2 text-muted-foreground marker:text-accent">{children}</ol>,
+    li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+    strong: ({ children }) => <strong className="text-foreground font-semibold">{children}</strong>,
+  }), []);
   return (
     <div className="min-h-screen bg-background pt-2">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-12">
@@ -150,6 +165,10 @@ export function ZmLilaPanicRemakePage({ onBack, backLabel }: Props) {
         {/* Content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2 space-y-8">
+            <div className="bg-card rounded-lg p-5 sm:p-6 md:p-8 border border-border">
+              <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-4">Project Description</h2>
+              <ReactMarkdown components={md}>{DESCRIPTION}</ReactMarkdown>
+            </div>
             <Gallery images={GALLERY} />
           </div>
 

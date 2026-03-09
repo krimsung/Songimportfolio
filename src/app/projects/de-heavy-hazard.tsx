@@ -1,5 +1,6 @@
-﻿import { useState, useEffect, useCallback } from "react";
+﻿import { useState, useEffect, useCallback, useMemo } from "react";
 import { ArrowLeft, Calendar, Tag, X, ChevronLeft, ChevronRight } from "lucide-react";
+import ReactMarkdown, { Components } from "react-markdown";
 
 // ── Thumbnail ────────────────────────────────────────────────────────────────
 import thumbnail from "../../media/projects/de_heavy_hazard/Untitled-1.png";
@@ -26,6 +27,8 @@ const ENGINE   = "Source Engine";
 const ROLE     = "Solo Level Designer";
 const TAGS     = ["Source", "Level Design", "Solo"];
 const GALLERY  = [g00, g01, g02, g03, g04, g05, g06, g07, g08, g09, g10];
+
+const DESCRIPTION = `*Heavy Hazard* is a bomb defusal map for Counter-Strike: Global Offensive built in the Source Engine. The setting is a city block concealing a clandestine underground chemical operation — street-level facades give way to a bunker complex beneath. Bombsite A sits inside that bunker, while Bombsite B occupies an open lower area accessible via tunnels and staircases, anchored visually by a large central statue. The two-level separation between sites creates distinct rotation timings and forces both teams to commit to reads rather than simply react to audio cues.`;
 
 // ── Inline gallery ────────────────────────────────────────────────────────────
 function Gallery({ images }: { images: string[] }) {
@@ -96,6 +99,13 @@ interface Props {
 }
 
 export function DeHeavyHazardPage({ onBack, backLabel }: Props) {
+  const md: Components = useMemo(() => ({
+    p: ({ children }) => <p className="text-muted-foreground leading-relaxed">{children}</p>,
+    ul: ({ children }) => <ul className="list-disc pl-5 space-y-2 text-muted-foreground marker:text-accent">{children}</ul>,
+    ol: ({ children }) => <ol className="list-decimal pl-5 space-y-2 text-muted-foreground marker:text-accent">{children}</ol>,
+    li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+    strong: ({ children }) => <strong className="text-foreground font-semibold">{children}</strong>,
+  }), []);
   return (
     <div className="min-h-screen bg-background pt-2">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-12">
@@ -137,6 +147,10 @@ export function DeHeavyHazardPage({ onBack, backLabel }: Props) {
         {/* Content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2 space-y-8">
+            <div className="bg-card rounded-lg p-5 sm:p-6 md:p-8 border border-border">
+              <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-4">Project Description</h2>
+              <ReactMarkdown components={md}>{DESCRIPTION}</ReactMarkdown>
+            </div>
             <Gallery images={GALLERY} />
           </div>
 

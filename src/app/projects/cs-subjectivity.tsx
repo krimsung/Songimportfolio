@@ -1,5 +1,6 @@
-﻿import { useState, useEffect, useCallback } from "react";
+﻿import { useState, useEffect, useCallback, useMemo } from "react";
 import { ArrowLeft, Calendar, Tag, X, ChevronLeft, ChevronRight } from "lucide-react";
+import ReactMarkdown, { Components } from "react-markdown";
 
 // ── Thumbnail ────────────────────────────────────────────────────────────────
 import thumbnail from "../../media/projects/cs_subjectivity/20251022164020_1.jpg";
@@ -20,6 +21,8 @@ const ENGINE   = "Source Engine";
 const ROLE     = "Solo Level Designer";
 const TAGS     = ["Source", "Level Design", "Solo"];
 const GALLERY  = [g00, g01, g02, g03, g04];
+
+const DESCRIPTION = `*Subjectivity* is a Counter-Strike: Source level inspired by M.C. Escher's *Relativity* — specifically its disorienting staircases and labyrinthine concrete spaces. The level supports both bomb defusal and hostage rescue objectives simultaneously, which broadens team strategy options beyond the standard single-objective format. Multiple entrances and exits per floor give players meaningful approach choices for each objective, with encounter timing built around the vertical layout. Being an earlier exploratory work, it intentionally forgoes texturing and set dressing in favor of pure spatial composition — the concrete greybox aesthetic contributes to a deliberate liminal atmosphere.`;
 
 // ── Inline gallery ────────────────────────────────────────────────────────────
 function Gallery({ images }: { images: string[] }) {
@@ -90,6 +93,13 @@ interface Props {
 }
 
 export function CsSubjectivityPage({ onBack, backLabel }: Props) {
+  const md: Components = useMemo(() => ({
+    p: ({ children }) => <p className="text-muted-foreground leading-relaxed">{children}</p>,
+    ul: ({ children }) => <ul className="list-disc pl-5 space-y-2 text-muted-foreground marker:text-accent">{children}</ul>,
+    ol: ({ children }) => <ol className="list-decimal pl-5 space-y-2 text-muted-foreground marker:text-accent">{children}</ol>,
+    li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+    strong: ({ children }) => <strong className="text-foreground font-semibold">{children}</strong>,
+  }), []);
   return (
     <div className="min-h-screen bg-background pt-2">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-12">
@@ -131,6 +141,10 @@ export function CsSubjectivityPage({ onBack, backLabel }: Props) {
         {/* Content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2 space-y-8">
+            <div className="bg-card rounded-lg p-5 sm:p-6 md:p-8 border border-border">
+              <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-4">Project Description</h2>
+              <ReactMarkdown components={md}>{DESCRIPTION}</ReactMarkdown>
+            </div>
             <Gallery images={GALLERY} />
           </div>
 

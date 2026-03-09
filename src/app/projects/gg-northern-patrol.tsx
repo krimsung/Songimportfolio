@@ -1,5 +1,6 @@
-﻿import { useState, useEffect, useCallback } from "react";
+﻿import { useState, useEffect, useCallback, useMemo } from "react";
 import { ArrowLeft, Calendar, Tag, X, ChevronLeft, ChevronRight } from "lucide-react";
+import ReactMarkdown, { Components } from "react-markdown";
 
 // ── Thumbnail ────────────────────────────────────────────────────────────────
 import thumbnail from "../../media/projects/gg_northern_patrol/Untitled-2.png";
@@ -22,6 +23,8 @@ const ENGINE   = "Source Engine";
 const ROLE     = "Solo Level Designer";
 const TAGS     = ["Source", "Level Design", "Solo"];
 const GALLERY  = [g00, g01, g02, g03, g04, g05, g06];
+
+const DESCRIPTION = `*Northern Patrol* is a sandbox map built for Garry's Mod, designed to support a wide range of custom gamemodes. The map centers on an urban town — multiple building interiors are fully accessible, a sewer network runs beneath the streets, and an underground office connects three separate areas of the map. This interconnected layout made it adaptable well beyond standard Garry's Mod play, including cross-compatibility with Counter-Strike: Source gamemodes. Its most popular use was for Trouble in Terrorist Town (TTT), for which the map includes a dedicated Traitor mechanic: a hidden gnome must be located and brought to a scanner to activate it.`;
 
 // ── Inline gallery ────────────────────────────────────────────────────────────
 function Gallery({ images }: { images: string[] }) {
@@ -92,6 +95,13 @@ interface Props {
 }
 
 export function GgNorthernPatrolPage({ onBack, backLabel }: Props) {
+  const md: Components = useMemo(() => ({
+    p: ({ children }) => <p className="text-muted-foreground leading-relaxed">{children}</p>,
+    ul: ({ children }) => <ul className="list-disc pl-5 space-y-2 text-muted-foreground marker:text-accent">{children}</ul>,
+    ol: ({ children }) => <ol className="list-decimal pl-5 space-y-2 text-muted-foreground marker:text-accent">{children}</ol>,
+    li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+    strong: ({ children }) => <strong className="text-foreground font-semibold">{children}</strong>,
+  }), []);
   return (
     <div className="min-h-screen bg-background pt-2">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-12">
@@ -133,6 +143,10 @@ export function GgNorthernPatrolPage({ onBack, backLabel }: Props) {
         {/* Content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2 space-y-8">
+            <div className="bg-card rounded-lg p-5 sm:p-6 md:p-8 border border-border">
+              <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-4">Project Description</h2>
+              <ReactMarkdown components={md}>{DESCRIPTION}</ReactMarkdown>
+            </div>
             <Gallery images={GALLERY} />
           </div>
 

@@ -17,7 +17,7 @@ import metaconstructThumb  from "../media/thumbnails/METACONSTRUCT Thumbnail.png
 import tinySheriffThumb    from "../media/thumbnails/Tiny Sheriff Thumbnail.png";
 import insomniacThumb      from "../media/thumbnails/Insomniac Thumbnail.png";
 import deHeavyHazardThumb     from "../media/projects/de_heavy_hazard/Untitled-1.png";
-import zmLilaPanicThumb       from "../media/projects/zm_lila_panic remake/Untitled-3.png";
+import zmLilaPanicThumb       from "../media/projects/zm_lila_panic remake/thumbnail.png";
 import ggNorthernPatrolThumb  from "../media/projects/gg_northern_patrol/Untitled-2.png";
 import csSubjectivityThumb    from "../media/projects/cs_subjectivity/20251022164020_1.jpg";
 
